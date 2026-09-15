@@ -40,7 +40,7 @@ DSH Desktop 的目标不是重新实现 Harness，而是把同一个运行时放
 - 不在兼容模式中覆盖上游 layout、sidebar 或 conversation 组合。
 - 不把记录复制到另一个“Desktop 数据库”；官方 profile 默认共享 DSH home 中的会话和设置。
 - 不给第三方插件一个未定义的 Electron 私有 API。
-- 不把 roadmap（插件市场、手机远程、Channels）写成当前版本已经交付的功能。
+- 不把 Channels 这类 roadmap 项写成当前版本已经交付的功能。
 
 ## 适合谁
 

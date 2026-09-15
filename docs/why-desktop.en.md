@@ -40,7 +40,7 @@ The current Desktop product provides:
 - Override the upstream layout, sidebar, or conversation composition in compatibility mode.
 - Copy records into a separate “Desktop database”; official profiles share the DSH home for sessions and settings by default.
 - Give third-party plugins an undefined private Electron API.
-- Present roadmap items such as a plugin marketplace, mobile remote control, or Channels as shipped features.
+- Present roadmap items such as Channels as shipped features.
 
 ## Who should read this
 
