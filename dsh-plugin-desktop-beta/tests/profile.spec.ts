@@ -306,6 +306,29 @@ settings:
     expect(readFileSync(join(dir, 'pnpm-workspace.yaml'), 'utf8')).toContain('customSetting: preserved')
   })
 
+  it('resolves undecided pnpm build decisions in the Profile workspace document', () => {
+    const home = temporaryHome()
+    const dir = ensureDesktopProfile(home)
+    writeFileSync(join(dir, 'pnpm-workspace.yaml'), `packages:
+  - .
+
+nodeLinker: hoisted
+autoInstallPeers: false
+allowBuilds:
+  node-pty: set this to true or false
+  protobufjs: set this to true or false
+  sharp: true
+`)
+
+    prepareDesktopProfile(undefined, home, 'darwin')
+
+    const workspace = readFileSync(join(dir, 'pnpm-workspace.yaml'), 'utf8')
+    expect(workspace).toContain('node-pty: false')
+    expect(workspace).toContain('protobufjs: false')
+    expect(workspace).toContain('sharp: true')
+    expect(workspace).not.toContain('set this to true or false')
+  })
+
   it('leaves an already-hoisted Profile dependency tree untouched', () => {
     const home = temporaryHome()
     const dir = ensureDesktopProfile(home)

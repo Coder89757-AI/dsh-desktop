@@ -40,7 +40,7 @@ import FileSettingsProvider, {
   resolveSpec as resolveSettingsFileSpec,
   type Config as SettingsFileConfig,
 } from '@deepseek-ai/dsh-settings-file'
-import { parseAllDocuments, parseDocument } from 'yaml'
+import { isMap, parseAllDocuments, parseDocument } from 'yaml'
 import { findOverlayPackage, resolveOverlayPackage } from './package-overlay.ts'
 import { withAsarModuleResolver } from './asar-module-resolver-state.ts'
 import { DESKTOP_DEFAULT_WEB_PORT } from './desktop-port.ts'
@@ -390,6 +390,42 @@ function parseProfileYaml(path: string): ParsedProfileYaml {
   return { document, value: value as Record<string, unknown> }
 }
 
+/**
+ * Resolve pnpm's undecided `allowBuilds` placeholders into explicit decisions.
+ *
+ * pnpm 11 defaults `strictDepBuilds` to true. Whenever it skips a dependency's
+ * build scripts it first records the question in this document as the literal
+ * placeholder value `set this to true or false`, then fails the run with
+ * `ERR_PNPM_IGNORED_BUILDS`. The placeholder is not a decision, so every later
+ * package operation fails the same way, and the Profile can no longer install or
+ * remove a plugin. Record the decision that is already in effect — the Profile
+ * still does not run third-party build scripts — so a user can opt a package in
+ * explicitly through `allowBuilds: { <package>: true }`.
+ * @param document - Parsed Profile pnpm workspace document.
+ * @returns whether the document was changed.
+ */
+function reconcileProfileAllowBuilds(document: ReturnType<typeof parseDocument>): boolean {
+  const allowBuilds = document.get('allowBuilds')
+  if (allowBuilds === undefined || allowBuilds === null) return false
+  if (!isMap(allowBuilds)) {
+    throw new Error(`${BIN_NAME}: pnpm-workspace.yaml allowBuilds must be a map of package names to booleans`)
+  }
+  const decisions = allowBuilds.toJSON() as Record<string, unknown>
+  const normalized: Record<string, boolean> = {}
+  let changed = false
+  for (const [packageName, decision] of Object.entries(decisions)) {
+    if (typeof decision === 'boolean') {
+      normalized[packageName] = decision
+      continue
+    }
+    normalized[packageName] = false
+    changed = true
+  }
+  if (!changed) return false
+  document.set('allowBuilds', normalized)
+  return true
+}
+
 /** Apply the current out-of-tree plugin linker contract while preserving other workspace settings. */
 function reconcileProfilePnpmWorkspace(profileDir: string): boolean {
   const path = join(profileDir, 'pnpm-workspace.yaml')
@@ -411,6 +447,7 @@ function reconcileProfilePnpmWorkspace(profileDir: string): boolean {
     document.set('autoInstallPeers', false)
     changed = true
   }
+  if (reconcileProfileAllowBuilds(document)) changed = true
   if (changed) writeFileSync(path, document.toString())
   return changed
 }
