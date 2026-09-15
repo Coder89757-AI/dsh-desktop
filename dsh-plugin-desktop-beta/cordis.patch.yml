@@ -26,3 +26,11 @@
     printUrl: false
     surfaceContext: true
     trustedHosts: []
+
+# The shared brand seats carry the released product identity. The official
+# occupants would claim the sidebar pair in every build and shadow this
+# package's own registrations, so this layer disables that row; the Desktop
+# client plugin occupies `sidebar.brand.mark`, `sidebar.brand.name`, and
+# `conversation.hero.brand.mark` itself.
+- id: ui-brand-official
+  disabled: true
