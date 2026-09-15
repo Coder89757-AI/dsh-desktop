@@ -22,7 +22,7 @@ function fixture(version = '2.0.0'): { readonly root: string; readonly portable:
   mkdirSync(dist, { recursive: true })
   const portable = join(dist, `DSH-Desktop-${version}-x64-Portable.zip`)
   const archive = new AdmZip()
-  archive.addFile('DSH Desktop.exe', portableExecutable())
+  archive.addFile('Lexford.exe', portableExecutable())
   archive.addFile('resources/app/package.json', Buffer.from('{}'))
   archive.writeZip(portable)
   return { root, portable }
@@ -51,7 +51,7 @@ describe('Windows portable artifact verification', () => {
     const invalid = portableExecutable()
     invalid.write('NO', 0, 'ascii')
     const archive = new AdmZip()
-    archive.addFile('DSH Desktop.exe', invalid)
+    archive.addFile('Lexford.exe', invalid)
     archive.addFile('resources/app/package.json', Buffer.from('{}'))
     archive.writeZip(value.portable)
 
