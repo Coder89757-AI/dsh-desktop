@@ -1,0 +1,33 @@
+# Auth Gate 的 Loader 行。
+#
+# 这一行同时挂两半边：
+#   - Host 半边  → 包主入口 `lib/index.js`（apply 被 Loader 调用）
+#   - Client 半边 → `dsh.client` 被 @deepseek-ai/dsh-client-modules 发现后加载 `./client`
+#
+# 之所以是独立行而不是挂在别处：闸门必须在其它消费方（会话、工具、模型调用）
+# 开始工作**之前**就已经注册好自己的守卫，所以它排在前列。
+- insert:
+    - id: auth-gate
+      name: dsh-auth-gate
+      config:
+        # 闸门形态开关 —— 见 lib/gate-mode.js 与 README 的对照表。
+        #   overlay     : 登录页覆盖在 AppFrame 之上（上游推荐，默认）
+        #   root-shadow : 用 priority:-1 遮蔽 root，AppFrame 根本不挂载（更强，副作用面更大）
+        gateMode: overlay
+        # 授权服务器（登录页可覆盖；留空则必须由用户在登录页填写）
+        serverAddress: ''
+        # 只允许 https；若内网服务确实只有 http，显式打开并在界面上接受提示
+        allowHttp: false
+        # 服务端校验/登录/续期的路径，以及响应字段映射。协议不匹配时只改这里，不改代码。
+        paths:
+          verify: /api/auth/verify
+          login: /api/auth/login
+          refresh: /api/auth/refresh
+          logout: /api/auth/logout
+        fields:
+          token: token
+          refreshToken: refreshToken
+          expiresIn: expiresIn
+          user: user
+        # 服务器触达超时（毫秒）。服务器不可达即阻断，不能无限等待。
+        timeoutMs: 5000
