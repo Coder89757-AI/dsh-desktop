@@ -525,6 +525,19 @@ describe('published package surface', () => {
     expect(ready).toBeGreaterThan(markClean)
   })
 
+  it('applies the persisted GPU fallback before Electron becomes ready', () => {
+    const main = readFileSync(new URL('src/main.ts', packageRoot), 'utf8')
+    const applyFallback = main.indexOf('applyDesktopGpuFallback({')
+    const disableHardwareAcceleration = main.indexOf('app.disableHardwareAcceleration()')
+    const childLogging = main.indexOf('installDesktopChildProcessLogging(app')
+    const ready = main.indexOf('await app.whenReady()')
+
+    expect(applyFallback).toBeGreaterThanOrEqual(0)
+    expect(disableHardwareAcceleration).toBeGreaterThan(applyFallback)
+    expect(childLogging).toBeGreaterThan(applyFallback)
+    expect(ready).toBeGreaterThan(childLogging)
+  })
+
   it('creates unified Profile checkpoints before composition and records only after health', () => {
     const main = readFileSync(new URL('src/main.ts', packageRoot), 'utf8')
     const beginProfile = main.indexOf('const profileStartup = beginDesktopProfileStartup(')

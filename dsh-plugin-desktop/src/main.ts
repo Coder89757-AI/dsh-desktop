@@ -52,6 +52,11 @@ import type {
   DesktopLifecycleRendererFailureReason,
 } from './lifecycle-events.ts'
 import { FileExporter } from './file-exporter.ts'
+import {
+  applyDesktopGpuFallback,
+  desktopGpuFailureStatePath,
+  installDesktopGpuFailureTracking,
+} from './gpu-fallback.ts'
 import { DESKTOP_SETTINGS_NAMESPACE, type DesktopSettings } from './index.ts'
 import {
   desktopLanBrowserUrls,
@@ -394,6 +399,7 @@ async function start(): Promise<void> {
   let removeShutdownRequests: (() => void) | undefined
   let removeUncaughtExceptionLogging: (() => void) | undefined
   let removeChildProcessLogging: (() => void) | undefined
+  let removeGpuFailureTracking: (() => void) | undefined
   let fileExporter: FileExporter | undefined
   let runtime!: ElectronDesktopRuntime
   let logSink: LogFileSink | undefined
@@ -439,6 +445,14 @@ async function start(): Promise<void> {
     logSink = undefined
   }
   const electronLogger = new ElectronStderrLogger(logSink)
+  // Hardware acceleration can only be turned off while the app is not ready, so
+  // the persisted GPU failure decision is applied here, before any window exists.
+  applyDesktopGpuFallback({
+    argv: process.argv,
+    statePath: desktopGpuFailureStatePath(desktopUserDataDir),
+    logger: electronLogger,
+    disableHardwareAcceleration: () => { app.disableHardwareAcceleration() },
+  })
   if (safeModeRequested) {
     safeModePaths = ensureDesktopSafeModeEnvironment(desktopUserDataDir)
   } else {
@@ -489,6 +503,11 @@ async function start(): Promise<void> {
     electronLogger.error(`${BIN_NAME}: active run tracking unavailable: ${cause instanceof Error ? cause.message : String(cause)}`)
   }
   removeChildProcessLogging = installDesktopChildProcessLogging(app, electronLogger)
+  removeGpuFailureTracking = installDesktopGpuFailureTracking(app, {
+    statePath: desktopGpuFailureStatePath(desktopUserDataDir),
+    version: appVersion,
+    logger: electronLogger,
+  })
   const nativeExit = createDesktopExitCoordinator(
     {
       prepareToQuit: () => { runtime.prepareToQuit() },
@@ -501,6 +520,7 @@ async function start(): Promise<void> {
       removeShutdownRequests?.()
       removeUncaughtExceptionLogging?.()
       removeChildProcessLogging?.()
+      removeGpuFailureTracking?.()
       if (safeModePaths !== undefined) {
         if (inheritedDshHome === undefined) delete process.env.DSH_HOME
         else process.env.DSH_HOME = inheritedDshHome
