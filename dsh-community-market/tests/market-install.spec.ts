@@ -87,6 +87,36 @@ async function writeEmptyProfile(profileDir: string): Promise<void> {
   }))
 }
 
+/** Record only the dependency pnpm wrote, leaving bundle registration to the service. */
+async function writeDependencyOnlyProfile(profileDir: string, target = packageName, targetVersion = version): Promise<void> {
+  await writeFile(join(profileDir, 'package.json'), JSON.stringify({
+    name: 'fixture-profile',
+    dependencies: { [target]: targetVersion },
+    dsh: { profile: { bundles: [] } },
+  }))
+}
+
+/** Package manager that applies the mutation and then exits non-zero. */
+function failingRunner(apply: () => Promise<void>): MarketDesktopPnpm {
+  return {
+    run() {
+      return {
+        stdout: Readable.from([`dependencies: + ${packageName} ${version}\n`]),
+        stderr: Readable.from(['[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: node-pty@1.1.0\n']),
+        done: (async () => {
+          await apply()
+          return { exitCode: 1, signal: null }
+        })(),
+        cancel: vi.fn(),
+      }
+    },
+  }
+}
+
+function readProfileManifest(profileDir: string): Promise<Record<string, unknown>> {
+  return readFile(join(profileDir, 'package.json'), 'utf8').then(value => JSON.parse(value) as Record<string, unknown>)
+}
+
 function runner(profileDir: string, calls: string[][]): MarketDesktopPnpm {
   return {
     run(argv) {
@@ -252,6 +282,53 @@ describe('simplified Profile package operations', () => {
     })
     expect(logFailure).toHaveBeenCalledWith(expect.stringContaining('resolved 42 packages'))
     expect(logFailure).toHaveBeenCalledWith(expect.stringContaining('exitCode: 1'))
+  })
+
+  it('keeps a Profile change that pnpm applied before it exited on a build policy', async () => {
+    const profileDir = await createProfile()
+    const logWarning = vi.fn()
+    const service = new MarketInstallService(
+      () => ({ name: 'desktop', dir: profileDir }),
+      failingRunner(async () => await writeDependencyOnlyProfile(profileDir)),
+      { verify: vi.fn(async () => ({ version })) },
+      { logWarning },
+    )
+    service.observeCatalog(snapshot())
+    const preview = await service.previewInstall('source-1', 'example/dsh-plugin-safe', new AbortController().signal)
+
+    await expect(service.executePreview(preview.intent, new AbortController().signal)).resolves.toMatchObject({
+      action: 'install',
+      packageName,
+      version,
+    })
+    expect(await readProfileManifest(profileDir)).toMatchObject({
+      dependencies: { [packageName]: version },
+      dsh: { profile: { bundles: [packageName] } },
+    })
+    expect(logWarning).toHaveBeenCalledWith(expect.stringContaining('ERR_PNPM_IGNORED_BUILDS'))
+  })
+
+  it('keeps a Profile removal that pnpm applied before it exited on a build policy', async () => {
+    const profileDir = await createProfile()
+    await writeInstalledProfile(profileDir)
+    const logWarning = vi.fn()
+    const service = new MarketInstallService(
+      () => ({ name: 'desktop', dir: profileDir }),
+      failingRunner(async () => await writeEmptyProfile(profileDir)),
+      { verify: vi.fn() },
+      { logWarning },
+    )
+
+    const preview = await service.previewUninstallPackage(packageName, new AbortController().signal)
+    await expect(service.executePreview(preview.intent, new AbortController().signal)).resolves.toMatchObject({
+      action: 'uninstall',
+      packageName,
+    })
+    expect(await readProfileManifest(profileDir)).toMatchObject({
+      dependencies: {},
+      dsh: { profile: { bundles: [] } },
+    })
+    expect(logWarning).toHaveBeenCalledOnce()
   })
 
   it('uninstalls a direct Profile plugin regardless of which market installed it', async () => {

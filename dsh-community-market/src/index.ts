@@ -73,6 +73,7 @@ export function apply(ctx: Context): void {
         createMarketPackageVerifier(npmRegistryHttp),
         {
           logFailure: message => ctx.logger.error(message),
+          logWarning: message => ctx.logger.warn(message),
         },
       )
       installService = service

@@ -241,6 +241,8 @@ export interface MarketInstallServiceOptions {
   readonly maxCandidates?: number
   /** Receives bounded package-manager failures for the Desktop persistent log. */
   readonly logFailure?: (message: string) => void
+  /** Receives recoverable package-manager anomalies for the Desktop persistent log. */
+  readonly logWarning?: (message: string) => void
 }
 
 function stableExactVersion(value: unknown): value is string {
@@ -434,6 +436,15 @@ function profileReferencesPlugin(manifest: JsonManifest, packageName: string): b
   return profileDependency(manifest, packageName) !== undefined || profileBundles(manifest).includes(packageName)
 }
 
+/** Read whether the Profile manifest currently declares one direct plugin dependency. */
+async function profileDeclaresDependency(
+  profile: MarketDesktopProfile,
+  packageName: string,
+): Promise<boolean> {
+  const manifest = await readManifest(join(profile.dir, 'package.json'))
+  return profileDependency(manifest, packageName) !== undefined
+}
+
 async function assertNotInstalled(profile: MarketDesktopProfile, packageName: string): Promise<void> {
   const profileManifest = await readManifest(join(profile.dir, 'package.json'))
   if (profileReferencesPlugin(profileManifest, packageName)) {
@@ -471,6 +482,7 @@ export class MarketInstallService {
   private readonly maxIntents: number
   private readonly maxCandidates: number
   private readonly logFailure: ((message: string) => void) | undefined
+  private readonly logWarning: ((message: string) => void) | undefined
   private readonly generation = new AbortController()
   private operationActive = false
   private closed = false
@@ -487,6 +499,7 @@ export class MarketInstallService {
     this.maxIntents = options.maxIntents ?? MAX_INTENTS
     this.maxCandidates = options.maxCandidates ?? MAX_CANDIDATES
     this.logFailure = options.logFailure
+    this.logWarning = options.logWarning
     for (const [label, value] of [
       ['intent TTL', this.intentTtlMs],
       ['candidate TTL', this.candidateTtlMs],
@@ -644,11 +657,11 @@ export class MarketInstallService {
       const target = candidate.source === undefined
         ? `${packageName}@${verification.version}`
         : githubPackageTarget(candidate.source)
-      await this.runPnpm([
+      await this.runPnpmMutation([
         'add',
         ...(candidate.source === undefined ? this.installOptions(packageName) : ['--save-exact']),
         target,
-      ], operationSignal)
+      ], operationSignal, async () => await profileDeclaresDependency(profile, packageName))
       try {
         await setProfileBundle(profile, packageName, true)
         const installedVersion = await directProfilePluginVersion(profile, packageName)
@@ -724,7 +737,11 @@ export class MarketInstallService {
       const profile = this.sameProfile(intent.profile)
       await directProfilePluginVersion(profile, intent.packageName)
       operationSignal.throwIfAborted()
-      await this.runPnpm(['remove', intent.packageName], operationSignal)
+      await this.runPnpmMutation(
+        ['remove', intent.packageName],
+        operationSignal,
+        async () => !await profileDeclaresDependency(profile, intent.packageName),
+      )
       try { await setProfileBundle(profile, intent.packageName, false) }
       catch {
         throw new MarketInstallError(
@@ -838,6 +855,43 @@ export class MarketInstallService {
     signal.throwIfAborted()
     this.assertOpen()
     return AbortSignal.any([signal, this.generation.signal])
+  }
+
+  /**
+   * Run one Profile dependency mutation and treat a non-zero package-manager exit
+   * as recovered when the requested dependency state did land in the manifest.
+   *
+   * pnpm 11 defaults `strictDepBuilds` to true, so it exits non-zero with
+   * `ERR_PNPM_IGNORED_BUILDS` as soon as a transitive dependency with build
+   * scripts is skipped — after it has already rewritten package.json and
+   * node_modules. Failing the operation there used to leave the Profile with a
+   * dependency that no Loader bundle referenced, which made the plugin invisible
+   * even after a restart. Decide from the observed manifest state instead of the
+   * exit code, and only report the anomaly when the mutation did land.
+   * @param args - package-manager arguments for one mutation.
+   * @param signal - combined operation signal.
+   * @param mutationApplied - reads whether the requested dependency state is now in place.
+   */
+  private async runPnpmMutation(
+    args: readonly string[],
+    signal: AbortSignal,
+    mutationApplied: () => Promise<boolean>,
+  ): Promise<void> {
+    try {
+      await this.runPnpm(args, signal)
+      return
+    } catch (cause) {
+      signal.throwIfAborted()
+      if (!(cause instanceof MarketInstallError) || cause.code !== 'operation-failed') throw cause
+      let applied = false
+      try { applied = await mutationApplied() } catch { applied = false }
+      if (!applied) throw cause
+      try {
+        this.logWarning?.(
+          `dsh-community-market: the package manager exited with an error after it had already applied the requested Profile change.\n${cause.details ?? cause.message}`,
+        )
+      } catch {}
+    }
   }
 
   private async runPnpm(args: readonly string[], signal: AbortSignal): Promise<void> {
