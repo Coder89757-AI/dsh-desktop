@@ -39,6 +39,10 @@
       "types": "./lib/types/windows-pwsh-sandbox.d.ts",
       "default": "./lib/windows-pwsh-sandbox.js"
     },
+    "./legal-kb": {
+      "types": "./lib/types/legal-kb.d.ts",
+      "default": "./lib/legal-kb.js"
+    },
     "./terminal": {
       "types": "./lib/types/terminal.d.ts",
       "default": "./lib/terminal.js"
