@@ -1,6 +1,10 @@
-/** Legal-KB launcher and connection-panel styles, owned by Desktop. */
+/** Legal-KB launcher and connection-panel styles, themed with dsw alias tokens. */
+
+import { legalKbIconMaskDataUri } from './legal-kb-icon.ts'
 
 const STYLE_ID = 'dsh-plugin-desktop-legal-kb-styles'
+
+const ICON_MASK = `url("${legalKbIconMaskDataUri}") center / contain no-repeat`
 
 const CSS = `
 .dshLegalKbLauncher {
@@ -13,23 +17,20 @@ const CSS = `
   border: none;
   border-radius: 8px;
   background: transparent;
-  color: inherit;
+  color: var(--dsw-alias-label-primary);
   font: inherit;
   cursor: pointer;
 }
-.dshLegalKbLauncher:hover { background: color-mix(in oklab, currentColor 8%, transparent); }
+.dshLegalKbLauncher:hover { background: var(--dsw-alias-interactive-bg-hover); }
 .dshLegalKbLauncher[data-wide='false'] { justify-content: center; padding: 8px 0; }
 .dshLegalKbLauncherIcon {
+  display: inline-block;
   width: 18px;
   height: 18px;
   flex: none;
-  border-radius: 4px;
-}
-.dshLegalKbHeaderIcon {
-  width: 20px;
-  height: 20px;
-  flex: none;
-  border-radius: 4px;
+  background-color: currentColor;
+  -webkit-mask: ${ICON_MASK};
+  mask: ${ICON_MASK};
 }
 .dshLegalKbLauncherLabel {
   flex: 1;
@@ -45,28 +46,29 @@ const CSS = `
   height: 7px;
   flex: none;
   border-radius: 50%;
-  background: color-mix(in oklab, currentColor 25%, transparent);
+  background: var(--dsw-alias-border-l2);
 }
-.dshLegalKbLauncherState[data-on='true'] { background: #2fa96c; }
+.dshLegalKbLauncherState[data-on='true'] { background: var(--dsw-alias-state-success-primary); }
 
 .dshLegalKbBackdrop {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 2147483002;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(0 0 0 / 45%);
+  background: color-mix(in srgb, #000 55%, transparent);
 }
 .dshLegalKbPanel {
   width: min(420px, calc(100vw - 48px));
   max-height: min(560px, calc(100vh - 96px));
   overflow-y: auto;
   padding: 20px;
+  border: 1px solid var(--dsw-alias-border-l1);
   border-radius: 14px;
-  background: var(--color-bg, #1c1c1e);
-  color: var(--color-fg, #f2f2f2);
-  box-shadow: 0 18px 48px rgb(0 0 0 / 35%);
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-primary);
+  box-shadow: 0 24px 64px color-mix(in srgb, #000 38%, transparent);
 }
 .dshLegalKbPanelHeader {
   display: flex;
@@ -79,17 +81,26 @@ const CSS = `
   font-size: 16px;
   font-weight: 600;
 }
+.dshLegalKbHeaderIcon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  background-color: currentColor;
+  -webkit-mask: ${ICON_MASK};
+  mask: ${ICON_MASK};
+}
 .dshLegalKbClose {
   display: flex;
   border: none;
   padding: 4px;
   border-radius: 6px;
   background: transparent;
-  color: inherit;
+  color: var(--dsw-alias-label-secondary);
   cursor: pointer;
 }
-.dshLegalKbClose:hover { background: color-mix(in oklab, currentColor 10%, transparent); }
-.dshLegalKbIntro { margin: 10px 0 14px; font-size: 12.5px; opacity: 0.75; }
+.dshLegalKbClose:hover { background: var(--dsw-alias-interactive-bg-hover); color: var(--dsw-alias-label-primary); }
+.dshLegalKbIntro { margin: 10px 0 14px; color: var(--dsw-alias-label-secondary); font-size: 12.5px; line-height: 1.6; }
 
 .dshLegalKbState {
   display: flex;
@@ -97,64 +108,106 @@ const CSS = `
   gap: 10px;
   margin-bottom: 14px;
   padding: 12px;
+  border: 1px solid var(--dsw-alias-border-l1);
   border-radius: 10px;
-  background: color-mix(in oklab, currentColor 6%, transparent);
+  background: var(--dsw-alias-bg-layer-2);
 }
 .dshLegalKbStateBadge {
   align-self: flex-start;
   padding: 2px 10px;
   border-radius: 999px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-secondary);
   font-size: 12px;
-  background: color-mix(in oklab, currentColor 14%, transparent);
 }
-.dshLegalKbState[data-connected='true'] .dshLegalKbStateBadge { background: rgb(47 169 108 / 22%); }
+.dshLegalKbState[data-connected='true'] .dshLegalKbStateBadge { color: var(--dsw-alias-state-success-primary); }
 .dshLegalKbIdentity { display: flex; flex-direction: column; gap: 6px; margin: 0; }
 .dshLegalKbIdentity > div { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; }
-.dshLegalKbIdentity dt { opacity: 0.65; }
+.dshLegalKbIdentity dt { color: var(--dsw-alias-label-secondary); }
 .dshLegalKbIdentity dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
 
 .dshLegalKbForm { display: flex; flex-direction: column; gap: 10px; }
-.dshLegalKbField { display: flex; flex-direction: column; gap: 5px; font-size: 12.5px; opacity: 0.95; }
+.dshLegalKbField {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--dsw-alias-label-secondary);
+  font-size: 12.5px;
+}
 .dshLegalKbInput {
   width: 100%;
   box-sizing: border-box;
   padding: 8px 10px;
-  border: 1px solid color-mix(in oklab, currentColor 20%, transparent);
+  border: 1px solid var(--dsw-alias-border-l2);
   border-radius: 8px;
-  background: color-mix(in oklab, currentColor 5%, transparent);
-  color: inherit;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-primary);
   font: inherit;
   font-size: 13px;
 }
-.dshLegalKbInput:focus { outline: none; border-color: color-mix(in oklab, currentColor 45%, transparent); }
+.dshLegalKbInput:focus-visible {
+  outline: none;
+  border-color: var(--dsw-alias-brand-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dsw-alias-brand-primary) 20%, transparent);
+}
 .dshLegalKbAdvancedToggle {
   align-self: flex-start;
   border: none;
   padding: 0;
   background: transparent;
-  color: inherit;
+  color: var(--dsw-alias-label-secondary);
   font: inherit;
   font-size: 12px;
-  opacity: 0.7;
   cursor: pointer;
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
-.dshLegalKbAdvanced { display: flex; flex-direction: column; gap: 10px; padding: 10px; border-radius: 10px; background: color-mix(in oklab, currentColor 5%, transparent); }
-.dshLegalKbError { margin: 0; padding: 8px 10px; border-radius: 8px; font-size: 12.5px; background: rgb(220 80 80 / 16%); }
+.dshLegalKbAdvancedToggle:hover { color: var(--dsw-alias-label-primary); }
+.dshLegalKbAdvanced {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--dsw-alias-border-l1);
+  border-radius: 10px;
+  background: var(--dsw-alias-bg-layer-2);
+}
+.dshLegalKbError {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: var(--dsw-alias-state-error-primary);
+  background: color-mix(in srgb, var(--dsw-alias-state-error-primary) 10%, transparent);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
 .dshLegalKbActions { display: flex; gap: 8px; }
 .dshLegalKbPrimary, .dshLegalKbSecondary {
   padding: 8px 16px;
-  border: none;
   border-radius: 8px;
   font: inherit;
   font-size: 13px;
   cursor: pointer;
 }
-.dshLegalKbPrimary { background: #3b82f6; color: #fff; }
-.dshLegalKbPrimary:disabled { opacity: 0.5; cursor: default; }
-.dshLegalKbSecondary { background: color-mix(in oklab, currentColor 12%, transparent); color: inherit; }
-.dshLegalKbSecondary:disabled { opacity: 0.5; cursor: default; }
-.dshLegalKbHint { margin: 14px 0 0; font-size: 12px; opacity: 0.6; }
+.dshLegalKbPrimary {
+  border: none;
+  background: var(--dsw-alias-brand-primary);
+  color: var(--dsw-alias-label-primary-foreground);
+}
+.dshLegalKbPrimary:disabled { cursor: default; opacity: .5; }
+.dshLegalKbSecondary {
+  border: 1px solid var(--dsw-alias-border-l2);
+  background: transparent;
+  color: var(--dsw-alias-label-secondary);
+}
+.dshLegalKbSecondary:hover:not(:disabled) { background: var(--dsw-alias-interactive-bg-hover); }
+.dshLegalKbSecondary:disabled { cursor: default; opacity: .5; }
+.dshLegalKbHint {
+  margin: 14px 0 0;
+  color: var(--dsw-alias-label-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
 `
 
 /** Install the Legal-KB sheet once; tolerate headless Client boot. */

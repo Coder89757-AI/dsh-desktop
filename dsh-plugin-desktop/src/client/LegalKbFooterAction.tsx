@@ -4,7 +4,6 @@ import { X } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import type { InjectFace, PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { LegalKbStatusResponse } from '../legal-kb/contract.ts'
-import { legalKbIconDataUri } from './legal-kb-icon.ts'
 import type { LegalKbApi } from './legal-kb-api.ts'
 import type { LegalKbLocaleKey } from './legal-kb-locales.ts'
 
@@ -106,7 +105,7 @@ export function LegalKbFooterAction({ api, t, wide }: LegalKbFooterActionProps) 
         title={t('railTitle')}
         onClick={() => { setPanelOpen(true) }}
       >
-        <img src={legalKbIconDataUri} alt="" aria-hidden="true" className="dshLegalKbLauncherIcon" />
+        <span aria-hidden="true" className="dshLegalKbLauncherIcon" />
         {wide && <span className="dshLegalKbLauncherLabel">{t('title')}</span>}
         {wide && <span className="dshLegalKbLauncherState" data-on={connected ? 'true' : 'false'} aria-hidden="true" />}
       </button>
@@ -114,7 +113,7 @@ export function LegalKbFooterAction({ api, t, wide }: LegalKbFooterActionProps) 
         <div className="dshLegalKbBackdrop" role="presentation" onClick={event => { if (event.target === event.currentTarget) setPanelOpen(false) }}>
           <div className="dshLegalKbPanel" role="dialog" aria-modal="true" aria-label={t('title')}>
             <header className="dshLegalKbPanelHeader">
-              <img src={legalKbIconDataUri} alt="" aria-hidden="true" className="dshLegalKbHeaderIcon" />
+              <span aria-hidden="true" className="dshLegalKbHeaderIcon" />
               <h2>{t('title')}</h2>
               <button
                 type="button"
