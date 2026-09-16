@@ -19,6 +19,18 @@ const CSS = `
 }
 .dshLegalKbLauncher:hover { background: color-mix(in oklab, currentColor 8%, transparent); }
 .dshLegalKbLauncher[data-wide='false'] { justify-content: center; padding: 8px 0; }
+.dshLegalKbLauncherIcon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 4px;
+}
+.dshLegalKbHeaderIcon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  border-radius: 4px;
+}
 .dshLegalKbLauncherLabel {
   flex: 1;
   min-width: 0;
