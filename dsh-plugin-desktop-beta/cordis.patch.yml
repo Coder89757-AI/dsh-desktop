@@ -21,6 +21,11 @@
     - id: legal-kb
       name: dsh-plugin-legal-kb
 
+# Feedback flows to the connected knowledge-base service instead; the relay
+# plugin owns this data, so the DeepSeek OTel endpoint receives nothing.
+- id: session-telemetry-otel
+  disabled: true
+
 # A desktop launch has no terminal operator waiting for the Web readiness line.
 - id: web-runtime
   config:

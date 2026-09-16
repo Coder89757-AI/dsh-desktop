@@ -8,6 +8,7 @@ import * as mcpClient from '@deepseek-ai/dsh-mcp-client'
 import type {} from '@deepseek-ai/dsh-host-webserver'
 import type {} from '@deepseek-ai/dsh-client-connection'
 import type {} from '@deepseek-ai/dsh-settings'
+import type {} from '@deepseek-ai/dsh-session'
 import {
   LEGAL_KB_ACTIVATE_PATH,
   LEGAL_KB_DISCONNECT_PATH,
@@ -15,6 +16,13 @@ import {
   type LegalKbActivationIdentity,
   type LegalKbStatusResponse,
 } from './contract.ts'
+import {
+  captureFeedbackEvent,
+  flushFeedbackQueue,
+  retryDelayMs,
+  type FeedbackRelayDeps,
+  type FeedbackRelayItem,
+} from './feedback.ts'
 import {
   handleLegalKbActivateRequest,
   handleLegalKbDisconnectRequest,
@@ -48,6 +56,8 @@ export interface LegalKbSettings {
   mcpUrl: string
   /** License code persisted after a successful activation. */
   licenseCode: string
+  /** Whether message feedback is relayed to the knowledge-base service. */
+  feedbackEnabled: boolean
 }
 
 /** Schema registered with the standard settings service. */
@@ -55,6 +65,7 @@ export const LegalKbSettingsSchema: z<LegalKbSettings> = z.object({
   apiUrl: z.string().default(LEGAL_KB_DEFAULT_API_URL),
   mcpUrl: z.string().default(LEGAL_KB_DEFAULT_MCP_URL),
   licenseCode: z.string().default('').role('secret'),
+  feedbackEnabled: z.boolean().default(true),
 })
 
 interface ActivateServiceBody {
@@ -220,4 +231,49 @@ export function apply(ctx: Context): void {
       fiber = undefined
     }
   }, 'legal-kb: MCP bridge generation')
+
+  ctx.effect(() => {
+    const queue: FeedbackRelayItem[] = []
+    let timer: ReturnType<typeof setTimeout> | undefined
+    let failures = 0
+    let flushing = false
+    const relayDeps: FeedbackRelayDeps = {
+      enabled: () => settings.get().feedbackEnabled && settings.get().licenseCode.trim() !== '',
+      licenseCode: () => settings.get().licenseCode.trim(),
+      apiUrl: () => settings.get().apiUrl,
+    }
+    const schedule = (): void => {
+      if (timer !== undefined || flushing) return
+      timer = setTimeout(() => {
+        timer = undefined
+        void flush()
+      }, failures === 0 ? 3_000 : retryDelayMs(failures))
+    }
+    const flush = async (): Promise<void> => {
+      if (flushing || queue.length === 0) return
+      flushing = true
+      try {
+        const remaining = await flushFeedbackQueue(queue, relayDeps)
+        queue.splice(0, queue.length, ...remaining)
+        failures = 0
+      } catch (cause) {
+        failures += 1
+        ctx.logger.warn(
+          `legal-kb: feedback relay attempt ${String(failures)} failed: ${cause instanceof Error ? cause.message : String(cause)}`,
+        )
+        schedule()
+      } finally {
+        flushing = false
+      }
+    }
+    const stopListening = ctx.on('session/event', (session, event) => {
+      const captured = captureFeedbackEvent(session, event, relayDeps, queue)
+      if (captured !== undefined) schedule()
+    })
+    return () => {
+      stopListening()
+      if (timer !== undefined) clearTimeout(timer)
+      queue.length = 0
+    }
+  }, 'legal-kb: feedback relay')
 }
