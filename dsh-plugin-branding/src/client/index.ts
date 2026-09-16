@@ -47,7 +47,29 @@ export function apply(ctx: ClientContext): void {
   prototype.lookup = branded
 
   const slots = runtime.slots
-  slots.inject('sidebar.brand.mark', () => slots.register({ name: 'sidebar.brand.mark' }, SidebarBrandMark))
-  slots.inject('sidebar.brand.name', () => slots.register({ name: 'sidebar.brand.name' }, SidebarBrandName))
-  slots.inject('conversation.hero.brand.mark', () => slots.register({ name: 'conversation.hero.brand.mark' }, HeroBrandMark))
+  /** Register into slots whose declarations appear during the shells' own
+   * render-time assembly. The registry throws while a slot is undeclared and
+   * when another entry already occupies the cell at the same priority; both
+   * are retryable states, so poll instead of relying on declaration
+   * subscription timing. */
+  const registerWhenDeclared = (slotName: string, component: unknown): void => {
+    const maxAttempts = 40
+    const attempt = (remaining: number): void => {
+      try {
+        slots.register({ name: slotName }, component)
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error)
+        if (message.includes('already has a registration')) return
+        if (remaining <= 0) {
+          console.error(`dsh-plugin-branding: slot ${slotName} stayed undeclared`, error)
+          return
+        }
+        setTimeout(() => { attempt(remaining - 1) }, 250)
+      }
+    }
+    attempt(maxAttempts)
+  }
+  registerWhenDeclared('sidebar.brand.mark', SidebarBrandMark)
+  registerWhenDeclared('sidebar.brand.name', SidebarBrandName)
+  registerWhenDeclared('conversation.hero.brand.mark', HeroBrandMark)
 }
