@@ -7,6 +7,7 @@ import z from '@deepseek-ai/schemastery'
 import * as mcpClient from '@deepseek-ai/dsh-mcp-client'
 import type {} from '@deepseek-ai/dsh-host-webserver'
 import type {} from '@deepseek-ai/dsh-client-connection'
+import type {} from '@deepseek-ai/dsh-settings'
 import {
   LEGAL_KB_ACTIVATE_PATH,
   LEGAL_KB_DISCONNECT_PATH,

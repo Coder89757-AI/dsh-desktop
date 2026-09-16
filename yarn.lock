@@ -9135,6 +9135,7 @@ __metadata:
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     dsh-community-market: "npm:0.1.0-dev.0"
+    dsh-plugin-legal-kb: "npm:0.1.0-dev.0"
     dshmarket: "npm:1.38.1"
     electron: "npm:43.3.0"
     electron-builder: "npm:26.15.7"
@@ -9332,6 +9333,7 @@ __metadata:
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     dsh-community-market: "npm:0.1.0-dev.0"
+    dsh-plugin-legal-kb: "npm:0.1.0-dev.0"
     dshmarket: "npm:1.38.1"
     electron: "npm:43.3.0"
     electron-builder: "npm:26.15.7"
@@ -9363,6 +9365,54 @@ __metadata:
   bin:
     dsh-desktop: lib/bin.js
     dsh-plugin-desktop: lib/bin.js
+  languageName: unknown
+  linkType: soft
+
+"dsh-plugin-legal-kb@npm:0.1.0-dev.0, dsh-plugin-legal-kb@workspace:dsh-plugin-legal-kb":
+  version: 0.0.0-use.local
+  resolution: "dsh-plugin-legal-kb@workspace:dsh-plugin-legal-kb"
+  dependencies:
+    "@deepseek-ai/cordis": "npm:4.0.2"
+    "@deepseek-ai/dsh-api-gateway": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-api-remotes": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-api-session-controller": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-api-workspace-controller": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-api-workspace-files": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-attachment": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-connection": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-locale": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-store": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-ui-layout": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-ui-primitives": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-ui-renderer": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-ui-settings": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-ui-sidebar": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-ui-slots": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-ui-theme": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-cordis-host-runner": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-file-reference": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-host-directory-picker": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-host-plugin-inventory": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-host-webserver": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-jobs": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-llm": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-mcp-client": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-session": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-session-projection": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-session-reference": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-settings": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-subagent": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-util-values": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-workspace": "npm:0.1.5-rc.2"
+    "@deepseek-ai/schemastery": "npm:^3.18.2"
+    "@types/node": "npm:^22.20.0"
+    "@types/react": "npm:^18"
+    "@types/react-dom": "npm:^18"
+    lucide-react: "npm:^1.33.0"
+    react: "npm:18.3.1"
+    react-dom: "npm:18.3.1"
+    tsdown: "npm:0.22.2"
+    typescript: "npm:6.0.3"
   languageName: unknown
   linkType: soft
 

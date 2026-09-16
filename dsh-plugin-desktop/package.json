@@ -39,10 +39,6 @@
       "types": "./lib/types/windows-pwsh-sandbox.d.ts",
       "default": "./lib/windows-pwsh-sandbox.js"
     },
-    "./legal-kb": {
-      "types": "./lib/types/legal-kb.d.ts",
-      "default": "./lib/legal-kb.js"
-    },
     "./terminal": {
       "types": "./lib/types/terminal.d.ts",
       "default": "./lib/terminal.js"
@@ -283,6 +279,7 @@
     "@deepseek-ai/schemastery": "^3.18.2",
     "adm-zip": "^0.6.0",
     "dsh-community-market": "0.1.0-dev.0",
+    "dsh-plugin-legal-kb": "0.1.0-dev.0",
     "dshmarket": "1.38.1",
     "fs-ext": "2.1.1",
     "koffi": "3.1.5",

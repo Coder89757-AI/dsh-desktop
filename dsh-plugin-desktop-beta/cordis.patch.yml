@@ -19,7 +19,7 @@
     - id: desktop-updates
       name: dsh-plugin-desktop-beta/updates
     - id: legal-kb
-      name: dsh-plugin-desktop-beta/legal-kb
+      name: dsh-plugin-legal-kb
 
 # A desktop launch has no terminal operator waiting for the Web readiness line.
 - id: web-runtime
