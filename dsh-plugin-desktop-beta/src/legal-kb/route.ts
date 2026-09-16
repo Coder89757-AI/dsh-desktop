@@ -63,20 +63,36 @@ function exactHeaderOrigin(value: string | undefined): string | undefined {
   }
 }
 
+function referrerOrigin(value: string | undefined): string | undefined {
+  if (value === undefined) return undefined
+  try {
+    return new URL(value).origin
+  } catch {
+    return undefined
+  }
+}
+
 /**
  * Same guard as the Desktop settings routes: the actual socket and Host stay
- * on the configured loopback origin, and a mutating request must carry the
- * exact Origin header with same-site fetch metadata.
+ * on the configured loopback origin. A mutating request must carry the exact
+ * Origin header; a read-only GET may fall back to same-site fetch metadata
+ * plus its same-origin referrer, because browsers commonly omit Origin on
+ * same-origin GET requests.
  */
 function isSameOriginLoopbackRequest(
   req: IncomingMessage,
   expectedOrigin: string,
+  mutating: boolean,
 ): boolean {
   const expected = expectedLoopbackOrigin(expectedOrigin)
   if (expected === undefined || !isLoopbackAddress(req.socket.remoteAddress)) return false
   if (req.headers.host?.toLowerCase() !== expected.host.toLowerCase()) return false
-  return exactHeaderOrigin(req.headers.origin) === expected.origin
-    && (req.headers['sec-fetch-site'] === undefined || req.headers['sec-fetch-site'] === 'same-origin')
+  if (exactHeaderOrigin(req.headers.origin) === expected.origin) {
+    return req.headers['sec-fetch-site'] === undefined || req.headers['sec-fetch-site'] === 'same-origin'
+  }
+  if (mutating) return false
+  return req.headers['sec-fetch-site'] === 'same-origin'
+    && referrerOrigin(req.headers.referer) === expected.origin
 }
 
 async function readJsonPost(req: IncomingMessage, res: ServerResponse): Promise<unknown> {
@@ -129,7 +145,7 @@ export async function handleLegalKbActivateRequest(
   deps: LegalKbRouteDeps,
 ): Promise<void> {
   if (req.method !== 'POST') return finishJson(res, 405, error('method not allowed'), 'POST')
-  if (!isSameOriginLoopbackRequest(req, deps.expectedOrigin)) {
+  if (!isSameOriginLoopbackRequest(req, deps.expectedOrigin, true)) {
     return finishJson(res, 403, error('forbidden'))
   }
   let value: unknown
@@ -157,7 +173,7 @@ export async function handleLegalKbStatusRequest(
   deps: LegalKbRouteDeps,
 ): Promise<void> {
   if (req.method !== 'GET') return finishJson(res, 405, error('method not allowed'), 'GET')
-  if (!isSameOriginLoopbackRequest(req, deps.expectedOrigin)) {
+  if (!isSameOriginLoopbackRequest(req, deps.expectedOrigin, false)) {
     return finishJson(res, 403, error('forbidden'))
   }
   return finishJson(res, 200, deps.status())
@@ -170,7 +186,7 @@ export async function handleLegalKbDisconnectRequest(
   deps: LegalKbRouteDeps,
 ): Promise<void> {
   if (req.method !== 'POST') return finishJson(res, 405, error('method not allowed'), 'POST')
-  if (!isSameOriginLoopbackRequest(req, deps.expectedOrigin)) {
+  if (!isSameOriginLoopbackRequest(req, deps.expectedOrigin, true)) {
     return finishJson(res, 403, error('forbidden'))
   }
   try {
