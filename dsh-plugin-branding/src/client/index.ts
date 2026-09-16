@@ -26,8 +26,12 @@ type Lookup = (ns: string, key: string, chain: readonly string[]) => string | un
 
 /** Install the lookup interceptor once per client boot. */
 export function apply(ctx: ClientContext): void {
+  console.info('[dsh-branding] client apply: installing brand copy interceptor')
   const runtime = ctx as unknown as {
-    locale: { constructor: { prototype: { lookup?: Lookup } } }
+    locale: {
+      constructor: { prototype: { lookup?: Lookup } }
+      translate?: (ns: string, key: string) => string
+    }
     slots: {
       inject: (key: string, callback: () => (() => void) | Iterable<() => void>) => () => void
       register: (options: { name: string }, component: unknown) => () => void
@@ -39,13 +43,22 @@ export function apply(ctx: ClientContext): void {
     return
   }
   const original = prototype.lookup
-  const branded: Lookup = function (ns, key, chain) {
-    const localeId = chain[0] ?? 'en'
-    const override = BRAND_COPY.get(`${localeId}:${ns}.${key}`)
-    return override ?? original.call(locale, ns, key, chain)
+  const branded: Lookup = function (this: unknown, ns, key, chain) {
+    // Walk the whole fallback chain: the active locale id may be `zh-CN` while
+    // brand copy is keyed under `zh` (or either), so the first entry alone is
+    // not a reliable lookup key.
+    for (const localeId of chain) {
+      const override = BRAND_COPY.get(`${localeId}:${ns}.${key}`)
+      if (override !== undefined) return override
+    }
+    return original.call(this, ns, key, chain)
   }
   ;(branded as { __branding?: boolean }).__branding = true
   prototype.lookup = branded
+  // One-shot self check: the sidebar brand title should resolve to brand copy
+  // immediately after the interceptor is installed.
+  const sample = runtime.locale.translate?.('sidebar', 'brand.localBuild')
+  console.info(`[dsh-branding] locale interceptor installed; sidebar brand.localBuild resolves to: ${JSON.stringify(sample)}`)
 
   const slots = runtime.slots
   /** Register into slots whose declarations appear during the shells' own
@@ -64,15 +77,27 @@ export function apply(ctx: ClientContext): void {
   const KEEPALIVE_INTERVAL_MS = 2_000
   const registerWithKeepalive = (slotName: string, component: unknown): void => {
     let attemptCount = 0
+    let logged = false
     const attempt = (): void => {
       attemptCount += 1
       try {
         slots.register({ name: slotName }, component)
+        if (!logged) {
+          logged = true
+          const count = (slots as { entriesOfSlot?: (k: string) => unknown[] }).entriesOfSlot?.(slotName)?.length
+          console.info(`[dsh-branding] slot ${slotName} registered after ${attemptCount} attempt(s); entries now: ${count}`)
+        }
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error)
-        if (message.includes('already has a registration')) return
-        if (attemptCount % 40 === 0) {
-          console.warn(`dsh-plugin-branding: slot ${slotName} not registered yet (attempt ${attemptCount})`)
+        if (message.includes('already has a registration')) {
+          if (!logged) {
+            logged = true
+            console.info(`[dsh-branding] slot ${slotName} already occupied after ${attemptCount} attempt(s)`)
+          }
+          return
+        }
+        if (attemptCount === 40) {
+          console.warn(`[dsh-branding] slot ${slotName} still undeclared after 40 attempts; last error:`, error)
         }
       }
     }
