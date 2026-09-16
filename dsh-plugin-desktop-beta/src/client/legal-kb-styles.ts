@@ -1,10 +1,11 @@
 /** Legal-KB launcher and connection-panel styles, themed with dsw alias tokens. */
 
-import { legalKbIconMaskDataUri } from './legal-kb-icon.ts'
+import { legalKbIconDarkDataUri, legalKbIconLightDataUri } from './legal-kb-icon.ts'
 
 const STYLE_ID = 'dsh-plugin-desktop-legal-kb-styles'
 
-const ICON_MASK = `url("${legalKbIconMaskDataUri}") center / contain no-repeat`
+const ICON_LIGHT = `url("${legalKbIconLightDataUri}") center / contain no-repeat`
+const ICON_DARK = `url("${legalKbIconDarkDataUri}") center / contain no-repeat`
 
 const CSS = `
 .dshLegalKbLauncher {
@@ -28,10 +29,9 @@ const CSS = `
   width: 18px;
   height: 18px;
   flex: none;
-  background-color: currentColor;
-  -webkit-mask: ${ICON_MASK};
-  mask: ${ICON_MASK};
+  background: ${ICON_LIGHT};
 }
+body[data-ds-dark-theme] .dshLegalKbLauncherIcon { background: ${ICON_DARK}; }
 .dshLegalKbLauncherLabel {
   flex: 1;
   min-width: 0;
@@ -86,10 +86,9 @@ const CSS = `
   width: 20px;
   height: 20px;
   flex: none;
-  background-color: currentColor;
-  -webkit-mask: ${ICON_MASK};
-  mask: ${ICON_MASK};
+  background: ${ICON_LIGHT};
 }
+body[data-ds-dark-theme] .dshLegalKbHeaderIcon { background: ${ICON_DARK}; }
 .dshLegalKbClose {
   display: flex;
   border: none;
