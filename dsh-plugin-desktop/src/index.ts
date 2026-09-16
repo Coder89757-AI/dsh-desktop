@@ -1,6 +1,7 @@
 /** DSH Desktop Host plugin: owns the selected native shell generation. */
 
 import type { IncomingMessage, ServerResponse } from 'node:http'
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import type { Context } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
@@ -204,6 +205,21 @@ export function desktopRendererUrl(
     url.searchParams.set('dsh-desktop-mica', windowsSupportsMica(windowsBuild) ? '1' : '0')
   }
   return url.href
+}
+
+/** Window title from the local branding projection written by
+ * scripts/apply-branding.mjs; falls back to the shipped title. */
+function brandingWindowTitle(): string {
+  try {
+    const raw = JSON.parse(
+      readFileSync(fileURLToPath(new URL('../build/branding.json', import.meta.url)), 'utf8'),
+    ) as { windowTitle?: unknown }
+    return typeof raw.windowTitle === 'string' && raw.windowTitle.trim() !== ''
+      ? raw.windowTitle
+      : 'DeepSeek Harness Desktop'
+  } catch {
+    return 'DeepSeek Harness Desktop'
+  }
 }
 
 /**
@@ -479,7 +495,7 @@ export function apply(ctx: Context, config: Config): void {
         authenticationUrl: ctx.connection.authenticatedUrl(new URL(url).origin),
         rendererAccessHeader: browserAccess.rendererHeader,
         productName: DESKTOP_PRODUCT_NAME,
-        windowTitle: 'DeepSeek Harness Desktop',
+        windowTitle: brandingWindowTitle(),
         iconPath,
         trayIcons,
         readLocalePreference: () => {

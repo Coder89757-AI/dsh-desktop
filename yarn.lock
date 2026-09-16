@@ -8972,6 +8972,44 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"dsh-plugin-branding@npm:0.1.0-dev.0, dsh-plugin-branding@workspace:dsh-plugin-branding":
+  version: 0.0.0-use.local
+  resolution: "dsh-plugin-branding@workspace:dsh-plugin-branding"
+  dependencies:
+    "@deepseek-ai/cordis": "npm:4.0.2"
+    "@deepseek-ai/dsh-api-gateway": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-api-remotes": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-api-session-controller": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-api-workspace-controller": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-api-workspace-files": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-attachment": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-connection": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-locale": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-store": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-ui-settings": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-client-ui-slots": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-cordis-host-runner": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-credentials": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-file-reference": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-host-directory-picker": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-host-plugin-inventory": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-jobs": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-llm": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-session": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-session-projection": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-session-reference": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-settings": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-subagent": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-util-values": "npm:0.1.5-rc.2"
+    "@deepseek-ai/dsh-workspace": "npm:0.1.5-rc.2"
+    "@types/node": "npm:^22.20.0"
+    "@types/react": "npm:^18"
+    react: "npm:18.3.1"
+    tsdown: "npm:0.22.2"
+    typescript: "npm:6.0.3"
+  languageName: unknown
+  linkType: soft
+
 "dsh-plugin-desktop-beta@workspace:dsh-plugin-desktop-beta":
   version: 0.0.0-use.local
   resolution: "dsh-plugin-desktop-beta@workspace:dsh-plugin-desktop-beta"
@@ -9135,6 +9173,7 @@ __metadata:
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     dsh-community-market: "npm:0.1.0-dev.0"
+    dsh-plugin-branding: "npm:0.1.0-dev.0"
     dsh-plugin-legal-kb: "npm:0.1.0-dev.0"
     dshmarket: "npm:1.38.1"
     electron: "npm:43.3.0"
@@ -9333,6 +9372,7 @@ __metadata:
     class-variance-authority: "npm:^0.7.1"
     clsx: "npm:^2.1.1"
     dsh-community-market: "npm:0.1.0-dev.0"
+    dsh-plugin-branding: "npm:0.1.0-dev.0"
     dsh-plugin-legal-kb: "npm:0.1.0-dev.0"
     dshmarket: "npm:1.38.1"
     electron: "npm:43.3.0"

@@ -13,6 +13,10 @@ dsh-plugin-desktop/dist/
 dsh-plugin-desktop/lib/
 dsh-plugin-desktop-beta/lib/
 dsh-plugin-legal-kb/lib/
+dsh-plugin-branding/lib/
 dsh-community-market/lib/
+
+# Local brand overrides consumed by scripts/apply-branding.mjs (never committed)
+/branding/
 
 .env.yarn
