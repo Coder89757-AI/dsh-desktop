@@ -207,18 +207,19 @@ export function desktopRendererUrl(
   return url.href
 }
 
-/** Window title from the local branding projection written by
- * scripts/apply-branding.mjs; falls back to the shipped title. */
-function brandingWindowTitle(): string {
+/** Display-name projection from the local branding files written by
+ * scripts/apply-branding.mjs; falls back to the shipped identity. The data
+ * directories keep using DESKTOP_PRODUCT_NAME — this only affects visible
+ * surfaces (window title, tray tooltip, tray menu). */
+function brandingDisplay(field: 'windowTitle' | 'productName', fallback: string): string {
   try {
     const raw = JSON.parse(
       readFileSync(fileURLToPath(new URL('../build/branding.json', import.meta.url)), 'utf8'),
-    ) as { windowTitle?: unknown }
-    return typeof raw.windowTitle === 'string' && raw.windowTitle.trim() !== ''
-      ? raw.windowTitle
-      : 'DeepSeek Harness Desktop'
+    ) as Record<string, unknown>
+    const value = raw[field]
+    return typeof value === 'string' && value.trim() !== '' ? value : fallback
   } catch {
-    return 'DeepSeek Harness Desktop'
+    return fallback
   }
 }
 
@@ -494,8 +495,8 @@ export function apply(ctx: Context, config: Config): void {
         url,
         authenticationUrl: ctx.connection.authenticatedUrl(new URL(url).origin),
         rendererAccessHeader: browserAccess.rendererHeader,
-        productName: DESKTOP_PRODUCT_NAME,
-        windowTitle: brandingWindowTitle(),
+        productName: brandingDisplay('productName', DESKTOP_PRODUCT_NAME),
+        windowTitle: brandingDisplay('windowTitle', 'DeepSeek Harness Desktop'),
         iconPath,
         trayIcons,
         readLocalePreference: () => {

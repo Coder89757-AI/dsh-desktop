@@ -33,7 +33,6 @@ export default defineConfig([
       'react-dom',
       'react-dom/client',
       '@deepseek-ai/cordis',
-      '@deepseek-ai/dsh-client-locale/client',
     ],
     noExternal: (id: string) => id.startsWith('@deepseek-ai/') ? undefined : true,
     outputOptions: {
