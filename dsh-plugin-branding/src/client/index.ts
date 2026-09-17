@@ -24,9 +24,15 @@ export const inject = ['slots', 'locale']
 
 type Lookup = (ns: string, key: string, chain: readonly string[]) => string | undefined
 
+/** Dev-only diagnostics channel: the dev composition additionally loads the
+ * HMR client plugin, so its presence in the served bundle URL identifies a
+ * development boot. Packaged builds never compose it, which keeps the user
+ * console clean; only the genuine-failure warning below stays production. */
+const isDevClient = typeof location !== 'undefined' && location.href.includes('dsh-client-hmr')
+
 /** Install the lookup interceptor once per client boot. */
 export function apply(ctx: ClientContext): void {
-  console.info('[dsh-branding] client apply: installing brand copy interceptor')
+  if (isDevClient) console.info('[dsh-branding] client apply: installing brand copy interceptor')
   const runtime = ctx as unknown as {
     locale: {
       constructor: { prototype: { lookup?: Lookup } }
@@ -58,7 +64,9 @@ export function apply(ctx: ClientContext): void {
   // One-shot self check: the sidebar brand title should resolve to brand copy
   // immediately after the interceptor is installed.
   const sample = runtime.locale.translate?.('sidebar', 'brand.localBuild')
-  console.info(`[dsh-branding] locale interceptor installed; sidebar brand.localBuild resolves to: ${JSON.stringify(sample)}`)
+  if (isDevClient) {
+    console.info(`[dsh-branding] locale interceptor installed; sidebar brand.localBuild resolves to: ${JSON.stringify(sample)}`)
+  }
 
   const slots = runtime.slots
   /** Register into slots whose declarations appear during the shells' own
@@ -88,15 +96,19 @@ export function apply(ctx: ClientContext): void {
         slots.register({ name: slotName, priority: -1 }, component)
         if (!logged) {
           logged = true
-          const count = (slots as { entriesOfSlot?: (k: string) => unknown[] }).entriesOfSlot?.(slotName)?.length
-          console.info(`[dsh-branding] slot ${slotName} registered after ${attemptCount} attempt(s); entries now: ${count}`)
+          if (isDevClient) {
+            const count = (slots as { entriesOfSlot?: (k: string) => unknown[] }).entriesOfSlot?.(slotName)?.length
+            console.info(`[dsh-branding] slot ${slotName} registered after ${attemptCount} attempt(s); entries now: ${count}`)
+          }
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error)
         if (message.includes('already has a registration')) {
           if (!logged) {
             logged = true
-            console.info(`[dsh-branding] slot ${slotName} already occupied after ${attemptCount} attempt(s)`)
+            if (isDevClient) {
+              console.info(`[dsh-branding] slot ${slotName} already occupied after ${attemptCount} attempt(s)`)
+            }
           }
           return
         }
