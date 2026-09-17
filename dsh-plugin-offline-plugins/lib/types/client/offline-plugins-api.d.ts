@@ -1,9 +1,10 @@
 /** Fetch wrapper for the offline-plugins host routes. */
-import { type OfflinePluginsExportResponse, type OfflinePluginsImportResponse, type OfflinePluginsListResponse } from '../offline/contract.ts';
+import { type OfflinePluginsExportProgressResponse, type OfflinePluginsExportStartResponse, type OfflinePluginsImportResponse, type OfflinePluginsListResponse } from '../offline/contract.ts';
 /** Renderer-facing offline plugin manager API. */
 export interface OfflinePluginsApi {
     list(): Promise<OfflinePluginsListResponse>;
-    exportPlugin(packageName: string, destinationDir: string): Promise<OfflinePluginsExportResponse>;
+    startExport(packageName: string, destinationDir: string): Promise<OfflinePluginsExportStartResponse>;
+    exportProgress(jobId: string): Promise<OfflinePluginsExportProgressResponse>;
     importFrom(sourceDir: string): Promise<OfflinePluginsImportResponse>;
     pickDirectory(): Promise<string | null>;
 }

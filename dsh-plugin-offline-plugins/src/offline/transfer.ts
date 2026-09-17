@@ -19,6 +19,7 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { dirname, isAbsolute, join, resolve } from 'node:path'
+import { randomUUID } from 'node:crypto'
 import { withFileLock, writeFileAtomic } from '@deepseek-ai/dsh-atomic-write'
 import {
   dependencyClosure,
@@ -30,9 +31,13 @@ import {
 import {
   EXPORT_FORMAT_VERSION,
   EXPORT_MANIFEST_KIND,
-  type OfflinePluginsExportResponse,
+  type OfflinePluginsExportProgressResponse,
+  type OfflinePluginsExportStartResponse,
   type OfflinePluginsImportResponse,
 } from './contract.ts'
+
+/** Finished export jobs are pruned after this long. */
+const EXPORT_JOB_TTL_MS = 30 * 60 * 1000
 
 const MAX_PATH_BYTES = 32 * 1024
 const MAX_MANIFEST_BYTES = 1024 * 1024
@@ -122,12 +127,46 @@ function directoryBytes(root: string): number {
   return total
 }
 
-/** Export one Profile plugin and its dependency closure to a fresh directory. */
-export function exportProfilePlugin(
+/** One background export job: packages copied one by one, yielding to the
+ * event loop between packages so the Host webserver stays responsive. */
+interface ExportJob {
+  readonly id: string
+  readonly exportRoot: string
+  readonly packagesRoot: string
+  readonly queue: readonly { readonly name: string, readonly sourceDir: string, readonly bytes: number }[]
+  readonly bytesTotal: number
+  readonly unresolved: readonly string[]
+  readonly pluginName: string
+  readonly pluginVersion: string
+  bytesDone: number
+  packagesDone: number
+  currentPackage: string | null
+  status: 'running' | 'done' | 'failed'
+  error: string | null
+  exported: { name: string, version: string }[]
+}
+
+const exportJobs = new Map<string, ExportJob>()
+
+function yieldToEventLoop(): Promise<void> {
+  return new Promise(resolveEvent => { setImmediate(resolveEvent) })
+}
+
+function pruneExportJobs(now: number): void {
+  for (const [id, job] of exportJobs) {
+    if (job.status !== 'running' && now - Number(id.slice('job_'.length)) > EXPORT_JOB_TTL_MS) {
+      exportJobs.delete(id)
+    }
+  }
+}
+
+/** Start one export job: validates the request, stages the destination, and
+ * begins copying in the background. */
+export function startExportJob(
   profileDir: string,
   packageName: unknown,
   destinationDir: unknown,
-): OfflinePluginsExportResponse {
+): OfflinePluginsExportStartResponse {
   if (typeof packageName !== 'string' || !isValidPackageName(packageName)) {
     throw new OfflinePluginTransferError('invalid-path', 'package name is invalid')
   }
@@ -135,6 +174,11 @@ export function exportProfilePlugin(
   assertRealDirectory('destination directory', destination)
   if (IMMUTABLE_BUNDLE_NAMES.has(packageName)) {
     throw new OfflinePluginTransferError('immutable', `${packageName} ships with the application and cannot be exported`)
+  }
+  for (const job of exportJobs.values()) {
+    if (job.status === 'running') {
+      throw new OfflinePluginTransferError('conflict', 'an export is already running; wait for it to finish')
+    }
   }
   const manifest = readProfileManifest(profileDir)
   if (!manifest.bundles.includes(packageName)) {
@@ -146,54 +190,112 @@ export function exportProfilePlugin(
   }
 
   const closure = dependencyClosure(profileDir, packageName)
-  const exportRoot = join(
-    destination,
-    `dsh-plugins__${sanitizedComponent(packageName)}__${sanitizedComponent(packageVersionOf(pluginDir))}`,
-  )
+  if (closure.packages.size + 1 > MAX_EXPORT_PACKAGES) {
+    throw new OfflinePluginTransferError('io', 'dependency closure exceeds the supported package count')
+  }
+  const queue = [
+    { name: packageName, sourceDir: pluginDir, bytes: 0 },
+    ...[...closure.packages].map(([name, sourceDir]) => ({ name, sourceDir, bytes: 0 })),
+  ]
+  for (const entry of queue) entry.bytes = directoryBytes(entry.sourceDir)
+  const bytesTotal = queue.reduce((total, entry) => total + entry.bytes, 0)
+
+  const pluginVersion = packageVersionOf(pluginDir)
+  const exportRoot = join(destination, `dsh-plugins__${sanitizedComponent(packageName)}__${sanitizedComponent(pluginVersion)}`)
   if (existsSync(exportRoot)) {
     rmSync(exportRoot, { recursive: true, force: true })
   }
   const packagesRoot = join(exportRoot, 'packages')
   mkdirSync(packagesRoot, { recursive: true })
 
-  const exported: { name: string, version: string }[] = []
-  let totalBytes = directoryBytes(pluginDir)
-  const copyPackage = (name: string, sourceDir: string): void => {
-    const target = join(packagesRoot, ...name.split('/'))
-    if (existsSync(target)) return
-    mkdirSync(dirname(target), { recursive: true })
-    cpSync(sourceDir, target, { recursive: true, dereference: true })
-    totalBytes += directoryBytes(target)
-    exported.push({ name, version: packageVersionOf(target) })
+  const job: ExportJob = {
+    id: `job_${String(Date.now())}_${randomUUID().slice(0, 8)}`,
+    exportRoot,
+    packagesRoot,
+    queue,
+    bytesTotal,
+    unresolved: closure.unresolved,
+    pluginName: packageName,
+    pluginVersion,
+    bytesDone: 0,
+    packagesDone: 0,
+    currentPackage: null,
+    status: 'running',
+    error: null,
+    exported: [],
   }
-  copyPackage(packageName, pluginDir)
-  if (exported.length + closure.packages.size > MAX_EXPORT_PACKAGES) {
-    rmSync(exportRoot, { recursive: true, force: true })
-    throw new OfflinePluginTransferError('io', 'dependency closure exceeds the supported package count')
-  }
-  for (const [name, sourceDir] of closure.packages) {
-    copyPackage(name, sourceDir)
-  }
-
-  const exportManifest: ExportManifest = {
-    kind: EXPORT_MANIFEST_KIND,
-    formatVersion: EXPORT_FORMAT_VERSION,
-    exportedAt: new Date().toISOString(),
-    plugin: { name: packageName, version: packageVersionOf(pluginDir) },
-    packages: exported,
+  pruneExportJobs(Date.now())
+  exportJobs.set(job.id, job)
+  void runExportJob(job)
+  return {
+    jobId: job.id,
+    packages: queue.map(entry => entry.name),
+    totalBytes: bytesTotal,
     unresolved: closure.unresolved,
   }
+}
+
+/** Copy loop for one export job. */
+async function runExportJob(job: ExportJob): Promise<void> {
   try {
-    writeFileSync(join(exportRoot, 'manifest.json'), `${JSON.stringify(exportManifest, undefined, 2)}\n`, { flag: 'wx' })
+    for (const entry of job.queue) {
+      job.currentPackage = entry.name
+      const target = join(job.packagesRoot, ...entry.name.split('/'))
+      if (!existsSync(target)) {
+        mkdirSync(dirname(target), { recursive: true })
+        cpSync(entry.sourceDir, target, { recursive: true, dereference: true })
+      }
+      job.exported.push({ name: entry.name, version: packageVersionOf(target) })
+      job.bytesDone += entry.bytes
+      job.packagesDone += 1
+      await yieldToEventLoop()
+    }
+    const exportManifest: ExportManifest = {
+      kind: EXPORT_MANIFEST_KIND,
+      formatVersion: EXPORT_FORMAT_VERSION,
+      exportedAt: new Date().toISOString(),
+      plugin: { name: job.pluginName, version: job.pluginVersion },
+      packages: job.exported,
+      unresolved: job.unresolved,
+    }
+    writeFileSync(join(job.exportRoot, 'manifest.json'), `${JSON.stringify(exportManifest, undefined, 2)}\n`, { flag: 'wx' })
+    job.currentPackage = null
+    job.status = 'done'
   } catch (cause) {
-    rmSync(exportRoot, { recursive: true, force: true })
-    throw new OfflinePluginTransferError('io', `could not write the export manifest: ${cause instanceof Error ? cause.message : String(cause)}`)
+    job.status = 'failed'
+    job.error = cause instanceof Error ? cause.message : String(cause)
+    rmSync(job.exportRoot, { recursive: true, force: true })
+  }
+}
+
+/** Snapshot one export job's progress. */
+export function exportJobProgress(jobId: unknown): OfflinePluginsExportProgressResponse {
+  const job = typeof jobId === 'string' ? exportJobs.get(jobId) : undefined
+  if (job === undefined) {
+    return {
+      jobId: typeof jobId === 'string' ? jobId : '',
+      status: 'unknown',
+      error: null,
+      packagesDone: 0,
+      packagesTotal: 0,
+      bytesDone: 0,
+      bytesTotal: 0,
+      currentPackage: null,
+      exportPath: null,
+      unresolved: [],
+    }
   }
   return {
-    exportPath: exportRoot,
-    packages: exported.map(entry => entry.name),
-    unresolved: closure.unresolved,
-    totalBytes,
+    jobId: job.id,
+    status: job.status,
+    error: job.error,
+    packagesDone: job.packagesDone,
+    packagesTotal: job.queue.length,
+    bytesDone: job.bytesDone,
+    bytesTotal: job.bytesTotal,
+    currentPackage: job.currentPackage,
+    exportPath: job.status === 'done' ? job.exportRoot : null,
+    unresolved: job.unresolved,
   }
 }
 
@@ -283,6 +385,7 @@ export async function importProfilePlugin(
     mkdirSync(dirname(target), { recursive: true })
     cpSync(sourcePackage, target, { recursive: true, dereference: true })
     imported.push(name)
+    await yieldToEventLoop()
   }
 
   const registered = await registerBundle(profileDir, packageName)

@@ -33,6 +33,7 @@ window.__ModuleLoader__.load({
 					!entry.immutable && /* @__PURE__ */ (0, react_jsx_runtime.jsx)("button", {
 						type: "button",
 						className: "dshOfflineBtn",
+						"data-variant": "ghost",
 						disabled: busy,
 						onClick: () => {
 							onExport(entry.name);
@@ -45,12 +46,17 @@ window.__ModuleLoader__.load({
 		//#endregion
 		//#region src/client/OfflinePluginsPanel.tsx
 		/** Offline-plugins settings section: inline export/import management UI. */
+		function formatMegabytes(bytes) {
+			return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+		}
 		function OfflinePluginsSection(props) {
 			const { api, t } = props;
 			const [plugins, setPlugins] = (0, react.useState)();
 			const [loadFailed, setLoadFailed] = (0, react.useState)(false);
 			const [busy, setBusy] = (0, react.useState)(void 0);
 			const [notice, setNotice] = (0, react.useState)(null);
+			const [progress, setProgress] = (0, react.useState)(null);
+			const pollTimer = (0, react.useRef)();
 			const refresh = (0, react.useCallback)(async () => {
 				const next = await api.list();
 				setPlugins(next.plugins);
@@ -60,6 +66,9 @@ window.__ModuleLoader__.load({
 					setLoadFailed(true);
 				});
 			}, [refresh]);
+			(0, react.useEffect)(() => () => {
+				if (pollTimer.current !== void 0) clearInterval(pollTimer.current);
+			}, []);
 			const pickDirectory = async () => {
 				try {
 					return await api.pickDirectory();
@@ -75,25 +84,60 @@ window.__ModuleLoader__.load({
 				setNotice(null);
 				const destinationDir = await pickDirectory();
 				if (destinationDir === null) return;
-				setBusy({
-					kind: "export",
-					name
-				});
+				let started;
 				try {
-					const result = await api.exportPlugin(name, destinationDir);
-					const unresolved = result.unresolved.length > 0 ? t("exportUnresolved") : "";
-					setNotice({
-						kind: "ok",
-						text: `${t("exportDone")}: ${result.exportPath} (${String(result.packages.length)} pkgs)${unresolved}`
-					});
+					started = await api.startExport(name, destinationDir);
 				} catch (cause) {
 					setNotice({
 						kind: "error",
 						text: cause instanceof Error ? cause.message : t("unknownError")
 					});
-				} finally {
-					setBusy(void 0);
+					return;
 				}
+				setProgress({
+					jobId: started.jobId,
+					packagesDone: 0,
+					packagesTotal: started.packages.length,
+					bytesDone: 0,
+					bytesTotal: started.totalBytes,
+					currentPackage: started.packages[0] ?? null
+				});
+				if (pollTimer.current !== void 0) clearInterval(pollTimer.current);
+				pollTimer.current = setInterval(() => {
+					(async () => {
+						let snapshot;
+						try {
+							snapshot = await api.exportProgress(started.jobId);
+						} catch {
+							return;
+						}
+						setProgress({
+							jobId: snapshot.jobId,
+							packagesDone: snapshot.packagesDone,
+							packagesTotal: snapshot.packagesTotal,
+							bytesDone: snapshot.bytesDone,
+							bytesTotal: snapshot.bytesTotal,
+							currentPackage: snapshot.currentPackage
+						});
+						if (snapshot.status === "running") return;
+						if (pollTimer.current !== void 0) clearInterval(pollTimer.current);
+						pollTimer.current = void 0;
+						setProgress(null);
+						if (snapshot.status === "failed") {
+							setNotice({
+								kind: "error",
+								text: snapshot.error ?? t("unknownError")
+							});
+							return;
+						}
+						const unresolved = snapshot.unresolved.length > 0 ? t("exportUnresolved") : "";
+						setNotice({
+							kind: "ok",
+							text: `${t("exportDone")}: ${snapshot.exportPath ?? ""} (${String(snapshot.packagesTotal)} pkgs)${unresolved}`
+						});
+						await refresh().catch(() => {});
+					})();
+				}, 300);
 			};
 			const importOne = async () => {
 				setNotice(null);
@@ -115,7 +159,6 @@ window.__ModuleLoader__.load({
 					setBusy(void 0);
 				}
 			};
-			const exporting = busy?.kind === "export";
 			const importing = busy?.kind === "import";
 			return /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
 				className: "dshOfflineBody",
@@ -142,11 +185,35 @@ window.__ModuleLoader__.load({
 						children: (plugins ?? []).map((entry) => /* @__PURE__ */ (0, react_jsx_runtime.jsx)(OfflinePluginsRow, {
 							entry,
 							t,
-							busy: exporting,
+							busy: progress !== null,
 							onExport: (name) => {
 								exportOne(name);
 							}
 						}, entry.name))
+					}),
+					progress !== null && /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+						className: "dshOfflineProgressBlock",
+						children: [/* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+							className: "dshOfflineProgress",
+							children: /* @__PURE__ */ (0, react_jsx_runtime.jsx)("div", {
+								className: "dshOfflineProgressFill",
+								style: { width: `${progress.bytesTotal > 0 ? Math.min(100, Math.round(progress.bytesDone / progress.bytesTotal * 100)) : 0}%` }
+							})
+						}), /* @__PURE__ */ (0, react_jsx_runtime.jsxs)("div", {
+							className: "dshOfflineProgressMeta",
+							children: [
+								t("exporting"),
+								" ",
+								String(progress.packagesDone),
+								"/",
+								String(progress.packagesTotal),
+								" · ",
+								formatMegabytes(progress.bytesDone),
+								" / ",
+								formatMegabytes(progress.bytesTotal),
+								progress.currentPackage !== null && ` · ${progress.currentPackage}`
+							]
+						})]
 					}),
 					/* @__PURE__ */ (0, react_jsx_runtime.jsx)("h3", {
 						className: "dshOfflineHeading",
@@ -174,8 +241,10 @@ window.__ModuleLoader__.load({
 		/** Shared contract between the offline-plugins Host routes and client panel. */
 		/** Same-origin route listing installed Profile plugins. */
 		const OFFLINE_PLUGINS_LIST_PATH = "/_dsh/offline-plugins/list";
-		/** Same-origin route exporting one Profile plugin and its dependency closure. */
+		/** Same-origin route starting one Profile plugin export job. */
 		const OFFLINE_PLUGINS_EXPORT_PATH = "/_dsh/offline-plugins/export";
+		/** Same-origin route polling one export job's progress. */
+		const OFFLINE_PLUGINS_EXPORT_PROGRESS_PATH = "/_dsh/offline-plugins/export/progress";
 		/** Same-origin route importing one export directory into the active Profile. */
 		const OFFLINE_PLUGINS_IMPORT_PATH = "/_dsh/offline-plugins/import";
 		/** Launcher-owned directory chooser used by both flows. */
@@ -218,10 +287,15 @@ window.__ModuleLoader__.load({
 		function createOfflinePluginsApi() {
 			return {
 				list,
-				exportPlugin: (packageName, destinationDir) => postJson(OFFLINE_PLUGINS_EXPORT_PATH, {
+				startExport: (packageName, destinationDir) => postJson(OFFLINE_PLUGINS_EXPORT_PATH, {
 					packageName,
 					destinationDir
 				}),
+				exportProgress: async (jobId) => {
+					const response = await fetch(`${OFFLINE_PLUGINS_EXPORT_PROGRESS_PATH}?jobId=${encodeURIComponent(jobId)}`, { headers: { accept: "application/json" } });
+					if (!response.ok) throw new Error(`HTTP ${String(response.status)}`);
+					return await response.json();
+				},
 				importFrom: (sourceDir) => postJson(OFFLINE_PLUGINS_IMPORT_PATH, { sourceDir }),
 				pickDirectory
 			};
@@ -288,11 +362,23 @@ window.__ModuleLoader__.load({
 			".dshOfflineItemMeta{font-size:11.5px;opacity:.65}",
 			".dshOfflineBadge{font-size:10.5px;padding:1px 6px;border-radius:999px;border:1px solid currentColor;opacity:.75}",
 			".dshOfflineBtn{border:0;border-radius:8px;padding:7px 12px;cursor:pointer;font:inherit;font-size:12.5px;",
-			"  background:var(--dsh-primary,#2563eb);color:#fff}",
+			"  background:var(--dsw-alias-button-primary-fill,#2563eb);color:var(--dsw-alias-label-primary-inverted,#fff);",
+			"  transition:background var(--ds-transition-duration-fast,.15s) var(--ds-ease-in-out,ease)}",
+			".dshOfflineBtn:hover:not(:disabled){background:var(--dsw-alias-button-primary-hover,#1d4ed8)}",
 			".dshOfflineBtn:disabled{opacity:.5;cursor:default}",
+			".dshOfflineBtn[data-variant=\"ghost\"]{background:var(--dsw-alias-button-tool-bar-fill,rgba(128,128,128,.12));",
+			"  color:var(--dsw-alias-label-primary,#111)}",
+			".dshOfflineBtn[data-variant=\"ghost\"]:hover:not(:disabled){background:var(--dsw-alias-button-tool-bar-hover,rgba(128,128,128,.2))}",
+			".dshOfflineProgressBlock{display:flex;flex-direction:column;gap:4px}",
+			".dshOfflineProgress{height:6px;border-radius:999px;overflow:hidden;",
+			"  background:var(--dsw-alias-bg-layer-3,rgba(128,128,128,.15))}",
+			".dshOfflineProgressFill{height:100%;border-radius:999px;",
+			"  background:var(--dsw-alias-button-primary-fill,#2563eb);",
+			"  transition:width var(--ds-transition-duration,.2s) var(--ds-ease-in-out,ease)}",
+			".dshOfflineProgressMeta{font-size:11.5px;color:var(--dsw-alias-label-secondary,#555)}",
 			".dshOfflineMsg{margin:0;font-size:12.5px;line-height:1.5}",
-			".dshOfflineMsg[data-kind=\"error\"]{color:#dc2626}",
-			".dshOfflineMsg[data-kind=\"ok\"]{color:#16a34a}",
+			".dshOfflineMsg[data-kind=\"error\"]{color:var(--dsw-static-red-500,#dc2626)}",
+			".dshOfflineMsg[data-kind=\"ok\"]{color:var(--dsw-static-green-500,#16a34a)}",
 			".dshOfflineEmpty{margin:0;font-size:12.5px;opacity:.6}"
 		];
 		function installOfflinePluginsStyles() {

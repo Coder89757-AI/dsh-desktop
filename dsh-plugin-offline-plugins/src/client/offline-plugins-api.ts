@@ -3,10 +3,12 @@
 import {
   DIRECTORY_PICKER_PATH,
   OFFLINE_PLUGINS_EXPORT_PATH,
+  OFFLINE_PLUGINS_EXPORT_PROGRESS_PATH,
   OFFLINE_PLUGINS_IMPORT_PATH,
   OFFLINE_PLUGINS_LIST_PATH,
   type OfflinePluginsErrorResponse,
-  type OfflinePluginsExportResponse,
+  type OfflinePluginsExportProgressResponse,
+  type OfflinePluginsExportStartResponse,
   type OfflinePluginsImportResponse,
   type OfflinePluginsListResponse,
 } from '../offline/contract.ts'
@@ -14,7 +16,8 @@ import {
 /** Renderer-facing offline plugin manager API. */
 export interface OfflinePluginsApi {
   list(): Promise<OfflinePluginsListResponse>
-  exportPlugin(packageName: string, destinationDir: string): Promise<OfflinePluginsExportResponse>
+  startExport(packageName: string, destinationDir: string): Promise<OfflinePluginsExportStartResponse>
+  exportProgress(jobId: string): Promise<OfflinePluginsExportProgressResponse>
   importFrom(sourceDir: string): Promise<OfflinePluginsImportResponse>
   pickDirectory(): Promise<string | null>
 }
@@ -54,8 +57,15 @@ async function pickDirectory(): Promise<string | null> {
 export function createOfflinePluginsApi(): OfflinePluginsApi {
   return {
     list,
-    exportPlugin: (packageName, destinationDir) =>
-      postJson<OfflinePluginsExportResponse>(OFFLINE_PLUGINS_EXPORT_PATH, { packageName, destinationDir }),
+    startExport: (packageName, destinationDir) =>
+      postJson<OfflinePluginsExportStartResponse>(OFFLINE_PLUGINS_EXPORT_PATH, { packageName, destinationDir }),
+    exportProgress: async jobId => {
+      const response = await fetch(`${OFFLINE_PLUGINS_EXPORT_PROGRESS_PATH}?jobId=${encodeURIComponent(jobId)}`, {
+        headers: { accept: 'application/json' },
+      })
+      if (!response.ok) throw new Error(`HTTP ${String(response.status)}`)
+      return await response.json() as OfflinePluginsExportProgressResponse
+    },
     importFrom: sourceDir =>
       postJson<OfflinePluginsImportResponse>(OFFLINE_PLUGINS_IMPORT_PATH, { sourceDir }),
     pickDirectory,

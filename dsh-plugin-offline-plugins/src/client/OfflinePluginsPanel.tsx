@@ -1,6 +1,6 @@
 /** Offline-plugins settings section: inline export/import management UI. */
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { InjectFace, PropsLocale, PropsRuntime } from '@deepseek-ai/dsh-client-ui-slots'
 import type { OfflinePluginEntry } from '../offline/contract.ts'
 import type { OfflinePluginsApi } from './offline-plugins-api.ts'
@@ -15,11 +15,24 @@ export type OfflinePluginsSectionProps =
   & PropsLocale<'offline-plugins'>
   & InjectFace<OfflinePluginsInjected>
 
-type Busy = { kind: 'export', name: string } | { kind: 'import' } | undefined
+type Busy = { kind: 'import' } | undefined
 
 interface Notice {
   readonly kind: 'ok' | 'error'
   readonly text: string
+}
+
+interface ExportProgressView {
+  readonly jobId: string
+  readonly packagesDone: number
+  readonly packagesTotal: number
+  readonly bytesDone: number
+  readonly bytesTotal: number
+  readonly currentPackage: string | null
+}
+
+function formatMegabytes(bytes: number): string {
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
 
 export function OfflinePluginsSection(props: OfflinePluginsSectionProps) {
@@ -28,6 +41,8 @@ export function OfflinePluginsSection(props: OfflinePluginsSectionProps) {
   const [loadFailed, setLoadFailed] = useState(false)
   const [busy, setBusy] = useState<Busy>(undefined)
   const [notice, setNotice] = useState<Notice | null>(null)
+  const [progress, setProgress] = useState<ExportProgressView | null>(null)
+  const pollTimer = useRef<ReturnType<typeof setInterval>>()
 
   const refresh = useCallback(async (): Promise<void> => {
     const next = await api.list()
@@ -37,6 +52,8 @@ export function OfflinePluginsSection(props: OfflinePluginsSectionProps) {
   useEffect(() => {
     refresh().catch(() => { setLoadFailed(true) })
   }, [refresh])
+
+  useEffect(() => () => { if (pollTimer.current !== undefined) clearInterval(pollTimer.current) }, [])
 
   const pickDirectory = async (): Promise<string | null> => {
     try {
@@ -51,19 +68,54 @@ export function OfflinePluginsSection(props: OfflinePluginsSectionProps) {
     setNotice(null)
     const destinationDir = await pickDirectory()
     if (destinationDir === null) return
-    setBusy({ kind: 'export', name })
+    let started
     try {
-      const result = await api.exportPlugin(name, destinationDir)
-      const unresolved = result.unresolved.length > 0 ? t('exportUnresolved') : ''
-      setNotice({
-        kind: 'ok',
-        text: `${t('exportDone')}: ${result.exportPath} (${String(result.packages.length)} pkgs)${unresolved}`,
-      })
+      started = await api.startExport(name, destinationDir)
     } catch (cause) {
       setNotice({ kind: 'error', text: cause instanceof Error ? cause.message : t('unknownError') })
-    } finally {
-      setBusy(undefined)
+      return
     }
+    setProgress({
+      jobId: started.jobId,
+      packagesDone: 0,
+      packagesTotal: started.packages.length,
+      bytesDone: 0,
+      bytesTotal: started.totalBytes,
+      currentPackage: started.packages[0] ?? null,
+    })
+    if (pollTimer.current !== undefined) clearInterval(pollTimer.current)
+    pollTimer.current = setInterval(() => {
+      void (async () => {
+        let snapshot
+        try {
+          snapshot = await api.exportProgress(started.jobId)
+        } catch {
+          return
+        }
+        setProgress({
+          jobId: snapshot.jobId,
+          packagesDone: snapshot.packagesDone,
+          packagesTotal: snapshot.packagesTotal,
+          bytesDone: snapshot.bytesDone,
+          bytesTotal: snapshot.bytesTotal,
+          currentPackage: snapshot.currentPackage,
+        })
+        if (snapshot.status === 'running') return
+        if (pollTimer.current !== undefined) clearInterval(pollTimer.current)
+        pollTimer.current = undefined
+        setProgress(null)
+        if (snapshot.status === 'failed') {
+          setNotice({ kind: 'error', text: snapshot.error ?? t('unknownError') })
+          return
+        }
+        const unresolved = snapshot.unresolved.length > 0 ? t('exportUnresolved') : ''
+        setNotice({
+          kind: 'ok',
+          text: `${t('exportDone')}: ${snapshot.exportPath ?? ''} (${String(snapshot.packagesTotal)} pkgs)${unresolved}`,
+        })
+        await refresh().catch(() => {})
+      })()
+    }, 300)
   }
 
   const importOne = async (): Promise<void> => {
@@ -85,7 +137,6 @@ export function OfflinePluginsSection(props: OfflinePluginsSectionProps) {
     }
   }
 
-  const exporting = busy?.kind === 'export'
   const importing = busy?.kind === 'import'
   return (
     <div className="dshOfflineBody">
@@ -101,11 +152,28 @@ export function OfflinePluginsSection(props: OfflinePluginsSectionProps) {
             key={entry.name}
             entry={entry}
             t={t}
-            busy={exporting}
+            busy={progress !== null}
             onExport={name => { void exportOne(name) }}
           />
         ))}
       </div>
+      {progress !== null && (
+        <div className="dshOfflineProgressBlock">
+          <div className="dshOfflineProgress">
+            <div
+              className="dshOfflineProgressFill"
+              style={{ width: `${progress.bytesTotal > 0
+                ? Math.min(100, Math.round(progress.bytesDone / progress.bytesTotal * 100))
+                : 0}%` }}
+            />
+          </div>
+          <div className="dshOfflineProgressMeta">
+            {t('exporting')} {String(progress.packagesDone)}/{String(progress.packagesTotal)}
+            {' · '}{formatMegabytes(progress.bytesDone)} / {formatMegabytes(progress.bytesTotal)}
+            {progress.currentPackage !== null && ` · ${progress.currentPackage}`}
+          </div>
+        </div>
+      )}
       <h3 className="dshOfflineHeading">{t('importHeading')}</h3>
       <div>
         <button

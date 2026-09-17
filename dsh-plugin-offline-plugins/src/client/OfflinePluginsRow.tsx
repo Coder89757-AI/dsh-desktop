@@ -24,6 +24,7 @@ export function OfflinePluginsRow(props: OfflinePluginsRowProps) {
         <button
           type="button"
           className="dshOfflineBtn"
+          data-variant="ghost"
           disabled={busy}
           onClick={() => { onExport(entry.name) }}
         >

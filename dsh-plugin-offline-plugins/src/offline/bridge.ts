@@ -5,15 +5,17 @@ import type { Context } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/dsh-host-webserver'
 import type {} from '@deepseek-ai/dsh-client-connection'
 import { listInstalledPlugins, IMMUTABLE_BUNDLE_NAMES } from './inventory.ts'
-import { exportProfilePlugin, importProfilePlugin } from './transfer.ts'
+import { startExportJob, exportJobProgress, importProfilePlugin } from './transfer.ts'
 import {
   OFFLINE_PLUGINS_EXPORT_PATH,
+  OFFLINE_PLUGINS_EXPORT_PROGRESS_PATH,
   OFFLINE_PLUGINS_IMPORT_PATH,
   OFFLINE_PLUGINS_LIST_PATH,
   type OfflinePluginsListResponse,
 } from './contract.ts'
 import {
-  handleExportRequest,
+  handleExportProgressRequest,
+  handleExportStartRequest,
   handleImportRequest,
   handleListRequest,
   type OfflinePluginsRouteDeps,
@@ -64,13 +66,15 @@ export function apply(ctx: Context): void {
         new Set(desktop.desktopPlugins.disabledPackageNames()),
       ),
     }),
-    exportPlugin: (packageName, destinationDir) => exportProfilePlugin(profileDir, packageName, destinationDir),
+    startExport: (packageName, destinationDir) => startExportJob(profileDir, packageName, destinationDir),
+    exportProgress: jobId => exportJobProgress(jobId),
     importFrom: sourceDir => importProfilePlugin(profileDir, sourceDir),
   }
 
   const routes = [
     [OFFLINE_PLUGINS_LIST_PATH, handleListRequest],
-    [OFFLINE_PLUGINS_EXPORT_PATH, handleExportRequest],
+    [OFFLINE_PLUGINS_EXPORT_PATH, handleExportStartRequest],
+    [OFFLINE_PLUGINS_EXPORT_PROGRESS_PATH, handleExportProgressRequest],
     [OFFLINE_PLUGINS_IMPORT_PATH, handleImportRequest],
   ] as const
   for (const [path, handler] of routes) {

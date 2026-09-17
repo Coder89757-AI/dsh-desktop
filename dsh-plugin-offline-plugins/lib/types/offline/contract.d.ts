@@ -1,8 +1,10 @@
 /** Shared contract between the offline-plugins Host routes and client panel. */
 /** Same-origin route listing installed Profile plugins. */
 export declare const OFFLINE_PLUGINS_LIST_PATH = "/_dsh/offline-plugins/list";
-/** Same-origin route exporting one Profile plugin and its dependency closure. */
+/** Same-origin route starting one Profile plugin export job. */
 export declare const OFFLINE_PLUGINS_EXPORT_PATH = "/_dsh/offline-plugins/export";
+/** Same-origin route polling one export job's progress. */
+export declare const OFFLINE_PLUGINS_EXPORT_PROGRESS_PATH = "/_dsh/offline-plugins/export/progress";
 /** Same-origin route importing one export directory into the active Profile. */
 export declare const OFFLINE_PLUGINS_IMPORT_PATH = "/_dsh/offline-plugins/import";
 /** Launcher-owned directory chooser used by both flows. */
@@ -25,11 +27,23 @@ export interface OfflinePluginsExportRequest {
     readonly packageName: string;
     readonly destinationDir: string;
 }
-export interface OfflinePluginsExportResponse {
-    readonly exportPath: string;
+export interface OfflinePluginsExportStartResponse {
+    readonly jobId: string;
     readonly packages: readonly string[];
-    readonly unresolved: readonly string[];
     readonly totalBytes: number;
+    readonly unresolved: readonly string[];
+}
+export interface OfflinePluginsExportProgressResponse {
+    readonly jobId: string;
+    readonly status: 'running' | 'done' | 'failed' | 'unknown';
+    readonly error: string | null;
+    readonly packagesDone: number;
+    readonly packagesTotal: number;
+    readonly bytesDone: number;
+    readonly bytesTotal: number;
+    readonly currentPackage: string | null;
+    readonly exportPath: string | null;
+    readonly unresolved: readonly string[];
 }
 export interface OfflinePluginsImportRequest {
     readonly sourceDir: string;

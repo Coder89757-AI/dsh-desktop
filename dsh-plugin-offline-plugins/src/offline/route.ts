@@ -3,16 +3,19 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type {
   OfflinePluginsErrorResponse,
-  OfflinePluginsExportResponse,
+  OfflinePluginsExportStartResponse,
+  OfflinePluginsExportProgressResponse,
   OfflinePluginsImportResponse,
   OfflinePluginsListResponse,
 } from './contract.ts'
+import { OfflinePluginTransferError } from './transfer.ts'
 import { finishJson, isSameOriginLoopbackRequest, readJsonPost } from './http.ts'
 
 export type OfflinePluginsRouteDeps = {
   readonly expectedOrigin: string
   readonly list: () => OfflinePluginsListResponse
-  readonly exportPlugin: (packageName: unknown, destinationDir: unknown) => OfflinePluginsExportResponse
+  readonly startExport: (packageName: unknown, destinationDir: unknown) => OfflinePluginsExportStartResponse
+  readonly exportProgress: (jobId: string | null) => OfflinePluginsExportProgressResponse
   readonly importFrom: (sourceDir: unknown) => Promise<OfflinePluginsImportResponse>
 }
 
@@ -41,8 +44,8 @@ export function handleListRequest(
   }
 }
 
-/** Handle `POST /_dsh/offline-plugins/export`. */
-export function handleExportRequest(
+/** Handle `POST /_dsh/offline-plugins/export` (start a background job). */
+export function handleExportStartRequest(
   req: IncomingMessage,
   res: ServerResponse,
   deps: OfflinePluginsRouteDeps,
@@ -63,11 +66,30 @@ export function handleExportRequest(
       return
     }
     try {
-      finishJson(res, 200, deps.exportPlugin(body.packageName, body.destinationDir))
+      finishJson(res, 200, deps.startExport(body.packageName, body.destinationDir))
     } catch (cause) {
-      finishJson(res, 400, error(cause instanceof Error ? cause.message : String(cause)))
+      const code = cause instanceof OfflinePluginTransferError && cause.code === 'conflict' ? 409 : 400
+      finishJson(res, code, error(cause instanceof Error ? cause.message : String(cause)))
     }
   })().catch(() => { /* Response already finished. */ })
+}
+
+/** Handle `GET /_dsh/offline-plugins/export/progress?jobId=...`. */
+export function handleExportProgressRequest(
+  req: IncomingMessage,
+  res: ServerResponse,
+  deps: OfflinePluginsRouteDeps,
+): void {
+  if (req.method !== 'GET') {
+    finishJson(res, 405, error('GET only'), 'GET')
+    return
+  }
+  if (!isSameOriginLoopbackRequest(req, deps.expectedOrigin, false)) {
+    finishJson(res, 403, error('same-origin request required'))
+    return
+  }
+  const jobId = new URL(req.url ?? '/', 'http://127.0.0.1').searchParams.get('jobId')
+  finishJson(res, 200, deps.exportProgress(jobId))
 }
 
 /** Handle `POST /_dsh/offline-plugins/import`. */
