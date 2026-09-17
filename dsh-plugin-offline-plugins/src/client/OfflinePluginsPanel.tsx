@@ -75,6 +75,13 @@ export function OfflinePluginsSection(props: OfflinePluginsSectionProps) {
       setNotice({ kind: 'error', text: cause instanceof Error ? cause.message : t('unknownError') })
       return
     }
+    // A hot-reloaded client can pair with a stale Host that still runs the
+    // old synchronous export route: its response carries no jobId. Surface
+    // that instead of silently polling a route the Host does not have.
+    if (typeof started.jobId !== 'string' || started.jobId === '') {
+      setNotice({ kind: 'error', text: t('hostStale') })
+      return
+    }
     setProgress({
       jobId: started.jobId,
       packagesDone: 0,
@@ -84,12 +91,21 @@ export function OfflinePluginsSection(props: OfflinePluginsSectionProps) {
       currentPackage: started.packages[0] ?? null,
     })
     if (pollTimer.current !== undefined) clearInterval(pollTimer.current)
+    let pollFailures = 0
     pollTimer.current = setInterval(() => {
       void (async () => {
         let snapshot
         try {
           snapshot = await api.exportProgress(started.jobId)
+          pollFailures = 0
         } catch {
+          pollFailures += 1
+          if (pollFailures >= 10) {
+            if (pollTimer.current !== undefined) clearInterval(pollTimer.current)
+            pollTimer.current = undefined
+            setProgress(null)
+            setNotice({ kind: 'error', text: t('hostStale') })
+          }
           return
         }
         setProgress({

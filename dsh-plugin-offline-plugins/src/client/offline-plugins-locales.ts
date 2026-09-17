@@ -6,6 +6,7 @@ export type OfflinePluginsLocaleKey =
   | 'exportAction' | 'exporting' | 'exportDone' | 'importDone'
   | 'needsRestart' | 'loadFailed' | 'pickFailed' | 'immutableBadge'
   | 'disabledBadge' | 'exportUnresolved' | 'noPlugins' | 'unknownError'
+  | 'hostStale'
 
 export const zh: Record<OfflinePluginsLocaleKey, string> = {
   title: '离线插件管理',
@@ -28,6 +29,7 @@ export const zh: Record<OfflinePluginsLocaleKey, string> = {
   exportUnresolved: '（部分依赖未随包导出，目标机器需已具备）',
   noPlugins: '当前 Profile 没有可管理的 Profile 级插件。',
   unknownError: '操作失败。',
+  hostStale: 'Host 未加载新版离线插件接口（客户端已热更新）。请重启 法海问津 后重试。',
 }
 
 export const en: Record<OfflinePluginsLocaleKey, string> = {
@@ -51,4 +53,5 @@ export const en: Record<OfflinePluginsLocaleKey, string> = {
   exportUnresolved: ' (some dependencies were not included; the target machine must already provide them)',
   noPlugins: 'The active Profile has no manageable Profile-level plugins.',
   unknownError: 'The operation failed.',
+  hostStale: 'The Host is not running the new offline-plugins API (the client hot-reloaded). Restart 法海问津 and try again.',
 }

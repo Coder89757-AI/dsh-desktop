@@ -94,6 +94,13 @@ window.__ModuleLoader__.load({
 					});
 					return;
 				}
+				if (typeof started.jobId !== "string" || started.jobId === "") {
+					setNotice({
+						kind: "error",
+						text: t("hostStale")
+					});
+					return;
+				}
 				setProgress({
 					jobId: started.jobId,
 					packagesDone: 0,
@@ -103,12 +110,24 @@ window.__ModuleLoader__.load({
 					currentPackage: started.packages[0] ?? null
 				});
 				if (pollTimer.current !== void 0) clearInterval(pollTimer.current);
+				let pollFailures = 0;
 				pollTimer.current = setInterval(() => {
 					(async () => {
 						let snapshot;
 						try {
 							snapshot = await api.exportProgress(started.jobId);
+							pollFailures = 0;
 						} catch {
+							pollFailures += 1;
+							if (pollFailures >= 10) {
+								if (pollTimer.current !== void 0) clearInterval(pollTimer.current);
+								pollTimer.current = void 0;
+								setProgress(null);
+								setNotice({
+									kind: "error",
+									text: t("hostStale")
+								});
+							}
 							return;
 						}
 						setProgress({
@@ -322,7 +341,8 @@ window.__ModuleLoader__.load({
 			disabledBadge: "已禁用",
 			exportUnresolved: "（部分依赖未随包导出，目标机器需已具备）",
 			noPlugins: "当前 Profile 没有可管理的 Profile 级插件。",
-			unknownError: "操作失败。"
+			unknownError: "操作失败。",
+			hostStale: "Host 未加载新版离线插件接口（客户端已热更新）。请重启 法海问津 后重试。"
 		};
 		const en = {
 			title: "Offline Plugins",
@@ -344,7 +364,8 @@ window.__ModuleLoader__.load({
 			disabledBadge: "Disabled",
 			exportUnresolved: " (some dependencies were not included; the target machine must already provide them)",
 			noPlugins: "The active Profile has no manageable Profile-level plugins.",
-			unknownError: "The operation failed."
+			unknownError: "The operation failed.",
+			hostStale: "The Host is not running the new offline-plugins API (the client hot-reloaded). Restart 法海问津 and try again."
 		};
 		//#endregion
 		//#region src/client/offline-plugins-styles.ts
@@ -371,7 +392,8 @@ window.__ModuleLoader__.load({
 			".dshOfflineBtn[data-variant=\"ghost\"]:hover:not(:disabled){background:var(--dsw-alias-button-tool-bar-hover,rgba(128,128,128,.2))}",
 			".dshOfflineProgressBlock{display:flex;flex-direction:column;gap:4px}",
 			".dshOfflineProgress{height:6px;border-radius:999px;overflow:hidden;",
-			"  background:var(--dsw-alias-bg-layer-3,rgba(128,128,128,.15))}",
+			"  background:var(--dsw-alias-bg-layer-3,rgba(128,128,128,.15));",
+			"  border:1px solid var(--dsw-alias-border-l2,rgba(128,128,128,.25))}",
 			".dshOfflineProgressFill{height:100%;border-radius:999px;",
 			"  background:var(--dsw-alias-button-primary-fill,#2563eb);",
 			"  transition:width var(--ds-transition-duration,.2s) var(--ds-ease-in-out,ease)}",
