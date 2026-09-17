@@ -2,9 +2,9 @@
 
 import type { Context as ClientContext } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/dsh-client-locale/client'
+import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import type {} from '@deepseek-ai/dsh-client-ui-slots'
-import type {} from '@deepseek-ai/dsh-client-ui-sidebar/client'
-import { OfflinePluginsPanel } from './OfflinePluginsPanel.tsx'
+import { OfflinePluginsSection } from './OfflinePluginsPanel.tsx'
 import { createOfflinePluginsApi } from './offline-plugins-api.ts'
 import { en, zh, type OfflinePluginsLocaleKey } from './offline-plugins-locales.ts'
 import { installOfflinePluginsStyles } from './offline-plugins-styles.ts'
@@ -19,9 +19,10 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
   }
 }
 
-/** Register the offline-plugins entry in the sidebar footer action list slot. */
+/** Register the offline-plugins section in the settings page. */
 export function applyOfflinePlugins(ctx: ClientContext): void {
   const api = createOfflinePluginsApi()
+  const t = ctx.locale.bind(OFFLINE_PLUGINS_LOCALE_NAMESPACE)
   ctx.effect(
     () => ctx.locale.register(OFFLINE_PLUGINS_LOCALE_NAMESPACE, { zh, en }),
     'dsh-plugin-offline-plugins: dictionaries',
@@ -30,11 +31,12 @@ export function applyOfflinePlugins(ctx: ClientContext): void {
     () => installOfflinePluginsStyles(),
     'dsh-plugin-offline-plugins: styles',
   )
-  ctx.slots.inject('sidebar.footer.action', () => ctx.slots.register({
-    name: 'sidebar.footer.action',
+  ctx.slots.inject('settings.section', () => ctx.slots.register({
+    name: 'settings.section',
     id: 'offline-plugins',
-    order: 30,
+    order: 40,
+    label: () => t('title'),
     locale: OFFLINE_PLUGINS_LOCALE_NAMESPACE,
     inject: () => ({ api }),
-  }, OfflinePluginsPanel))
+  }, OfflinePluginsSection))
 }

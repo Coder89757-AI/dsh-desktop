@@ -9,5 +9,5 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
         'offline-plugins': OfflinePluginsLocaleKey;
     }
 }
-/** Register the offline-plugins entry in the sidebar footer action list slot. */
+/** Register the offline-plugins section in the settings page. */
 export declare function applyOfflinePlugins(ctx: ClientContext): void;
