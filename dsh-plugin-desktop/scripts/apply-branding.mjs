@@ -93,6 +93,9 @@ if (brandJson !== undefined) {
   if (typeof brandJson.windowTitle === 'string' && brandJson.windowTitle.trim() !== '') {
     projection.windowTitle = brandJson.windowTitle.trim()
   }
+  if (typeof brandJson.productName === 'string' && brandJson.productName.trim() !== '') {
+    projection.productName = brandJson.productName.trim()
+  }
   writeFileSync(join(buildDir, 'branding.json'), JSON.stringify(projection, null, 2) + '\n')
   console.log(`apply-branding: wrote build/branding.json (${JSON.stringify(projection)})`)
 }
