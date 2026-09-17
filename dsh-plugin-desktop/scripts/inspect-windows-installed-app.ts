@@ -1,8 +1,9 @@
 /** Inspect an installed Windows app without launching it. */
 
 import { closeSync, existsSync, lstatSync, openSync, readSync } from 'node:fs'
-import { join, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { expectedProductName } from './branding-overrides.ts'
 import { extractFile, listPackage } from '@electron/asar'
 import {
   identifyWindowsNsisAbFile,
@@ -46,8 +47,9 @@ export function inspectInstalledWindowsApp(
 ): InstalledWindowsAppInspection {
   const root = resolve(installRoot)
   const normalizedIgnoredPaths = ignoreRelativePaths.map(normalizeWindowsNsisAbRelativePath)
+  const desktopRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
   const resourcesPath = join(root, 'resources')
-  const executablePath = join(root, 'DSH Desktop.exe')
+  const executablePath = join(root, `${expectedProductName(desktopRoot)}.exe`)
   const asarPath = join(resourcesPath, 'app.asar')
   const unpackedPath = join(resourcesPath, 'app.asar.unpacked')
   const errors: string[] = []

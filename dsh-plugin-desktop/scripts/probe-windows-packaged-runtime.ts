@@ -1,8 +1,9 @@
 /** Run the production packaged-runtime gate against an installed Windows app. */
 
 import { existsSync } from 'node:fs'
-import { join, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { expectedProductName } from './branding-overrides.ts'
 import {
   smokePackagedElectronRuntime,
   type PackagedElectronSmoke,
@@ -31,7 +32,9 @@ export function probeInstalledWindowsRuntime(
   platform: NodeJS.Platform = process.platform,
 ): InstalledWindowsRuntimeProbe {
   const root = resolve(installRoot)
-  const executable = join(root, 'DSH Desktop.exe')
+  const desktopRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+  const productName = expectedProductName(desktopRoot)
+  const executable = join(root, `${productName}.exe`)
   try {
     if (platform !== 'win32') {
       throw new Error('installed Windows runtime probe requires a native Windows host')
@@ -42,8 +45,8 @@ export function probeInstalledWindowsRuntime(
       electronPlatformName: 'win32',
       arch: 1,
       packager: {
-        executableName: 'DSH Desktop',
-        appInfo: { productFilename: 'DSH Desktop' },
+        executableName: productName,
+        appInfo: { productFilename: productName },
       },
     })
     return { installRoot: root, executable, success: true, error: null }
