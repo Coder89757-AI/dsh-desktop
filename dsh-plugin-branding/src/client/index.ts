@@ -34,7 +34,7 @@ export function apply(ctx: ClientContext): void {
     }
     slots: {
       inject: (key: string, callback: () => (() => void) | Iterable<() => void>) => () => void
-      register: (options: { name: string }, component: unknown) => () => void
+      register: (options: { name: string; priority?: number }, component: unknown) => () => void
     }
   }
   const locale = runtime.locale
@@ -81,7 +81,11 @@ export function apply(ctx: ClientContext): void {
     const attempt = (): void => {
       attemptCount += 1
       try {
-        slots.register({ name: slotName }, component)
+        // priority -1 shadows the official brand plugin's registration: the
+        // slot is single-occupancy per priority and dsh-client-ui-brand-official
+        // registers its whale + wordmark at the default priority 0, and the
+        // registry renders the lowest-priority entry.
+        slots.register({ name: slotName, priority: -1 }, component)
         if (!logged) {
           logged = true
           const count = (slots as { entriesOfSlot?: (k: string) => unknown[] }).entriesOfSlot?.(slotName)?.length
