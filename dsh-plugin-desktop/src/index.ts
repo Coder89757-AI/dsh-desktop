@@ -210,8 +210,10 @@ export function desktopRendererUrl(
 /** Display-name projection from the local branding files written by
  * scripts/apply-branding.mjs; falls back to the shipped identity. The data
  * directories keep using DESKTOP_PRODUCT_NAME — this only affects visible
- * surfaces (window title, tray tooltip, tray menu). */
-function brandingDisplay(field: 'windowTitle' | 'productName', fallback: string): string {
+ * surfaces (window title, tray tooltip, tray menu). displayName carries the
+ * localized runtime-visible brand and falls back to the packaging
+ * productName when the brand omits it. */
+function brandingDisplay(field: 'windowTitle' | 'productName' | 'displayName', fallback: string): string {
   try {
     const raw = JSON.parse(
       readFileSync(fileURLToPath(new URL('../build/branding.json', import.meta.url)), 'utf8'),
@@ -495,7 +497,7 @@ export function apply(ctx: Context, config: Config): void {
         url,
         authenticationUrl: ctx.connection.authenticatedUrl(new URL(url).origin),
         rendererAccessHeader: browserAccess.rendererHeader,
-        productName: brandingDisplay('productName', DESKTOP_PRODUCT_NAME),
+        productName: brandingDisplay('displayName', brandingDisplay('productName', DESKTOP_PRODUCT_NAME)),
         windowTitle: brandingDisplay('windowTitle', 'DeepSeek Harness Desktop'),
         iconPath,
         trayIcons,

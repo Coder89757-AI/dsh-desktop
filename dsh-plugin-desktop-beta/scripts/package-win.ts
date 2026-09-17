@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { brandingConfigArgs } from './branding-overrides.ts'
 import { prepareFsExtForElectron } from './prepare-fs-ext.ts'
 import { electronBuilderEnvironment } from './electron-builder-environment.ts'
 
@@ -160,6 +161,7 @@ export function packageWindowsArtifact(
       '--x64',
       '--publish',
       'never',
+      ...brandingConfigArgs(options.desktopRoot),
       '--config.win.signExecutable=false',
       '--config.npmRebuild=false',
       '--config.electronFuses.onlyLoadAppFromAsar=false',

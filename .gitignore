@@ -18,6 +18,8 @@ dsh-community-market/lib/
 
 # Local brand overrides consumed by scripts/apply-branding.mjs (never committed)
 /branding/
+dsh-plugin-desktop/branding/
+dsh-plugin-desktop-beta/branding/
 dsh-plugin-desktop/build/branding.json
 dsh-plugin-desktop-beta/build/branding.json
 

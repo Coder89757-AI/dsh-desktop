@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { brandingConfigArgs } from './branding-overrides.ts'
 import { electronBuilderEnvironment } from './electron-builder-environment.ts'
 import { withoutWindowsSigningSecrets } from './package-win.ts'
 import { withoutMacReleaseSecrets } from './release-preflight.ts'
@@ -57,6 +58,7 @@ export function packageDirectory(options = {}) {
     [
       electronBuilderCli,
       ...UNSIGNED_DIRECTORY_BUILD_ARGS,
+      ...brandingConfigArgs(packageRoot),
       `--config.electronDist=${configuredElectronDist}`,
     ],
     {

@@ -15,10 +15,10 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 /** Shipped product identity used when no local brand is configured. */
-export const DEFAULT_PRODUCT_NAME = 'DSH Desktop'
+export const DEFAULT_PRODUCT_NAME = 'DSH Desktop Beta'
 
 /** Shipped artifact stem used when no local brand is configured. */
-export const DEFAULT_ARTIFACT_STEM = 'DSH-Desktop'
+export const DEFAULT_ARTIFACT_STEM = 'DSH-Desktop-Beta'
 
 /** Characters Windows forbids in file names, stripped from artifact names. */
 const FORBIDDEN_NAME_CHARACTERS = ['\\', '/', ':', '*', '?', '"', '<', '>', '|'] as const

@@ -7,7 +7,8 @@
  *                            exact spec generate-windows-app-icon validates)
  *   branding/app-icon.svg  → build/tray-icon.svg (paths wrapped with the fixed
  *                            brand blue so loadSmallFrameArtwork keeps passing)
- *   branding/brand.json    → build/branding.json (windowTitle and friends)
+ *   branding/brand.json    → build/branding.json (productName, displayName,
+ *                            windowTitle; see the field notes below)
  *
  * Without a branding directory this script is a no-op and the shipped assets
  * build exactly as before. Run order: this script precedes generate-*-icons.
@@ -89,12 +90,20 @@ if (appIconSvg !== undefined) {
 }
 
 if (brandJson !== undefined) {
+  // productName is the packaging identity (exe, shortcuts, install dir,
+  // artifact names) — keep it ASCII/file-system-safe, e.g. "LexFord".
+  // displayName is the runtime-visible brand (tray tooltip, application
+  // menu) and may carry a localized name, e.g. "法海问津"; it falls back to
+  // productName when omitted. windowTitle names the shell window.
   const projection = {}
   if (typeof brandJson.windowTitle === 'string' && brandJson.windowTitle.trim() !== '') {
     projection.windowTitle = brandJson.windowTitle.trim()
   }
   if (typeof brandJson.productName === 'string' && brandJson.productName.trim() !== '') {
     projection.productName = brandJson.productName.trim()
+  }
+  if (typeof brandJson.displayName === 'string' && brandJson.displayName.trim() !== '') {
+    projection.displayName = brandJson.displayName.trim()
   }
   writeFileSync(join(buildDir, 'branding.json'), JSON.stringify(projection, null, 2) + '\n')
   console.log(`apply-branding: wrote build/branding.json (${JSON.stringify(projection)})`)
