@@ -1,0 +1,113 @@
+/** Shared HTTP plumbing for the offline-plugins routes: JSON finishing and
+ * the same loopback same-origin guard the Desktop settings routes use. */
+
+import type { IncomingMessage, ServerResponse } from 'node:http'
+
+const MAX_BODY_BYTES = 16 * 1024
+
+export function finishJson(
+  res: ServerResponse,
+  statusCode: number,
+  value: object,
+  allow?: 'GET' | 'POST',
+): void {
+  res.statusCode = statusCode
+  res.setHeader('cache-control', 'no-store')
+  res.setHeader('content-type', 'application/json; charset=utf-8')
+  res.setHeader('x-content-type-options', 'nosniff')
+  if (allow !== undefined) res.setHeader('allow', allow)
+  res.end(JSON.stringify(value))
+}
+
+function isLoopbackAddress(address: string | undefined): boolean {
+  if (address === undefined) return false
+  if (address === '::1' || address === '127.0.0.1') return true
+  if (address.startsWith('::ffff:')) {
+    const mapped = address.slice('::ffff:'.length)
+    return mapped.startsWith('127.')
+  }
+  return address.startsWith('127.')
+}
+
+function expectedLoopbackOrigin(expectedOrigin: string): URL | undefined {
+  try {
+    const url = new URL(expectedOrigin)
+    if (url.origin !== expectedOrigin || url.protocol !== 'http:'
+      || url.username !== '' || url.password !== ''
+      || (url.hostname !== '127.0.0.1' && url.hostname !== '[::1]')) return undefined
+    return url
+  } catch {
+    return undefined
+  }
+}
+
+function exactHeaderOrigin(value: string | undefined): string | undefined {
+  if (value === undefined) return undefined
+  try {
+    const url = new URL(value)
+    return url.origin === value ? value : undefined
+  } catch {
+    return undefined
+  }
+}
+
+function referrerOrigin(value: string | undefined): string | undefined {
+  if (value === undefined) return undefined
+  try {
+    return new URL(value).origin
+  } catch {
+    return undefined
+  }
+}
+
+/**
+ * Same guard as the Desktop settings routes: the actual socket and Host stay
+ * on the configured loopback origin. A mutating request must carry the exact
+ * Origin header; a read-only GET may fall back to same-site fetch metadata
+ * plus its same-origin referrer, because browsers commonly omit Origin on
+ * same-origin GET requests.
+ */
+export function isSameOriginLoopbackRequest(
+  req: IncomingMessage,
+  expectedOrigin: string,
+  mutating: boolean,
+): boolean {
+  const expected = expectedLoopbackOrigin(expectedOrigin)
+  if (expected === undefined || !isLoopbackAddress(req.socket.remoteAddress)) return false
+  if (req.headers.host?.toLowerCase() !== expected.host.toLowerCase()) return false
+  if (exactHeaderOrigin(req.headers.origin) === expected.origin) {
+    return req.headers['sec-fetch-site'] === undefined || req.headers['sec-fetch-site'] === 'same-origin'
+  }
+  if (mutating) return false
+  return req.headers['sec-fetch-site'] === 'same-origin'
+    && referrerOrigin(req.headers.referer) === expected.origin
+}
+
+export async function readJsonPost(req: IncomingMessage, res: ServerResponse): Promise<unknown> {
+  if (req.headers['content-type']?.split(';', 1)[0]?.trim().toLowerCase() !== 'application/json') {
+    finishJson(res, 415, { error: 'expected application/json' })
+    throw new Error('invalid content type')
+  }
+  const declaredLength = req.headers['content-length']
+  if (declaredLength !== undefined && !/^\d+$/.test(declaredLength)) {
+    finishJson(res, 400, { error: 'invalid content length' })
+    throw new Error('invalid content length')
+  }
+  let size = 0
+  const chunks: Buffer[] = []
+  for await (const chunk of req) {
+    const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk as Uint8Array)
+    size += buffer.byteLength
+    if (size > MAX_BODY_BYTES) {
+      finishJson(res, 413, { error: 'request body too large' })
+      throw new Error('request body too large')
+    }
+    chunks.push(buffer)
+  }
+  try {
+    return JSON.parse(Buffer.concat(chunks).toString('utf8')) as unknown
+  } catch {
+    finishJson(res, 400, { error: 'invalid JSON body' })
+    throw new Error('invalid JSON body')
+  }
+}
