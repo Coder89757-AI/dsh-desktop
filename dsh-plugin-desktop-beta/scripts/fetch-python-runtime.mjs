@@ -87,8 +87,26 @@ function tarPath(path) {
   return path.replaceAll('\\', '/')
 }
 
+/** Drive-letter flag understood by GNU tar only; probed once and cached. */
+let tarDriveFlag
+
+/**
+ * GNU tar parses a `D:/...` operand as a remote host spec and needs
+ * `--force-local` to read it as a path. bsdtar — the `tar.exe` that ships with
+ * Windows — has no remote syntax at all and rejects the flag outright, so
+ * passing it unconditionally breaks every Windows host without a GNU tar on
+ * PATH. Probe once and hand the flag only to the implementation that wants it.
+ */
+function tarArgs() {
+  if (tarDriveFlag === undefined) {
+    const probe = spawnSync('tar', ['--force-local', '--version'], { stdio: 'ignore' })
+    tarDriveFlag = probe.status === 0 ? ['--force-local'] : []
+  }
+  return tarDriveFlag
+}
+
 function extractArchive(archive, destination) {
-  const result = spawnSync('tar', ['--force-local', '-xf', tarPath(archive), '-C', tarPath(destination)], { stdio: 'pipe' })
+  const result = spawnSync('tar', [...tarArgs(), '-xf', tarPath(archive), '-C', tarPath(destination)], { stdio: 'pipe' })
   if (result.error !== undefined) throw result.error
   if (result.status !== 0) {
     fail(`cannot extract ${archive} (${String(result.status)}): ${result.stderr?.toString() ?? ''}`)
@@ -148,7 +166,7 @@ function connectorArchive() {
 
 /** Read one file from a tar archive without extracting it to disk. */
 function readTarEntry(archive, entry) {
-  const result = spawnSync('tar', ['--force-local', '-xOf', tarPath(archive), entry], {
+  const result = spawnSync('tar', [...tarArgs(), '-xOf', tarPath(archive), entry], {
     stdio: ['ignore', 'pipe', 'pipe'],
     maxBuffer: 16 * 1024 * 1024,
   })
