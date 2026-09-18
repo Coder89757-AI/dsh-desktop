@@ -566,6 +566,8 @@ export class ElectronShellGeneration {
       if (isolated) renderer.focus()
       tray = new Tray(prepareTrayIcon(spec.trayIcons, platform.platform))
       this.tray = tray
+      // spec.productName is the brandingDisplay() projection of the local
+      // branding files — the visible name, not the electron-builder identity.
       tray.setToolTip(spec.productName)
       this.refreshTrayMenu()
       tray.on('click', show)

@@ -5,9 +5,29 @@ const root = resolve(import.meta.dirname, '..')
 const stableRoot = join(root, 'dsh-plugin-desktop', 'src')
 const betaRoot = join(root, 'dsh-plugin-desktop-beta', 'src')
 // Both editions share behavior. Only release identity and launcher wording differ.
-const betaOnlyPaths = new Set([])
-const allowedDifferences = new Set(['product-identity.ts'])
-const normalizeIdentity = source => source.toString().replaceAll('dsh-plugin-desktop-beta', 'dsh-plugin-desktop').replaceAll('DSH Desktop Beta', 'DSH Desktop')
+// The beta edition bundles an offline Python runtime that the stable edition
+// does not ship, so this module exists only there by design.
+const betaOnlyPaths = new Set(['desktop-python-runtime.ts'])
+// Files that legitimately differ between the editions, each with the reason it
+// is allowed to. This map is the declaration the drift check asks for — adding
+// an entry is a decision to record, not a way to silence the check.
+const allowedDifferences = new Map([
+  ['product-identity.ts', 'the edition identity itself'],
+  ['main.ts', 'the beta edition installs its offline Python runtime during startup'],
+  ['electron-runtime.ts', 'the beta edition keeps the full tray menu; the stable edition ships Quit only'],
+])
+// Both editions ship the same product under a different display brand: the
+// stable edition carries the localized one, the beta edition the upstream one.
+// Folding the localized name onto the upstream one keeps this check about
+// behavior drift instead of about which label a user-facing string happens to
+// use, and it is the same trade the two rewrites above already make.
+const normalizeIdentity = source => source.toString()
+  .replaceAll('dsh-plugin-desktop-beta', 'dsh-plugin-desktop')
+  // Localized brand first, then the Beta suffix: the stable edition writes
+  // "法海问津 Beta" where the beta edition writes "DSH Desktop Beta", so
+  // collapsing the brand before the suffix is what lands both on one string.
+  .replaceAll('法海问津', 'DSH Desktop')
+  .replaceAll('DSH Desktop Beta', 'DSH Desktop')
 
 function files(directory, base = directory) {
   const result = []
