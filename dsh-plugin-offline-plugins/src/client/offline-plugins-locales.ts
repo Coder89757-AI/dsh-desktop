@@ -3,10 +3,10 @@
 export type OfflinePluginsLocaleKey =
   | 'title' | 'railTitle' | 'intro' | 'close'
   | 'installedHeading' | 'importHeading' | 'importAction' | 'importing'
-  | 'exportAction' | 'exporting' | 'exportDone' | 'importDone'
-  | 'needsRestart' | 'loadFailed' | 'pickFailed' | 'immutableBadge'
+  | 'exportAction' | 'exporting' | 'exportScanning' | 'exportDone' | 'importDone'
+  | 'needsRestart' | 'loading' | 'loadFailed' | 'pickFailed' | 'immutableBadge'
   | 'disabledBadge' | 'exportUnresolved' | 'noPlugins' | 'unknownError'
-  | 'hostStale'
+  | 'hostStale' | 'importScoped'
 
 export const zh: Record<OfflinePluginsLocaleKey, string> = {
   title: '离线插件管理',
@@ -19,9 +19,12 @@ export const zh: Record<OfflinePluginsLocaleKey, string> = {
   importing: '导入中',
   exportAction: '导出',
   exporting: '导出中',
+  exportScanning: '正在扫描依赖…',
   exportDone: '导出完成',
   importDone: '导入完成',
+  importScoped: '（{n} 个依赖因版本不同已放入该插件的私有依赖目录）',
   needsRestart: '重启 法海问津 后新插件生效。',
+  loading: '正在读取插件清单…',
   loadFailed: '无法读取插件清单。',
   pickFailed: '无法打开系统目录选择器。',
   immutableBadge: '内置',
@@ -43,9 +46,12 @@ export const en: Record<OfflinePluginsLocaleKey, string> = {
   importing: 'Importing…',
   exportAction: 'Export',
   exporting: 'Exporting…',
+  exportScanning: 'Scanning dependencies…',
   exportDone: 'Export complete',
   importDone: 'Import complete',
+  importScoped: ' ({n} dependencies with conflicting versions were placed in this plugin\'s private dependency directory)',
   needsRestart: 'Restart 法海问津 to load newly imported plugins.',
+  loading: 'Loading the plugin inventory…',
   loadFailed: 'The plugin inventory could not be read.',
   pickFailed: 'The system folder picker could not be opened.',
   immutableBadge: 'Built-in',
