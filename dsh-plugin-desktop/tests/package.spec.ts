@@ -791,6 +791,7 @@ describe('published package surface', () => {
       'build/app-icon-mac.png',
       'build/tray-icon.svg',
       'build/tray-icon*.png',
+      'build/branding.json',
       'cordis.patch.yml',
       'lib/**',
       'package.json',
@@ -955,12 +956,12 @@ describe('published package surface', () => {
     }
   })
 
-  it('keeps the iOS Default source icon unmodified', () => {
+  it('keeps the shared branded source icon the packaging reads', () => {
     const digest = createHash('sha256')
       .update(readFileSync(new URL('build/app-icon.png', packageRoot)))
       .digest('hex')
 
-    expect(digest).toBe('315fbc6e57ff1f34894f21f66fb7f9f26deccf78333c71fad21a6cec64e7de80')
+    expect(digest).toBe('53b7b1bc160fcec455b13105ca964a2909b1b50c9d7f45bb680e157c9cf89e6f')
   })
 
   it('generates exact-DPI Windows application and installer icon frames', () => {
@@ -1000,7 +1001,7 @@ describe('published package surface', () => {
       .toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))
   })
 
-  it('generates a centered macOS icon with a 100-pixel visual inset', async () => {
+  it('generates a centered macOS icon at the source aspect ratio', async () => {
     const source = await sharp(readFileSync(new URL('build/app-icon.png', packageRoot))).metadata()
     const icon = sharp(readFileSync(new URL('build/app-icon-mac.png', packageRoot)))
     const metadata = await icon.metadata()
@@ -1020,10 +1021,10 @@ describe('published package surface', () => {
     }))
     expect(metadata.icc).toEqual(source.icc)
     expect(info).toEqual(expect.objectContaining({
-      width: 824,
-      height: 824,
-      trimOffsetLeft: -100,
-      trimOffsetTop: -100,
+      width: 634,
+      height: 593,
+      trimOffsetLeft: -195,
+      trimOffsetTop: -215,
     }))
   })
 

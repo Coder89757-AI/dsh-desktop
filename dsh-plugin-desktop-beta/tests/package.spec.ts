@@ -107,7 +107,9 @@ describe('published package surface', () => {
     expect(productIdentity).toContain('DESKTOP_PRODUCT_IDENTITY = DESKTOP_RELEASE_IDENTITIES.beta')
     expect(productIdentity).toContain('OTHER_DESKTOP_PRODUCT_IDENTITY = DESKTOP_RELEASE_IDENTITIES.stable')
     expect(main).toContain('app.setAppUserModelId(DESKTOP_APP_ID)')
-    const setName = main.indexOf('app.setName(PRODUCT_NAME)')
+    const setName = main.indexOf(
+      'app.setName(brandedUserDataDirectoryName(DESKTOP_PRODUCT_IDENTITY))',
+    )
     const start = main.indexOf('await start()', setName)
     const lock = main.indexOf('app.requestSingleInstanceLock()')
     expect(setName).toBeGreaterThanOrEqual(0)
@@ -874,6 +876,7 @@ describe('published package surface', () => {
       'build/app-icon-mac.png',
       'build/tray-icon.svg',
       'build/tray-icon*.png',
+      'build/branding.json',
       'cordis.patch.yml',
       'lib/**',
       'package.json',
@@ -1047,15 +1050,15 @@ describe('published package surface', () => {
     }
   })
 
-  it('keeps the fixed inverted Beta source icon', () => {
+  it('keeps the shared branded source icon the packaging reads', () => {
     const digest = createHash('sha256')
       .update(readFileSync(new URL('build/app-icon.png', packageRoot)))
       .digest('hex')
 
-    expect(digest).toBe('b661d0982f47b5a35a7e8c3524a7aa6a18e044eb64d2e480e01875b82dd2be7f')
+    expect(digest).toBe('53b7b1bc160fcec455b13105ca964a2909b1b50c9d7f45bb680e157c9cf89e6f')
   })
 
-  it('generates a centered macOS icon with a 100-pixel visual inset', async () => {
+  it('generates a centered macOS icon at the source aspect ratio', async () => {
     const source = await sharp(readFileSync(new URL('build/app-icon.png', packageRoot))).metadata()
     const icon = sharp(readFileSync(new URL('build/app-icon-mac.png', packageRoot)))
     const metadata = await icon.metadata()
@@ -1075,10 +1078,10 @@ describe('published package surface', () => {
     }))
     expect(metadata.icc).toEqual(source.icc)
     expect(info).toEqual(expect.objectContaining({
-      width: 824,
-      height: 824,
-      trimOffsetLeft: -100,
-      trimOffsetTop: -100,
+      width: 634,
+      height: 593,
+      trimOffsetLeft: -195,
+      trimOffsetTop: -215,
     }))
   })
 
