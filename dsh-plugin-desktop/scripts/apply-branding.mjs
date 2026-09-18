@@ -1,7 +1,8 @@
 /** Apply optional local branding before the icon generation chain runs.
  *
- * Reads `branding/` (package-local first, then repository root; both are
- * gitignored) and, when a source exists, overwrites the tracked build sources:
+ * Reads `branding/` (package-local if that directory exists, otherwise the
+ * repository root; both are gitignored) and, when a source exists, overwrites
+ * the tracked build sources:
  *
  *   branding/app-icon.svg  → build/app-icon.png  (1024×1024 RGBA16 + ICC, the
  *                            exact spec generate-windows-app-icon validates)
@@ -23,12 +24,19 @@ const packageRoot = dirname(dirname(fileURLToPath(import.meta.url)))
 const repoRoot = dirname(packageRoot)
 const buildDir = join(packageRoot, 'build')
 
-/** Locate one branding source file: package-local branding/ wins over root. */
+/** Resolve the branding root: a package-local `branding/` directory is
+ * exclusive — when it exists, only it is consulted, so a repository-root
+ * fallback can never overwrite this package's shipped icon assets with
+ * unrelated local artwork. */
+function brandingRoot() {
+  const local = join(packageRoot, 'branding')
+  return existsSync(local) ? local : join(repoRoot, 'branding')
+}
+
+/** Locate one branding source file below the resolved branding root. */
 function brandingPath(name) {
-  for (const base of [join(packageRoot, 'branding'), join(repoRoot, 'branding')]) {
-    const candidate = join(base, name)
-    if (existsSync(candidate)) return candidate
-  }
+  const candidate = join(brandingRoot(), name)
+  if (existsSync(candidate)) return candidate
   return undefined
 }
 
