@@ -2,9 +2,14 @@
  *
  * An export directory carries the plugin package plus its whole transitive
  * dependency closure (dereferenced real directories, deduplicated by package
- * name) and a manifest. Import validates the manifest, copies packages into
- * the active Profile's node_modules, and registers the plugin in
- * `dsh.profile.bundles` atomically. No registry or network is involved. */
+ * name) and a manifest that also records, per dependency, the semver ranges
+ * its in-tree dependents declared. Import validates the manifest and copies
+ * packages into the active Profile with layered Node resolution: an installed
+ * top-level version is reused when it satisfies the export's declared ranges,
+ * and only genuinely conflicting dependencies are placed under the plugin's
+ * private nested node_modules so multiple major versions can coexist.
+ * Finally the plugin is registered in `dsh.profile.bundles` atomically. No
+ * registry or network is involved. */
 import { type OfflinePluginsExportProgressResponse, type OfflinePluginsExportStartResponse, type OfflinePluginsImportResponse } from './contract.ts';
 export declare class OfflinePluginTransferError extends Error {
     readonly code: 'invalid-path' | 'immutable' | 'not-installed' | 'conflict' | 'invalid-manifest' | 'io';

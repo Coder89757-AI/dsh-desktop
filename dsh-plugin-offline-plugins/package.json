@@ -109,12 +109,14 @@
     "@deepseek-ai/dsh-util-workspace-path": "0.1.5-rc.2",
     "@deepseek-ai/dsh-workspace": "0.1.5-rc.2",
     "@deepseek-ai/schemastery": "^3.18.2",
-    "lucide-react": "^1.33.0"
+    "lucide-react": "^1.33.0",
+    "semver": "^7.7.0"
   },
   "devDependencies": {
     "@types/node": "^22.20.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/semver": "^7.7.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "tsdown": "0.22.2",

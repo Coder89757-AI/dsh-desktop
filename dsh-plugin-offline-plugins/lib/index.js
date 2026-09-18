@@ -2,11 +2,15 @@ import { createRequire } from "node:module";
 import { cpSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
+import { satisfies, valid } from "semver";
 import { withFileLock, writeFileAtomic } from "@deepseek-ai/dsh-atomic-write";
 //#region src/offline/inventory.ts
 /** Profile plugin inventory: manifest bundles resolved against the Profile's
 * node_modules, including package versions and the dependency closure used by
 * exports. */
+/** Build-time-only dependencies that never need to travel with an export:
+* they are consumed when compiling native addons, not at plugin load time. */
+const EXPORT_EXCLUDED_PACKAGES = /* @__PURE__ */ new Set(["node-addon-api"]);
 /** Bundles that ship with the application itself and are never exportable. */
 const IMMUTABLE_BUNDLE_NAMES = /* @__PURE__ */ new Set([
 	"@deepseek-ai/dsh-base",
@@ -48,14 +52,18 @@ function installedPackageDir(profileDir, name) {
 		return;
 	}
 }
-/** Dependency names a package declares for ordinary installation. */
+/** Dependencies a package declares for ordinary installation, with the semver
+* range each declaration carries (non-string ranges degrade to `*`). */
 function declaredDependencies(document) {
-	const names = [];
+	const entries = [];
 	for (const field of ["dependencies", "optionalDependencies"]) {
 		const value = document[field];
-		if (value !== null && typeof value === "object" && !Array.isArray(value)) for (const name of Object.keys(value)) names.push(name);
+		if (value !== null && typeof value === "object" && !Array.isArray(value)) for (const [name, range] of Object.entries(value)) entries.push({
+			name,
+			range: typeof range === "string" ? range : "*"
+		});
 	}
-	return names;
+	return entries;
 }
 /** Walk node_modules ancestors manually (handles ESM-only packages whose
 * `exports` map blocks `require.resolve`). */
@@ -92,30 +100,45 @@ function resolveDependencyRoot(dependencyName, fromDir) {
 	} catch {}
 	return probeNodeModules(dependencyName, fromDir);
 }
-/** Depth-first dependency closure of one installed package, keyed by name. */
+/** Depth-first dependency closure of one installed package, keyed by name.
+* `requirements` collects, per dependency, every semver range its in-tree
+* dependents declared — import uses it to decide whether an already-installed
+* top-level version can be reused instead of copied. */
 function dependencyClosure(profileDir, rootName) {
 	const packages = /* @__PURE__ */ new Map();
+	const requirements = /* @__PURE__ */ new Map();
+	const excluded = /* @__PURE__ */ new Set();
 	const unresolved = /* @__PURE__ */ new Set();
-	const visit = (name, fromDir) => {
+	const visit = (name, range, fromDir) => {
 		const root = resolveDependencyRoot(name, fromDir) ?? resolveDependencyRoot(name, profileDir);
 		if (root === void 0) {
 			unresolved.add(name);
+			return;
+		}
+		const ranges = requirements.get(name);
+		if (ranges === void 0) requirements.set(name, [range]);
+		else if (!ranges.includes(range)) ranges.push(range);
+		if (EXPORT_EXCLUDED_PACKAGES.has(name)) {
+			excluded.add(name);
 			return;
 		}
 		if (packages.get(name) !== void 0) return;
 		packages.set(name, root);
 		const document = readPackageDocument(root);
 		if (document === void 0) return;
-		for (const dependencyName of declaredDependencies(document)) {
-			if (dependencyName === name) continue;
-			if (!isValidPackageName(dependencyName)) continue;
-			visit(dependencyName, root);
+		for (const dependency of declaredDependencies(document)) {
+			if (dependency.name === name) continue;
+			if (!isValidPackageName(dependency.name)) continue;
+			visit(dependency.name, dependency.range, root);
 		}
 	};
-	visit(rootName, profileDir);
+	visit(rootName, "*", profileDir);
 	packages.delete(rootName);
+	requirements.delete(rootName);
 	return {
 		packages,
+		requirements,
+		excluded: [...excluded],
 		unresolved: [...unresolved]
 	};
 }
@@ -148,6 +171,8 @@ const OFFLINE_PLUGINS_EXPORT_PATH = "/_dsh/offline-plugins/export";
 const OFFLINE_PLUGINS_EXPORT_PROGRESS_PATH = "/_dsh/offline-plugins/export/progress";
 /** Same-origin route importing one export directory into the active Profile. */
 const OFFLINE_PLUGINS_IMPORT_PATH = "/_dsh/offline-plugins/import";
+/** Export manifest versions this build can import. */
+const IMPORTABLE_FORMAT_VERSIONS = [1, 2];
 /** Marker written into every export manifest. */
 const EXPORT_MANIFEST_KIND = "dsh-offline-plugins-export";
 //#endregion
@@ -156,9 +181,14 @@ const EXPORT_MANIFEST_KIND = "dsh-offline-plugins-export";
 *
 * An export directory carries the plugin package plus its whole transitive
 * dependency closure (dereferenced real directories, deduplicated by package
-* name) and a manifest. Import validates the manifest, copies packages into
-* the active Profile's node_modules, and registers the plugin in
-* `dsh.profile.bundles` atomically. No registry or network is involved. */
+* name) and a manifest that also records, per dependency, the semver ranges
+* its in-tree dependents declared. Import validates the manifest and copies
+* packages into the active Profile with layered Node resolution: an installed
+* top-level version is reused when it satisfies the export's declared ranges,
+* and only genuinely conflicting dependencies are placed under the plugin's
+* private nested node_modules so multiple major versions can coexist.
+* Finally the plugin is registered in `dsh.profile.bundles` atomically. No
+* registry or network is involved. */
 /** Finished export jobs are pruned after this long. */
 const EXPORT_JOB_TTL_MS = 1800 * 1e3;
 const MAX_PATH_BYTES = 32 * 1024;
@@ -247,11 +277,13 @@ function startExportJob(profileDir, packageName, destinationDir) {
 	const queue = [{
 		name: packageName,
 		sourceDir: pluginDir,
-		bytes: 0
+		bytes: 0,
+		requirements: []
 	}, ...[...closure.packages].map(([name, sourceDir]) => ({
 		name,
 		sourceDir,
-		bytes: 0
+		bytes: 0,
+		requirements: closure.requirements.get(name) ?? []
 	}))];
 	for (const entry of queue) entry.bytes = directoryBytes(entry.sourceDir);
 	const bytesTotal = queue.reduce((total, entry) => total + entry.bytes, 0);
@@ -270,6 +302,7 @@ function startExportJob(profileDir, packageName, destinationDir) {
 		queue,
 		bytesTotal,
 		unresolved: closure.unresolved,
+		excluded: closure.excluded,
 		pluginName: packageName,
 		pluginVersion,
 		bytesDone: 0,
@@ -304,7 +337,8 @@ async function runExportJob(job) {
 			}
 			job.exported.push({
 				name: entry.name,
-				version: packageVersionOf(target)
+				version: packageVersionOf(target),
+				requirements: entry.requirements
 			});
 			job.bytesDone += entry.bytes;
 			job.packagesDone += 1;
@@ -312,13 +346,14 @@ async function runExportJob(job) {
 		}
 		const exportManifest = {
 			kind: EXPORT_MANIFEST_KIND,
-			formatVersion: 1,
+			formatVersion: 2,
 			exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
 			plugin: {
 				name: job.pluginName,
 				version: job.pluginVersion
 			},
 			packages: job.exported,
+			excluded: job.excluded,
 			unresolved: job.unresolved
 		};
 		writeFileSync(join(job.exportRoot, "manifest.json"), `${JSON.stringify(exportManifest, void 0, 2)}\n`, { flag: "wx" });
@@ -401,28 +436,57 @@ async function importProfilePlugin(profileDir, sourceDir) {
 		if (cause instanceof OfflinePluginTransferError) throw cause;
 		throw new OfflinePluginTransferError("invalid-manifest", `manifest.json is not readable: ${cause instanceof Error ? cause.message : String(cause)}`);
 	}
-	if (manifest.kind !== "dsh-offline-plugins-export" || manifest.formatVersion !== 1 || manifest.plugin === null || typeof manifest.plugin !== "object" || typeof manifest.plugin.name !== "string" || !isValidPackageName(manifest.plugin.name) || !Array.isArray(manifest.packages)) throw new OfflinePluginTransferError("invalid-manifest", "manifest is not a supported offline-plugins export");
+	if (manifest.kind !== "dsh-offline-plugins-export" || !IMPORTABLE_FORMAT_VERSIONS.includes(manifest.formatVersion) || manifest.plugin === null || typeof manifest.plugin !== "object" || typeof manifest.plugin.name !== "string" || !isValidPackageName(manifest.plugin.name) || !Array.isArray(manifest.packages)) throw new OfflinePluginTransferError("invalid-manifest", "manifest is not a supported offline-plugins export");
 	const packageName = manifest.plugin.name;
 	const packagesRoot = realpathSync(join(source, "packages"));
 	for (const entry of manifest.packages) {
 		if (entry === null || typeof entry !== "object" || typeof entry.name !== "string" || !isValidPackageName(entry.name)) throw new OfflinePluginTransferError("invalid-manifest", "manifest package entry is invalid");
+		if (entry.requirements !== void 0 && (!Array.isArray(entry.requirements) || !entry.requirements.every((range) => typeof range === "string"))) throw new OfflinePluginTransferError("invalid-manifest", `manifest requirements for ${entry.name} are invalid`);
 		assertRealDirectory(`package ${entry.name}`, join(packagesRoot, ...entry.name.split("/")));
 	}
 	const nodeModules = join(profileDir, "node_modules");
 	if (!existsSync(nodeModules)) mkdirSync(nodeModules, { recursive: true });
+	const pluginScopeNodeModules = join(nodeModules, ...packageName.split("/"), "node_modules");
 	const imported = [];
 	const skipped = [];
+	const scoped = [];
 	for (const entry of manifest.packages) {
 		const name = entry.name;
 		const sourcePackage = join(packagesRoot, ...name.split("/"));
+		const sourceVersion = packageVersionOf(sourcePackage);
 		const target = join(nodeModules, ...name.split("/"));
 		if (existsSync(target)) {
 			const existingVersion = packageVersionOf(target);
-			if (existingVersion === packageVersionOf(sourcePackage)) {
+			if (existingVersion === sourceVersion) {
 				skipped.push(name);
 				continue;
 			}
-			throw new OfflinePluginTransferError("conflict", `${name} already exists at version ${existingVersion}; remove it first to import ${packageVersionOf(sourcePackage)}`);
+			if (name === packageName) rmSync(target, {
+				recursive: true,
+				force: true
+			});
+			else if (satisfiesAll(existingVersion, entry.requirements)) {
+				skipped.push(name);
+				continue;
+			} else {
+				const scopedTarget = join(pluginScopeNodeModules, ...name.split("/"));
+				if (existsSync(scopedTarget) && packageVersionOf(scopedTarget) === sourceVersion) {
+					skipped.push(name);
+					continue;
+				}
+				mkdirSync(dirname(scopedTarget), { recursive: true });
+				rmSync(scopedTarget, {
+					recursive: true,
+					force: true
+				});
+				cpSync(sourcePackage, scopedTarget, {
+					recursive: true,
+					dereference: true
+				});
+				scoped.push(name);
+				await yieldToEventLoop();
+				continue;
+			}
 		}
 		mkdirSync(dirname(target), { recursive: true });
 		cpSync(sourcePackage, target, {
@@ -440,10 +504,20 @@ async function importProfilePlugin(profileDir, sourceDir) {
 		},
 		imported,
 		skipped,
+		scoped,
 		unresolved: Array.isArray(manifest.unresolved) ? manifest.unresolved.filter((entry) => typeof entry === "string") : [],
 		registered,
 		needsRestart: true
 	};
+}
+/** Whether `version` is a valid semver satisfying every declared range. An
+* unparseable version or range never satisfies: the caller then falls back to
+* a plugin-scoped copy, which is always safe. */
+function satisfiesAll(version, requirements) {
+	if (requirements === void 0 || requirements.length === 0) return false;
+	const normalized = valid(version);
+	if (normalized === null) return false;
+	return requirements.every((range) => satisfies(normalized, range));
 }
 //#endregion
 //#region src/offline/http.ts

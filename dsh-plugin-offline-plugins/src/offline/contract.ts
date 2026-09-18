@@ -15,8 +15,14 @@ export const OFFLINE_PLUGINS_IMPORT_PATH = '/_dsh/offline-plugins/import'
 /** Launcher-owned directory chooser used by both flows. */
 export const DIRECTORY_PICKER_PATH = '/_dsh/desktop/pick-directory'
 
-/** Current export manifest format. */
-export const EXPORT_FORMAT_VERSION = 1
+/** Current export manifest format. Version 2 adds per-package semver
+ * requirements so imports can reuse compatible installed versions, and lists
+ * build-time-only dependencies excluded from the closure. Version 1 exports
+ * remain importable. */
+export const EXPORT_FORMAT_VERSION = 2
+
+/** Export manifest versions this build can import. */
+export const IMPORTABLE_FORMAT_VERSIONS: readonly number[] = [1, 2]
 
 /** Marker written into every export manifest. */
 export const EXPORT_MANIFEST_KIND = 'dsh-offline-plugins-export'
@@ -66,6 +72,10 @@ export interface OfflinePluginsImportResponse {
   readonly plugin: { readonly name: string, readonly version: string }
   readonly imported: readonly string[]
   readonly skipped: readonly string[]
+  /** Dependencies whose required ranges conflicted with the shared top-level
+   * node_modules and were therefore installed under the plugin's private
+   * nested node_modules instead. */
+  readonly scoped: readonly string[]
   readonly unresolved: readonly string[]
   readonly registered: boolean
   readonly needsRestart: true

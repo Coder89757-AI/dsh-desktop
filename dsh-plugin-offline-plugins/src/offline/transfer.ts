@@ -2,9 +2,14 @@
  *
  * An export directory carries the plugin package plus its whole transitive
  * dependency closure (dereferenced real directories, deduplicated by package
- * name) and a manifest. Import validates the manifest, copies packages into
- * the active Profile's node_modules, and registers the plugin in
- * `dsh.profile.bundles` atomically. No registry or network is involved. */
+ * name) and a manifest that also records, per dependency, the semver ranges
+ * its in-tree dependents declared. Import validates the manifest and copies
+ * packages into the active Profile with layered Node resolution: an installed
+ * top-level version is reused when it satisfies the export's declared ranges,
+ * and only genuinely conflicting dependencies are placed under the plugin's
+ * private nested node_modules so multiple major versions can coexist.
+ * Finally the plugin is registered in `dsh.profile.bundles` atomically. No
+ * registry or network is involved. */
 
 import {
   cpSync,
@@ -20,6 +25,7 @@ import {
 } from 'node:fs'
 import { dirname, isAbsolute, join, resolve } from 'node:path'
 import { randomUUID } from 'node:crypto'
+import { satisfies, valid as validSemver } from 'semver'
 import { withFileLock, writeFileAtomic } from '@deepseek-ai/dsh-atomic-write'
 import {
   dependencyClosure,
@@ -31,6 +37,7 @@ import {
 import {
   EXPORT_FORMAT_VERSION,
   EXPORT_MANIFEST_KIND,
+  IMPORTABLE_FORMAT_VERSIONS,
   type OfflinePluginsExportProgressResponse,
   type OfflinePluginsExportStartResponse,
   type OfflinePluginsImportResponse,
@@ -54,12 +61,22 @@ export class OfflinePluginTransferError extends Error {
   }
 }
 
+interface ExportManifestPackage {
+  readonly name: string
+  readonly version: string
+  /** Semver ranges every in-tree dependent declared for this package. Absent
+   * in format version 1 exports. */
+  readonly requirements?: readonly string[]
+}
+
 interface ExportManifest {
   readonly kind: typeof EXPORT_MANIFEST_KIND
   readonly formatVersion: number
   readonly exportedAt: string
   readonly plugin: { readonly name: string, readonly version: string }
-  readonly packages: readonly { readonly name: string, readonly version: string }[]
+  readonly packages: readonly ExportManifestPackage[]
+  /** Build-time-only dependencies left out of the export on purpose. */
+  readonly excluded?: readonly string[]
   readonly unresolved: readonly string[]
 }
 
@@ -133,9 +150,10 @@ interface ExportJob {
   readonly id: string
   readonly exportRoot: string
   readonly packagesRoot: string
-  readonly queue: readonly { readonly name: string, readonly sourceDir: string, readonly bytes: number }[]
+  readonly queue: readonly { readonly name: string, readonly sourceDir: string, readonly bytes: number, readonly requirements: readonly string[] }[]
   readonly bytesTotal: number
   readonly unresolved: readonly string[]
+  readonly excluded: readonly string[]
   readonly pluginName: string
   readonly pluginVersion: string
   bytesDone: number
@@ -143,7 +161,7 @@ interface ExportJob {
   currentPackage: string | null
   status: 'running' | 'done' | 'failed'
   error: string | null
-  exported: { name: string, version: string }[]
+  exported: { name: string, version: string, requirements?: readonly string[] }[]
 }
 
 const exportJobs = new Map<string, ExportJob>()
@@ -194,8 +212,13 @@ export function startExportJob(
     throw new OfflinePluginTransferError('io', 'dependency closure exceeds the supported package count')
   }
   const queue = [
-    { name: packageName, sourceDir: pluginDir, bytes: 0 },
-    ...[...closure.packages].map(([name, sourceDir]) => ({ name, sourceDir, bytes: 0 })),
+    { name: packageName, sourceDir: pluginDir, bytes: 0, requirements: [] as readonly string[] },
+    ...[...closure.packages].map(([name, sourceDir]) => ({
+      name,
+      sourceDir,
+      bytes: 0,
+      requirements: closure.requirements.get(name) ?? [],
+    })),
   ]
   for (const entry of queue) entry.bytes = directoryBytes(entry.sourceDir)
   const bytesTotal = queue.reduce((total, entry) => total + entry.bytes, 0)
@@ -215,6 +238,7 @@ export function startExportJob(
     queue,
     bytesTotal,
     unresolved: closure.unresolved,
+    excluded: closure.excluded,
     pluginName: packageName,
     pluginVersion,
     bytesDone: 0,
@@ -245,7 +269,7 @@ async function runExportJob(job: ExportJob): Promise<void> {
         mkdirSync(dirname(target), { recursive: true })
         cpSync(entry.sourceDir, target, { recursive: true, dereference: true })
       }
-      job.exported.push({ name: entry.name, version: packageVersionOf(target) })
+      job.exported.push({ name: entry.name, version: packageVersionOf(target), requirements: entry.requirements })
       job.bytesDone += entry.bytes
       job.packagesDone += 1
       await yieldToEventLoop()
@@ -256,6 +280,7 @@ async function runExportJob(job: ExportJob): Promise<void> {
       exportedAt: new Date().toISOString(),
       plugin: { name: job.pluginName, version: job.pluginVersion },
       packages: job.exported,
+      excluded: job.excluded,
       unresolved: job.unresolved,
     }
     writeFileSync(join(job.exportRoot, 'manifest.json'), `${JSON.stringify(exportManifest, undefined, 2)}\n`, { flag: 'wx' })
@@ -346,7 +371,7 @@ export async function importProfilePlugin(
     if (cause instanceof OfflinePluginTransferError) throw cause
     throw new OfflinePluginTransferError('invalid-manifest', `manifest.json is not readable: ${cause instanceof Error ? cause.message : String(cause)}`)
   }
-  if (manifest.kind !== EXPORT_MANIFEST_KIND || manifest.formatVersion !== EXPORT_FORMAT_VERSION
+  if (manifest.kind !== EXPORT_MANIFEST_KIND || !IMPORTABLE_FORMAT_VERSIONS.includes(manifest.formatVersion)
     || manifest.plugin === null || typeof manifest.plugin !== 'object'
     || typeof manifest.plugin.name !== 'string' || !isValidPackageName(manifest.plugin.name)
     || !Array.isArray(manifest.packages)) {
@@ -358,6 +383,10 @@ export async function importProfilePlugin(
     if (entry === null || typeof entry !== 'object' || typeof entry.name !== 'string' || !isValidPackageName(entry.name)) {
       throw new OfflinePluginTransferError('invalid-manifest', 'manifest package entry is invalid')
     }
+    if (entry.requirements !== undefined && (!Array.isArray(entry.requirements)
+      || !entry.requirements.every((range: unknown) => typeof range === 'string'))) {
+      throw new OfflinePluginTransferError('invalid-manifest', `manifest requirements for ${entry.name} are invalid`)
+    }
     assertRealDirectory(`package ${entry.name}`, join(packagesRoot, ...entry.name.split('/')))
   }
 
@@ -365,22 +394,46 @@ export async function importProfilePlugin(
   if (!existsSync(nodeModules)) {
     mkdirSync(nodeModules, { recursive: true })
   }
+  // Node's resolution walks ancestors, so a dependency nested under the
+  // plugin's own directory shadows the shared top-level copy only for this
+  // plugin; every other bundle keeps resolving the top-level version.
+  const pluginScopeNodeModules = join(nodeModules, ...packageName.split('/'), 'node_modules')
   const imported: string[] = []
   const skipped: string[] = []
+  const scoped: string[] = []
   for (const entry of manifest.packages) {
     const name = entry.name
     const sourcePackage = join(packagesRoot, ...name.split('/'))
+    const sourceVersion = packageVersionOf(sourcePackage)
     const target = join(nodeModules, ...name.split('/'))
     if (existsSync(target)) {
       const existingVersion = packageVersionOf(target)
-      if (existingVersion === packageVersionOf(sourcePackage)) {
+      if (existingVersion === sourceVersion) {
         skipped.push(name)
         continue
       }
-      throw new OfflinePluginTransferError(
-        'conflict',
-        `${name} already exists at version ${existingVersion}; remove it first to import ${packageVersionOf(sourcePackage)}`,
-      )
+      // The plugin package itself is the thing the user asked to import:
+      // replace it rather than working around it.
+      if (name === packageName) {
+        rmSync(target, { recursive: true, force: true })
+      } else if (satisfiesAll(existingVersion, entry.requirements)) {
+        // The installed shared version already meets every range this
+        // plugin's tree declares, so reuse it instead of duplicating.
+        skipped.push(name)
+        continue
+      } else {
+        const scopedTarget = join(pluginScopeNodeModules, ...name.split('/'))
+        if (existsSync(scopedTarget) && packageVersionOf(scopedTarget) === sourceVersion) {
+          skipped.push(name)
+          continue
+        }
+        mkdirSync(dirname(scopedTarget), { recursive: true })
+        rmSync(scopedTarget, { recursive: true, force: true })
+        cpSync(sourcePackage, scopedTarget, { recursive: true, dereference: true })
+        scoped.push(name)
+        await yieldToEventLoop()
+        continue
+      }
     }
     mkdirSync(dirname(target), { recursive: true })
     cpSync(sourcePackage, target, { recursive: true, dereference: true })
@@ -393,8 +446,19 @@ export async function importProfilePlugin(
     plugin: { name: packageName, version: manifest.plugin.version ?? packageVersionOf(join(nodeModules, ...packageName.split('/'))) },
     imported,
     skipped,
+    scoped,
     unresolved: Array.isArray(manifest.unresolved) ? manifest.unresolved.filter(entry => typeof entry === 'string') : [],
     registered,
     needsRestart: true,
   }
+}
+
+/** Whether `version` is a valid semver satisfying every declared range. An
+ * unparseable version or range never satisfies: the caller then falls back to
+ * a plugin-scoped copy, which is always safe. */
+function satisfiesAll(version: string, requirements: readonly string[] | undefined): boolean {
+  if (requirements === undefined || requirements.length === 0) return false
+  const normalized = validSemver(version)
+  if (normalized === null) return false
+  return requirements.every(range => satisfies(normalized, range))
 }

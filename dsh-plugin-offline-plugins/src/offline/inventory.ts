@@ -7,6 +7,10 @@ import { existsSync, lstatSync, readFileSync, realpathSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import type { OfflinePluginEntry } from './contract.ts'
 
+/** Build-time-only dependencies that never need to travel with an export:
+ * they are consumed when compiling native addons, not at plugin load time. */
+export const EXPORT_EXCLUDED_PACKAGES: ReadonlySet<string> = new Set(['node-addon-api'])
+
 /** Bundles that ship with the application itself and are never exportable. */
 export const IMMUTABLE_BUNDLE_NAMES: ReadonlySet<string> = new Set([
   '@deepseek-ai/dsh-base',
@@ -79,16 +83,19 @@ export function installedPackageDir(profileDir: string, name: string): string | 
   }
 }
 
-/** Dependency names a package declares for ordinary installation. */
-function declaredDependencies(document: PackageDocument): readonly string[] {
-  const names: string[] = []
+/** Dependencies a package declares for ordinary installation, with the semver
+ * range each declaration carries (non-string ranges degrade to `*`). */
+function declaredDependencies(document: PackageDocument): readonly { readonly name: string, readonly range: string }[] {
+  const entries: { name: string, range: string }[] = []
   for (const field of ['dependencies', 'optionalDependencies'] as const) {
     const value = document[field]
     if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
-      for (const name of Object.keys(value)) names.push(name)
+      for (const [name, range] of Object.entries(value as Record<string, unknown>)) {
+        entries.push({ name, range: typeof range === 'string' ? range : '*' })
+      }
     }
   }
-  return names
+  return entries
 }
 
 /** Walk node_modules ancestors manually (handles ESM-only packages whose
@@ -139,14 +146,24 @@ function resolveDependencyRoot(dependencyName: string, fromDir: string): string 
   return probeNodeModules(dependencyName, fromDir)
 }
 
-/** Depth-first dependency closure of one installed package, keyed by name. */
+/** Depth-first dependency closure of one installed package, keyed by name.
+ * `requirements` collects, per dependency, every semver range its in-tree
+ * dependents declared — import uses it to decide whether an already-installed
+ * top-level version can be reused instead of copied. */
 export function dependencyClosure(
   profileDir: string,
   rootName: string,
-): { readonly packages: ReadonlyMap<string, string>, readonly unresolved: readonly string[] } {
+): {
+  readonly packages: ReadonlyMap<string, string>
+  readonly requirements: ReadonlyMap<string, readonly string[]>
+  readonly excluded: readonly string[]
+  readonly unresolved: readonly string[]
+} {
   const packages = new Map<string, string>()
+  const requirements = new Map<string, string[]>()
+  const excluded = new Set<string>()
   const unresolved = new Set<string>()
-  const visit = (name: string, fromDir: string): void => {
+  const visit = (name: string, range: string, fromDir: string): void => {
     // Node-style resolution first, then the Profile's hoisted top-level
     // node_modules (pnpm public-hoist pattern) as a fallback.
     const root = resolveDependencyRoot(name, fromDir) ?? resolveDependencyRoot(name, profileDir)
@@ -154,20 +171,28 @@ export function dependencyClosure(
       unresolved.add(name)
       return
     }
+    const ranges = requirements.get(name)
+    if (ranges === undefined) requirements.set(name, [range])
+    else if (!ranges.includes(range)) ranges.push(range)
+    if (EXPORT_EXCLUDED_PACKAGES.has(name)) {
+      excluded.add(name)
+      return
+    }
     const previous = packages.get(name)
     if (previous !== undefined) return
     packages.set(name, root)
     const document = readPackageDocument(root)
     if (document === undefined) return
-    for (const dependencyName of declaredDependencies(document)) {
-      if (dependencyName === name) continue
-      if (!isValidPackageName(dependencyName)) continue
-      visit(dependencyName, root)
+    for (const dependency of declaredDependencies(document)) {
+      if (dependency.name === name) continue
+      if (!isValidPackageName(dependency.name)) continue
+      visit(dependency.name, dependency.range, root)
     }
   }
-  visit(rootName, profileDir)
+  visit(rootName, '*', profileDir)
   packages.delete(rootName)
-  return { packages, unresolved: [...unresolved] }
+  requirements.delete(rootName)
+  return { packages, requirements, excluded: [...excluded], unresolved: [...unresolved] }
 }
 
 /** Every installed Profile plugin visible to the management panel.
