@@ -8,8 +8,9 @@ import { fileURLToPath } from 'node:url'
 import { exportDesktopDiagnostics } from './diagnostic-export.ts'
 import {
   DESKTOP_PACKAGE_NAME,
-  DESKTOP_PRODUCT_NAME,
+  DESKTOP_PRODUCT_IDENTITY,
 } from './product-identity.ts'
+import { brandedUserDataDirectoryName } from './branding.ts'
 
 /** Parsed launcher action. */
 export type DesktopCliAction = 'export-diagnostics' | 'help' | 'version' | 'launch'
@@ -50,6 +51,10 @@ export function defaultDesktopUserDataDirectory(
   platform: NodeJS.Platform = process.platform,
   environment: NodeJS.ProcessEnv = process.env,
   homeDirectory: string = homedir(),
+  // Injected so the launcher path stays deterministic under test on a machine
+  // carrying a local brand; the name itself must match what `app.setName`
+  // resolved in the Electron process.
+  directoryName: string = brandedUserDataDirectoryName(DESKTOP_PRODUCT_IDENTITY),
 ): string {
   const path = platform === 'win32' ? win32 : posix
   if (platform === 'win32') {
@@ -57,11 +62,11 @@ export function defaultDesktopUserDataDirectory(
     if (appData === undefined || appData.length === 0) {
       throw new Error('APPDATA is unavailable; cannot locate 法海问津 diagnostics')
     }
-    return path.join(appData, DESKTOP_PRODUCT_NAME)
+    return path.join(appData, directoryName)
   }
-  if (platform === 'darwin') return path.join(homeDirectory, 'Library', 'Application Support', DESKTOP_PRODUCT_NAME)
+  if (platform === 'darwin') return path.join(homeDirectory, 'Library', 'Application Support', directoryName)
   const config = environment.XDG_CONFIG_HOME
-  return path.join(config === undefined || config.length === 0 ? path.join(homeDirectory, '.config') : config, DESKTOP_PRODUCT_NAME)
+  return path.join(config === undefined || config.length === 0 ? path.join(homeDirectory, '.config') : config, directoryName)
 }
 
 export interface DesktopCliOptions {

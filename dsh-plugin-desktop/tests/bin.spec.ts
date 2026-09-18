@@ -32,16 +32,19 @@ describe('desktop npm launcher', () => {
   })
 
   it('names the installed product and selected profile behavior', () => {
-    expect(DESKTOP_CLI_HELP).toContain('DSH Desktop')
+    expect(DESKTOP_CLI_HELP).toContain('法海问津')
     expect(DESKTOP_CLI_HELP).toContain('selected Web-capable profile')
     expect(DESKTOP_CLI_HELP).toContain('--export-diagnostics')
   })
 
   it('resolves the packaged Desktop user-data directory without Electron', () => {
-    expect(defaultDesktopUserDataDirectory('win32', { APPDATA: 'C:\\Users\\Example\\AppData\\Roaming' }, 'ignored'))
+    expect(defaultDesktopUserDataDirectory('win32', { APPDATA: 'C:\\Users\\Example\\AppData\\Roaming' }, 'ignored', 'DSH Desktop'))
       .toBe('C:\\Users\\Example\\AppData\\Roaming\\DSH Desktop')
-    expect(defaultDesktopUserDataDirectory('darwin', {}, '/Users/example'))
+    expect(defaultDesktopUserDataDirectory('darwin', {}, '/Users/example', 'DSH Desktop'))
       .toBe('/Users/example/Library/Application Support/DSH Desktop')
+    // The name is a parameter so a branded build resolves its own directory.
+    expect(defaultDesktopUserDataDirectory('win32', { APPDATA: 'C:\\Users\\Example\\AppData\\Roaming' }, 'ignored', 'LexFord'))
+      .toBe('C:\\Users\\Example\\AppData\\Roaming\\LexFord')
   })
 
   it('exports diagnostics without launching Electron', async () => {

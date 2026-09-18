@@ -40,7 +40,7 @@ function fixture() {
   mkdirSync(currentUserData)
   mkdirSync(profile, { recursive: true })
   writeFileSync(join(profile, 'package.json'), '{"name":"work"}\n')
-  const locations = desktopReleaseUserDataLocations(appData, currentUserData)
+  const locations = desktopReleaseUserDataLocations(appData, currentUserData, OTHER_DESKTOP_PRODUCT_IDENTITY.productName)
   return { root, appData, currentUserData, home, profile, locations }
 }
 

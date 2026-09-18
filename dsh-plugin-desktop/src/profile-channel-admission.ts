@@ -15,6 +15,7 @@ import {
   OTHER_DESKTOP_PRODUCT_IDENTITY,
   type DesktopProductIdentity,
 } from './product-identity.ts'
+import { brandedUserDataDirectoryName } from './branding.ts'
 
 export interface DesktopReleaseUserData {
   readonly identity: DesktopProductIdentity
@@ -58,6 +59,9 @@ function absolute(label: string, value: string): string {
 export function desktopReleaseUserDataLocations(
   appDataDir: string,
   currentUserDataDir: string,
+  // Injected so this stays deterministic under test on a branded machine; the
+  // other edition derives the same name from the same brand field.
+  otherDirectoryName: string = brandedUserDataDirectoryName(OTHER_DESKTOP_PRODUCT_IDENTITY),
 ): DesktopReleaseUserDataLocations {
   const appData = absolute('application data directory', appDataDir)
   const current = Object.freeze({
@@ -66,7 +70,7 @@ export function desktopReleaseUserDataLocations(
   })
   const other = Object.freeze({
     identity: OTHER_DESKTOP_PRODUCT_IDENTITY,
-    userDataDir: join(appData, OTHER_DESKTOP_PRODUCT_IDENTITY.productName),
+    userDataDir: join(appData, otherDirectoryName),
   })
   return Object.freeze({ current, other, all: Object.freeze([current, other]) })
 }

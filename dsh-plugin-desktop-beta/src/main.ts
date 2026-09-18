@@ -202,9 +202,11 @@ import { windowsSupportsMica } from './window-material.ts'
 import {
   DESKTOP_APP_ID,
   DESKTOP_PACKAGE_NAME,
+  DESKTOP_PRODUCT_IDENTITY,
   DESKTOP_PRODUCT_NAME,
   DESKTOP_RELEASE_CHANNEL,
 } from './product-identity.ts'
+import { brandedUserDataDirectoryName } from './branding.ts'
 import { desktopRecoveryCopy } from './recovery-copy.ts'
 
 const BIN_NAME = DESKTOP_PACKAGE_NAME
@@ -1719,7 +1721,10 @@ async function start(): Promise<void> {
 }
 
 async function run(): Promise<void> {
-  app.setName(PRODUCT_NAME)
+  // The visible application name follows the locally configured brand. This
+  // also keys Electron's user data directory, so the name has to stay unique
+  // per edition — see brandedUserDataDirectoryName.
+  app.setName(brandedUserDataDirectoryName(DESKTOP_PRODUCT_IDENTITY))
   if (process.argv.includes('--export-diagnostics')) {
     try {
       await app.whenReady()

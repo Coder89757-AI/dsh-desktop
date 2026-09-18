@@ -39,10 +39,13 @@ describe('desktop npm launcher', () => {
   })
 
   it('resolves the packaged Desktop user-data directory without Electron', () => {
-    expect(defaultDesktopUserDataDirectory('win32', { APPDATA: 'C:\\Users\\Example\\AppData\\Roaming' }, 'ignored'))
+    expect(defaultDesktopUserDataDirectory('win32', { APPDATA: 'C:\\Users\\Example\\AppData\\Roaming' }, 'ignored', 'DSH Desktop Beta'))
       .toBe('C:\\Users\\Example\\AppData\\Roaming\\DSH Desktop Beta')
-    expect(defaultDesktopUserDataDirectory('darwin', {}, '/Users/example'))
+    expect(defaultDesktopUserDataDirectory('darwin', {}, '/Users/example', 'DSH Desktop Beta'))
       .toBe('/Users/example/Library/Application Support/DSH Desktop Beta')
+    // The name is a parameter so a branded build resolves its own directory.
+    expect(defaultDesktopUserDataDirectory('win32', { APPDATA: 'C:\\Users\\Example\\AppData\\Roaming' }, 'ignored', 'LexFord Beta'))
+      .toBe('C:\\Users\\Example\\AppData\\Roaming\\LexFord Beta')
   })
 
   it('exports diagnostics without launching Electron', async () => {

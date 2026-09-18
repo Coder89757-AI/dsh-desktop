@@ -1,8 +1,8 @@
 /** DSH Desktop Host plugin: owns the selected native shell generation. */
 
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { brandingDisplay } from './branding.ts'
 import type { Context } from '@deepseek-ai/cordis'
 import z from '@deepseek-ai/schemastery'
 import type {} from '@deepseek-ai/dsh-cmdline'
@@ -205,24 +205,6 @@ export function desktopRendererUrl(
     url.searchParams.set('dsh-desktop-mica', windowsSupportsMica(windowsBuild) ? '1' : '0')
   }
   return url.href
-}
-
-/** Display-name projection from the local branding files written by
- * scripts/apply-branding.mjs; falls back to the shipped identity. The data
- * directories keep using DESKTOP_PRODUCT_NAME — this only affects visible
- * surfaces (window title, tray tooltip, tray menu). displayName carries the
- * localized runtime-visible brand and falls back to the packaging
- * productName when the brand omits it. */
-function brandingDisplay(field: 'windowTitle' | 'productName' | 'displayName', fallback: string): string {
-  try {
-    const raw = JSON.parse(
-      readFileSync(fileURLToPath(new URL('../build/branding.json', import.meta.url)), 'utf8'),
-    ) as Record<string, unknown>
-    const value = raw[field]
-    return typeof value === 'string' && value.trim() !== '' ? value : fallback
-  } catch {
-    return fallback
-  }
 }
 
 /**
