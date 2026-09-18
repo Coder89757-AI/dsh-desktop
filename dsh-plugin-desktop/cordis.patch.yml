@@ -24,6 +24,8 @@
       name: dsh-plugin-branding
     - id: offline-plugins
       name: dsh-plugin-offline-plugins
+    - id: skill-manager
+      name: dsh-plugin-skill-manager
 
 # Feedback flows to the connected knowledge-base service instead; the relay
 # plugin owns this data, so the DeepSeek OTel endpoint receives nothing.
