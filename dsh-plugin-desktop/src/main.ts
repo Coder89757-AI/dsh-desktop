@@ -1483,14 +1483,14 @@ async function start(): Promise<void> {
             openTerminal: () => { runtime.openTerminal() },
             requestRestart: () => runtime.requestRestart(),
           })
-          if (prepared.market.effective === 'community-market') {
-            await hostCtx.plugin(DesktopPluginsService, {
-              profileName: activeProfileName,
-              homeDir,
-              statePath: pluginManagementStatePath,
-              installAnchor: desktopInstallAnchor(),
-            })
-          }
+          // The plugin inventory service is filesystem-only and must exist for
+          // offline plugin management even when every market provider is off.
+          await hostCtx.plugin(DesktopPluginsService, {
+            profileName: activeProfileName,
+            homeDir,
+            statePath: pluginManagementStatePath,
+            installAnchor: desktopInstallAnchor(),
+          })
           if (logSink !== undefined) {
             fileExporter = new FileExporter(logSink)
             hostCtx.logger.exporter(fileExporter)
