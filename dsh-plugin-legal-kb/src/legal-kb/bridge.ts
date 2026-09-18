@@ -10,6 +10,7 @@ import type {} from '@deepseek-ai/dsh-client-connection'
 import type {} from '@deepseek-ai/dsh-settings'
 import type {} from '@deepseek-ai/dsh-session'
 import {
+  joinLegalKbEndpoint,
   LEGAL_KB_ACTIVATE_PATH,
   LEGAL_KB_DISCONNECT_PATH,
   LEGAL_KB_STATUS_PATH,
@@ -147,11 +148,40 @@ export function apply(ctx: Context): void {
     })
   }
 
-  const activate = async (code: string): Promise<LegalKbStatusResponse | { error: string }> => {
+  const activate = async (
+    code: string,
+    endpoints?: { apiUrl?: string; mcpUrl?: string },
+  ): Promise<LegalKbStatusResponse | { error: string }> => {
+    if (endpoints?.apiUrl !== undefined) {
+      try {
+        // eslint-disable-next-line no-new
+        new URL(endpoints.apiUrl)
+      } catch {
+        return { error: '知识库服务地址无效' }
+      }
+    }
+    if (endpoints?.mcpUrl !== undefined) {
+      try {
+        // eslint-disable-next-line no-new
+        new URL(endpoints.mcpUrl)
+      } catch {
+        return { error: '知识库 MCP 地址无效' }
+      }
+    }
+    const changed: Partial<LegalKbSettings> = {}
+    if (endpoints?.apiUrl !== undefined && settings.get().apiUrl !== endpoints.apiUrl) {
+      changed.apiUrl = endpoints.apiUrl
+    }
+    if (endpoints?.mcpUrl !== undefined && settings.get().mcpUrl !== endpoints.mcpUrl) {
+      changed.mcpUrl = endpoints.mcpUrl
+    }
+    if (Object.keys(changed).length > 0) {
+      await settings.update(changed)
+    }
     const value = settings.get()
     let endpoint: URL
     try {
-      endpoint = new URL('/api/auth/activate', value.apiUrl.trim())
+      endpoint = joinLegalKbEndpoint(value.apiUrl.trim(), '/api/auth/activate')
     } catch {
       return { error: '知识库服务地址无效' }
     }

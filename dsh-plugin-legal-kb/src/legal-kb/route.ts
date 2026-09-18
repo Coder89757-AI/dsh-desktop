@@ -124,17 +124,31 @@ async function readJsonPost(req: IncomingMessage, res: ServerResponse): Promise<
   }
 }
 
+function optionalEndpoint(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined
+  const trimmed = value.trim()
+  return trimmed === '' ? undefined : trimmed.slice(0, 2048)
+}
+
 function parseActivateRequest(value: unknown): LegalKbActivateRequest | undefined {
   if (typeof value !== 'object' || value === null) return undefined
   const code = (value as { code?: unknown }).code
   if (typeof code !== 'string' || code.trim().length === 0 || code.length > 128) return undefined
-  return { code: code.trim() }
+  const parsed: { code: string; apiUrl?: string; mcpUrl?: string } = { code: code.trim() }
+  const apiUrl = optionalEndpoint((value as { apiUrl?: unknown }).apiUrl)
+  if (apiUrl !== undefined) parsed.apiUrl = apiUrl
+  const mcpUrl = optionalEndpoint((value as { mcpUrl?: unknown }).mcpUrl)
+  if (mcpUrl !== undefined) parsed.mcpUrl = mcpUrl
+  return parsed
 }
 
 export interface LegalKbRouteDeps {
   readonly expectedOrigin: string
   readonly status: () => LegalKbStatusResponse
-  readonly activate: (code: string) => Promise<LegalKbStatusResponse | { error: string }>
+  readonly activate: (
+    code: string,
+    endpoints: { apiUrl?: string; mcpUrl?: string },
+  ) => Promise<LegalKbStatusResponse | { error: string }>
   readonly disconnect: () => Promise<void>
 }
 
@@ -157,7 +171,10 @@ export async function handleLegalKbActivateRequest(
   const request = parseActivateRequest(value)
   if (request === undefined) return finishJson(res, 400, error('invalid activation request'))
   try {
-    const outcome = await deps.activate(request.code)
+    const endpoints: { apiUrl?: string; mcpUrl?: string } = {}
+    if (request.apiUrl !== undefined) endpoints.apiUrl = request.apiUrl
+    if (request.mcpUrl !== undefined) endpoints.mcpUrl = request.mcpUrl
+    const outcome = await deps.activate(request.code, endpoints)
     if ('error' in outcome) return finishJson(res, 403, error(outcome.error))
     return finishJson(res, 200, outcome)
   } catch (cause) {

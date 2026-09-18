@@ -69,7 +69,7 @@ export function LegalKbFooterAction({ api, t, wide }: LegalKbFooterActionProps) 
     void (async () => {
       const connected = status?.connected === true
       if (connected) await api.disconnect().catch(() => {})
-      const next = await api.activate(trimmed)
+      const next = await api.activate(trimmed, { apiUrl, mcpUrl })
       setStatus(next)
       setCode('')
       setShowAdvanced(false)

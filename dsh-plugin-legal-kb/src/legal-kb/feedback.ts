@@ -5,6 +5,7 @@
 import type { Session, SessionEvent } from '@deepseek-ai/dsh-session'
 import type {} from '@deepseek-ai/dsh-session'
 import type { MessageFeedbackPut } from '@deepseek-ai/dsh-message-feedback/types'
+import { joinLegalKbEndpoint } from './contract.ts'
 
 /** One queued relay item, already projected for the service wire format. */
 export interface FeedbackRelayItem {
@@ -108,7 +109,7 @@ export async function flushFeedbackQueue(
   if (queue.length === 0) return queue
   const code = deps.licenseCode().trim()
   if (code === '' || !deps.enabled()) return []
-  const endpoint = new URL('/api/feedback', deps.apiUrl().trim())
+  const endpoint = joinLegalKbEndpoint(deps.apiUrl().trim(), '/api/feedback')
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: {

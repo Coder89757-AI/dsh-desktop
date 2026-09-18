@@ -12,6 +12,9 @@ export const LEGAL_KB_DISCONNECT_PATH = '/api/desktop/legal-kb/disconnect'
 /** Body accepted by the activate endpoint. */
 export interface LegalKbActivateRequest {
   readonly code: string
+  /** Optional service endpoints edited in the panel; persisted before activation. */
+  readonly apiUrl?: string
+  readonly mcpUrl?: string
 }
 
 /** Identity returned by a successful license activation. */
@@ -50,4 +53,16 @@ export interface LegalKbDisconnectResponse {
 /** Stable API failure shape that never contains raw causes. */
 export interface LegalKbErrorResponse {
   readonly error: string
+}
+
+/**
+ * Join one API path onto the configured service base while preserving the
+ * base's own path prefix (e.g. `http://host:10000/lexford/`), which the
+ * standard `new URL(path, base)` would discard for rooted paths.
+ */
+export function joinLegalKbEndpoint(base: string, apiPath: string): URL {
+  const url = new URL(base)
+  const basePath = url.pathname.replace(/\/+$/u, '')
+  url.pathname = `${basePath}/${apiPath.replace(/^\/+|\/+$/u, '')}`
+  return url
 }

@@ -13,7 +13,10 @@ type FetchLike = (input: RequestInfo | URL, init?: RequestInit) => Promise<Respo
 /** Browser operations consumed by the Legal-KB sidebar panel. */
 export interface LegalKbApi {
   status(): Promise<LegalKbStatusResponse>
-  activate(code: string): Promise<LegalKbStatusResponse>
+  activate(
+    code: string,
+    endpoints?: { apiUrl?: string; mcpUrl?: string },
+  ): Promise<LegalKbStatusResponse>
   disconnect(): Promise<void>
 }
 
@@ -81,7 +84,10 @@ export function createLegalKbApi(fetcher: FetchLike = globalThis.fetch.bind(glob
       })
       return parseLegalKbStatus(await readResponse(response))
     },
-    async activate(code: string) {
+    async activate(
+      code: string,
+      endpoints?: { apiUrl?: string; mcpUrl?: string },
+    ): Promise<LegalKbStatusResponse> {
       const response = await fetcher(ACTIVATE_PATH, {
         method: 'POST',
         credentials: 'same-origin',
@@ -90,7 +96,11 @@ export function createLegalKbApi(fetcher: FetchLike = globalThis.fetch.bind(glob
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({
+          code,
+          apiUrl: endpoints?.apiUrl?.trim() || undefined,
+          mcpUrl: endpoints?.mcpUrl?.trim() || undefined,
+        }),
       })
       const value = await readResponse(response)
       if (!response.ok) {
