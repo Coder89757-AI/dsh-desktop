@@ -30,6 +30,7 @@ function options(calls: CommandCall[], logs: string[] = []): WindowsPackageOptio
     commandShell: 'C:\\Windows\\System32\\cmd.exe',
     builderCli: 'C:\\repo\\node_modules\\electron-builder\\cli.js',
     prepareRuntime: () => undefined,
+    preparePythonRuntime: () => undefined,
     verifier: 'C:\\repo\\dsh-plugin-desktop\\scripts\\verify-win-installer.ts',
     nodeExecutable: 'C:\\Program Files\\nodejs\\node.exe',
     run: (command, args, cwd, env) => {

@@ -192,6 +192,48 @@ export const REQUIRED_WINDOWS_X64_NODE_PTY_ENTRIES = [
   'node_modules/node-pty/prebuilds/win32-x64/conpty/conpty.dll',
 ] as const
 
+/** Offline Python runtime leaves emitted beside the Windows application resources. */
+export const REQUIRED_WINDOWS_PYTHON_RUNTIME_ENTRIES = [
+  'python-runtime/python/python.exe',
+  'python-runtime/python/python312.dll',
+  'python-runtime/python/Scripts/pip.exe',
+  'python-runtime/wheels/.closure-complete',
+  'python-runtime/uv/uv.exe',
+  'python-runtime/manifest.json',
+] as const
+
+/** Resolve the offline Python runtime root emitted by extraResources. */
+export function resolveWindowsPythonRuntimeRoot(context: PackagedRuntimeContext): string {
+  return join(context.appOutDir, 'resources', 'python-runtime')
+}
+
+/**
+ * Verify the offline Python runtime beside the packaged Windows application.
+ * @param context - Electron Builder's afterPack context.
+ * @param exists - physical-file probe used by focused tests.
+ * @param environment - environment honoring the packaging-time opt-out.
+ * @returns Whether an enabled runtime was found and verified.
+ */
+export function verifyWindowsPythonRuntime(
+  context: PackagedRuntimeContext,
+  exists: FileProbe = existsSync,
+  environment: NodeJS.ProcessEnv = process.env,
+): boolean {
+  if (context.electronPlatformName !== 'win32') return false
+  const root = resolveWindowsPythonRuntimeRoot(context)
+  if (exists(join(root, 'DISABLED')) || environment.DSH_DESKTOP_PYTHON_RUNTIME === '0') {
+    return false
+  }
+  const missing = REQUIRED_WINDOWS_PYTHON_RUNTIME_ENTRIES
+    .filter(entry => !exists(join(context.appOutDir, 'resources', entry)))
+  if (missing.length > 0) {
+    throw new Error(
+      `dsh-plugin-desktop: offline Python runtime at ${root} is missing required entries: ${missing.join(', ')}`,
+    )
+  }
+  return true
+}
+
 /** ABI-pinned fs-ext bindings selected by non-universal macOS and Linux packages. */
 export const REQUIRED_POSIX_FS_EXT_ENTRIES = {
   darwin: {
@@ -835,6 +877,7 @@ export function verifyPackagedRuntime(
     }
   }
   const files = listUnpacked(runtimeRoot)
+  verifyWindowsPythonRuntime(context, exists)
   if (!hasAsar) return summarizeUnpackedRuntime(files)
   const archive = verifyPackagedAsar(
     resolvePackagedAsarPath(context),

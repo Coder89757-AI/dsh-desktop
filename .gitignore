@@ -22,5 +22,7 @@ dsh-plugin-desktop/branding/
 dsh-plugin-desktop-beta/branding/
 dsh-plugin-desktop/build/branding.json
 dsh-plugin-desktop-beta/build/branding.json
+dsh-plugin-desktop/build/python-runtime/
+dsh-plugin-desktop-beta/build/python-runtime/
 
 .env.yarn

@@ -37,6 +37,8 @@ export interface WindowsPackageOptions {
   readonly builderCli: string
   /** Prepare platform-specific native runtime dependencies before packaging. */
   readonly prepareRuntime: () => void
+  /** Materialize the offline Python runtime below build/ before packaging. */
+  readonly preparePythonRuntime: () => void
   /** Absolute packaged-installer verification script. */
   readonly verifier: string
   /** Node executable used to run package-local scripts. */
@@ -101,6 +103,15 @@ export function createWindowsPackageOptions(verifier = './verify-win-installer.t
     prepareRuntime: () => {
       prepareFsExtForElectron({ platform: 'win32', arch: 'x64', desktopRoot })
     },
+    preparePythonRuntime: () => {
+      const fetchScript = fileURLToPath(new URL('./fetch-python-runtime.mjs', import.meta.url))
+      run(
+        process.execPath,
+        [fetchScript],
+        desktopRoot,
+        withoutWindowsSigningSecrets(process.env),
+      )
+    },
     verifier: fileURLToPath(new URL(verifier, import.meta.url)),
     nodeExecutable: process.execPath,
     run,
@@ -152,6 +163,7 @@ export function packageWindowsArtifact(
     options.log('Skipping the Windows package preflight; the package gate already passed.')
   }
   options.prepareRuntime()
+  options.preparePythonRuntime()
   options.run(
     options.nodeExecutable,
     [

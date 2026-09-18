@@ -30,6 +30,7 @@ import {
   REQUIRED_POSIX_FS_EXT_ENTRIES,
   REQUIRED_UNPACKED_RUNTIME_ENTRIES,
   REQUIRED_WINDOWS_X64_NODE_PTY_ENTRIES,
+  REQUIRED_WINDOWS_PYTHON_RUNTIME_ENTRIES,
   resolvePackagedApplicationRoot,
   resolvePackagedAsarPath,
   resolvePackagedExecutablePath,
@@ -164,6 +165,16 @@ function requiredPhysicalEntries(runtimeContext: PackagedRuntimeContext): string
   return [...desktopAssets]
 }
 
+function withWindowsPythonRuntimeProbe(
+  runtimeContext: PackagedRuntimeContext,
+  exists: FileProbe,
+): FileProbe {
+  if (runtimeContext.electronPlatformName !== 'win32') return exists
+  const pythonEntries = new Set(REQUIRED_WINDOWS_PYTHON_RUNTIME_ENTRIES
+    .map(entry => join(runtimeContext.appOutDir, 'resources', entry)))
+  return filename => pythonEntries.has(filename) || exists(filename)
+}
+
 function physicalFixture(
   runtimeContext: PackagedRuntimeContext,
   options: { missing?: string; extra?: readonly string[] } = {},
@@ -173,7 +184,10 @@ function physicalFixture(
     .filter(entry => entry !== options.missing)
   return {
     files: paths.map(path => ({ path, bytes: 1 })),
-    exists: filename => paths.includes(relative(unpackedRoot, filename).replaceAll('\\', '/')),
+    exists: withWindowsPythonRuntimeProbe(
+      runtimeContext,
+      filename => paths.includes(relative(unpackedRoot, filename).replaceAll('\\', '/')),
+    ),
     paths,
   }
 }
@@ -330,7 +344,10 @@ describe('packaged desktop runtime verification', () => {
     ])]
     const files = paths.map(path => ({ path, bytes: 1 }))
     const readHeader = vi.fn<ArchiveHeaderReader>(headerReader([]))
-    const exists = (filename: string) => paths.includes(relative(appRoot, filename).replaceAll('\\', '/'))
+    const exists = withWindowsPythonRuntimeProbe(
+      runtimeContext,
+      filename => paths.includes(relative(appRoot, filename).replaceAll('\\', '/')),
+    )
     expect(() => verifyPackagedRuntime(runtimeContext, readHeader, exists, () => files)).not.toThrow()
     expect(readHeader).not.toHaveBeenCalled()
     expect(() => verifyPackagedRuntime(runtimeContext, readHeader,

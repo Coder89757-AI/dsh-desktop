@@ -31,6 +31,7 @@ import {
   installDesktopDshRuntime,
   installDesktopPnpmRuntime,
 } from './desktop-runtime-environment.ts'
+import { installDesktopPythonRuntime } from './desktop-python-runtime.ts'
 import { desktopProductVersion, ElectronDesktopRuntime } from './electron-runtime.ts'
 import { getOrCreateDesktopInstallationId } from './desktop-installation-id.ts'
 import {
@@ -686,6 +687,15 @@ async function start(): Promise<void> {
     })
     const dshBootstrapPath = fileURLToPath(new URL('./desktop-cli.js', import.meta.url))
     const releasePnpmRuntime = generation.own(() => { pnpmRuntime.dispose() })
+    const pythonRuntime = installDesktopPythonRuntime({
+      platform: process.platform,
+      runtimeRoot: app.isPackaged
+        ? join(process.resourcesPath, 'python-runtime')
+        : process.env.DSH_DESKTOP_PYTHON_RUNTIME,
+      environment: process.env,
+      online: process.env.DSH_DESKTOP_PYTHON_ONLINE === '1',
+    })
+    generation.own(() => { pythonRuntime.dispose() })
     const fallbackHome = resolveDshHome()
     const defaultHome = resolve(defaultDshHome())
     const fallbackSource = process.env.DSH_HOME === undefined ? 'default' : 'environment'
@@ -1483,14 +1493,14 @@ async function start(): Promise<void> {
             openTerminal: () => { runtime.openTerminal() },
             requestRestart: () => runtime.requestRestart(),
           })
-          if (prepared.market.effective === 'community-market') {
-            await hostCtx.plugin(DesktopPluginsService, {
-              profileName: activeProfileName,
-              homeDir,
-              statePath: pluginManagementStatePath,
-              installAnchor: desktopInstallAnchor(),
-            })
-          }
+          // The plugin inventory service is filesystem-only and must exist for
+          // offline plugin management even when every market provider is off.
+          await hostCtx.plugin(DesktopPluginsService, {
+            profileName: activeProfileName,
+            homeDir,
+            statePath: pluginManagementStatePath,
+            installAnchor: desktopInstallAnchor(),
+          })
           if (logSink !== undefined) {
             fileExporter = new FileExporter(logSink)
             hostCtx.logger.exporter(fileExporter)

@@ -471,7 +471,7 @@ function withoutPathDirectory(value: string, directory: string, platform: NodeJS
 }
 
 /** Prepend one directory to PATH and return an idempotent, non-clobbering disposer. */
-function installPathDirectory(
+export function installPathDirectory(
   environment: NodeJS.ProcessEnv,
   directory: string,
   platform: NodeJS.Platform,
