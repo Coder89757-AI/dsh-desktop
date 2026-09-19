@@ -16,16 +16,15 @@ const allowedDifferences = new Map([
   ['main.ts', 'the beta edition installs its offline Python runtime during startup'],
   ['electron-runtime.ts', 'the beta edition keeps the full tray menu; the stable edition ships Quit only'],
 ])
-// Both editions ship the same product under a different display brand: the
-// stable edition carries the localized one, the beta edition the upstream one.
-// Folding the localized name onto the upstream one keeps this check about
-// behavior drift instead of about which label a user-facing string happens to
-// use, and it is the same trade the two rewrites above already make.
+// Both editions ship the same product under a different display brand.
+// User-facing copy resolves the visible name at runtime through
+// brandedDisplayName(), so the editions already agree on every string a user
+// reads. What still differs by brand is the documentation around the code:
+// file-header comments and the native document titles carry the stable
+// edition's localized name. Folding it onto the upstream name keeps this check
+// about behavior drift instead of about which label a comment happens to use.
 const normalizeIdentity = source => source.toString()
   .replaceAll('dsh-plugin-desktop-beta', 'dsh-plugin-desktop')
-  // Localized brand first, then the Beta suffix: the stable edition writes
-  // "法海问津 Beta" where the beta edition writes "DSH Desktop Beta", so
-  // collapsing the brand before the suffix is what lands both on one string.
   .replaceAll('法海问津', 'DSH Desktop')
   .replaceAll('DSH Desktop Beta', 'DSH Desktop')
 
