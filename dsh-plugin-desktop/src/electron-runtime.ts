@@ -272,6 +272,7 @@ export class ElectronDesktopRuntime implements DesktopRuntime {
           restartToRecovery: () => this.requestRecoveryRestart(),
           reload: () => { this.reloadRenderer() },
           developerTools: () => { this.toggleDeveloperTools() },
+          exportDiagnostics: () => this.exportDiagnostics(),
           checkForUpdates: async () => {
             const command = [...this.trayItems.values()].find(item => item.id === 'check-for-updates')
             if (command === undefined || command.enabled?.() === false) throw new Error('Desktop update check is unavailable')
@@ -874,7 +875,18 @@ export class ElectronDesktopRuntime implements DesktopRuntime {
     // Deliberately minimal: the tray context menu only exposes Quit. Diagnostics,
     // terminal, profile switching and shell-mode switching stay reachable through
     // their in-app surfaces (settings, recovery assistant, macOS app menu).
+    // The in-app "Reload interface" control lives inside the renderer, so it is
+    // gone exactly when it is needed. This native twin keeps one restore path
+    // reachable after the window has stopped drawing anything.
+    const reloadRenderer = (): void => {
+      try {
+        this.generation?.requestRendererReload()
+      } catch (cause) {
+        this.logError(`dsh-plugin-desktop: failed to reload the renderer from the tray: ${cause instanceof Error ? cause.message : String(cause)}`)
+      }
+    }
     return [
+      { label: desktopTrayLabel(this.locale, 'reloadRenderer'), click: reloadRenderer },
       { label: desktopTrayLabel(this.locale, 'quit'), click: () => { spec.requestQuit(0) } },
     ]
   }

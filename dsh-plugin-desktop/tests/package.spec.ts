@@ -293,8 +293,10 @@ describe('published package surface', () => {
       expect(selector).toMatch(/@npm:\^?0\.1\.5-rc\.2$/u)
       expect(String(resolution)).toContain(runtimeVersion)
     }
+    // Derived from the beta manifest, not hardcoded: a channel bump moves this
+    // assertion with the pin instead of failing a release that is already correct.
     for (const [selector, resolution] of betaResolutions) {
-      expect(selector).toMatch(/@npm:\^?0\.1\.5-rc\.2$/u)
+      expect([betaRuntimeVersion, `^${betaRuntimeVersion}`]).toContain(selector.split('@npm:')[1])
       expect(String(resolution)).toContain(betaRuntimeVersion)
     }
   })
@@ -609,6 +611,7 @@ describe('published package surface', () => {
     const readPreferences = main.indexOf('readDesktopProfilePreferences(marketUserDataDir, activeProfileDir)')
     const profileMarket = main.indexOf('desktopProfileMarketSnapshot(profilePreferences.market)', readPreferences)
     const firstPrepare = main.indexOf('let prepared = prepareDesktopProfile(', profileMarket)
+    const legacyPresetMigration = main.indexOf('migrateLegacyAgentPresetSettings(', firstPrepare)
     const missingState = main.indexOf('if (profilePreferences === undefined)', firstPrepare)
     const browserMigration = main.indexOf('migrateDesktopBrowserAccessSettings(', missingState)
     const materialMigration = main.indexOf('migrateDesktopWindowMaterialSettings(', browserMigration)
@@ -633,6 +636,8 @@ describe('published package surface', () => {
     expect(aaWrite).toContain('desktopProfilePreferencesFromSettings(')
     expect(aaWrite).not.toContain('...current')
     expect(projection).toBeGreaterThanOrEqual(0)
+    expect(legacyPresetMigration).toBeGreaterThan(firstPrepare)
+    expect(legacyPresetMigration).toBeLessThan(missingState)
     const projectionSource = preferencesSource.slice(projection, projectionEnd)
     expect(projectionSource).toContain("Pick<DesktopProfilePreferences, 'mode' | 'openBrowser' | 'networkExposure'>")
     expect(projectionSource).not.toContain('port:')
@@ -761,7 +766,7 @@ describe('published package surface', () => {
 
   it('fixes the installed application identity', () => {
     expect(workspaceManifest.version).toBeUndefined()
-    expect(manifest.version).toBe('2.0.10')
+    expect(manifest.version).toBe('2.0.13')
     expect(manifest.build?.productName).toBe('DSH Desktop')
     expect(manifest.build?.appId).toBe('ai.deepseek.dsh.desktop')
     expect(manifest.build?.asar).toBe(false)
@@ -867,9 +872,9 @@ describe('published package surface', () => {
     expect(workspaceManifest.scripts?.['dist:mac-smoke'])
       .toBe('yarn aa:prepare-release && yarn workspace dsh-community-market build && yarn workspace dsh-plugin-desktop dist:mac-smoke')
     expect(workspaceManifest.scripts?.['dist:win'])
-      .toBe('yarn aa:prepare-release && yarn workspace dsh-community-market build && yarn workspace dsh-plugin-desktop dist:win')
+      .toBe('yarn aa:prepare-release && yarn aa:prepare-release --verify-release && yarn workspace dsh-community-market build && yarn workspace dsh-plugin-desktop dist:win')
     expect(workspaceManifest.scripts?.['dist:win-portable'])
-      .toBe('yarn aa:prepare-release && yarn workspace dsh-community-market build && yarn workspace dsh-plugin-desktop dist:win-portable')
+      .toBe('yarn aa:prepare-release && yarn aa:prepare-release --verify-release && yarn workspace dsh-community-market build && yarn workspace dsh-plugin-desktop dist:win-portable')
     expect(manifest.build?.afterPack).toBe('./scripts/verify-packaged-runtime.ts')
     expect(manifest.build?.afterAllArtifactBuild).toBe('./scripts/verify-electron-fuses.ts')
     expect(manifest.build?.mac).toEqual(expect.objectContaining({
