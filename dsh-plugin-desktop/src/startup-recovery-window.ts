@@ -9,6 +9,7 @@ import {
   auxiliaryWindowChromeOptions,
   auxiliaryWindowHasCustomFrame,
 } from './auxiliary-window-options.ts'
+import { brandedDisplayName } from './branding.ts'
 import { showDesktopDialog, showDesktopMessageBox } from './desktop-dialog-window.ts'
 import { createDesktopLocalWindow } from './local-window-policy.ts'
 import type { DesktopLocale } from './runtime.ts'
@@ -297,7 +298,7 @@ export class DesktopStartupRecoveryWindow {
 
   /** Open the local recovery document and settle only on explicit restart, quit, or close. */
   async run(): Promise<RecoveryWindowResult> {
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     const result = new Promise<RecoveryWindowResult>(resolve => { this.resolveResult = resolve })
     try {
       this.snapshot = await this.options.controller?.snapshot()
@@ -358,7 +359,7 @@ export class DesktopStartupRecoveryWindow {
     readonly path?: string
   }): Promise<void> {
     if (this.busy || this.settled) return
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     try {
       if (action.action === 'preview-uninstall' && action.id !== undefined) {
         this.activeTab = 'plugins'
@@ -564,7 +565,7 @@ export class DesktopStartupRecoveryWindow {
   ): Promise<void> {
     const window = this.window
     if (window === undefined || window.isDestroyed()) return
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     const error = cause instanceof DesktopStartupRecoveryControllerError ? cause : undefined
     const stage = error?.operationStage ?? 'checkpoint-restore'
     const message = error?.message ?? (cause instanceof Error ? cause.message : String(cause))
@@ -595,7 +596,7 @@ export class DesktopStartupRecoveryWindow {
   ): Promise<boolean> {
     const window = this.window
     if (window === undefined || window.isDestroyed()) return false
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     const slotNumber = 'slotId' in preview ? preview.slotId.slice(-1) : undefined
     const message = 'packageName' in preview
       ? preview.packageName
@@ -626,7 +627,7 @@ export class DesktopStartupRecoveryWindow {
   private async confirmSafeMode(): Promise<boolean> {
     const window = this.window
     if (window === undefined || window.isDestroyed()) return false
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     const result = await showDesktopMessageBox({
       type: 'question',
       title: copy.confirmSafeMode,
@@ -643,7 +644,7 @@ export class DesktopStartupRecoveryWindow {
   private async confirmDataDirectoryChange(): Promise<boolean> {
     const window = this.window
     if (window === undefined || window.isDestroyed()) return false
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     const result = await showDesktopMessageBox({
       type: 'question',
       title: copy.confirmDataDirectoryChange,
@@ -660,7 +661,7 @@ export class DesktopStartupRecoveryWindow {
   private async confirmRestoreDefaultDirectory(createIfMissing: boolean): Promise<boolean> {
     const window = this.window
     if (window === undefined || window.isDestroyed()) return false
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     const result = await showDesktopMessageBox({
       type: 'question',
       title: createIfMissing
@@ -688,7 +689,7 @@ export class DesktopStartupRecoveryWindow {
   private async confirmFactoryReset(currentDirectory: string): Promise<boolean> {
     const window = this.window
     if (window === undefined || window.isDestroyed()) return false
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     const result = await showDesktopMessageBox({
       type: 'warning',
       title: copy.confirmFactoryReset,
@@ -705,7 +706,7 @@ export class DesktopStartupRecoveryWindow {
   private async showDataOperationFailure(cause: unknown): Promise<void> {
     const window = this.window
     if (window === undefined || window.isDestroyed()) return
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     await showDesktopDialog({
       type: 'error',
       title: copy.dataOperationFailedTitle,
@@ -777,8 +778,8 @@ export class DesktopStartupRecoveryWindow {
       this.diagnostics = { status: 'failed' }
       this.notice = {
         tone: 'error',
-        title: desktopRecoveryCopy(this.options.locale).diagnostics,
-        body: desktopRecoveryCopy(this.options.locale).diagnosticsFailed,
+        title: desktopRecoveryCopy(this.options.locale, brandedDisplayName()).diagnostics,
+        body: desktopRecoveryCopy(this.options.locale, brandedDisplayName()).diagnosticsFailed,
       }
       await this.render()
       throw cause
@@ -829,8 +830,9 @@ export class DesktopStartupRecoveryWindow {
         locale: this.options.locale,
         platform: process.platform,
         frame: String(auxiliaryWindowHasCustomFrame()),
-      },
-    })
+        brand: brandedDisplayName(),
+        },
+        })
     if (this.notice === notice) this.notice = undefined
   }
 

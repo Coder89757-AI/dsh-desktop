@@ -4,6 +4,11 @@ import {
   type DesktopDirectoryPickerResponse,
   type DesktopDirectoryValidationResponse,
 } from '../directory-picker-contract.ts'
+import { injectedProductName } from '../native-ui/brand.ts'
+
+/** Visible product name spliced into this module's copy. */
+const PRODUCT = injectedProductName()
+
 
 /** Window seam consumed by the patched upstream browse panel. */
 export interface DesktopDirectoryPickerWindow {
@@ -37,9 +42,9 @@ export async function requestDesktopDirectory(
     method: 'POST',
     headers: { accept: 'application/json' },
   })
-  if (!response.ok) throw new Error('DSH Desktop could not open the system folder picker')
+  if (!response.ok) throw new Error('' + PRODUCT + ' could not open the system folder picker')
   const value: unknown = await response.json()
-  if (!isResponse(value)) throw new Error('DSH Desktop received an invalid response from the system folder picker')
+  if (!isResponse(value)) throw new Error('' + PRODUCT + ' received an invalid response from the system folder picker')
   return value.path
 }
 
@@ -56,9 +61,9 @@ export async function requestDesktopDirectoryValidation(
     },
     body: JSON.stringify({ path }),
   })
-  if (!response.ok) throw new Error('DSH Desktop could not validate the selected workspace')
+  if (!response.ok) throw new Error('' + PRODUCT + ' could not validate the selected workspace')
   const value: unknown = await response.json()
-  if (!isValidationResponse(value)) throw new Error('DSH Desktop received an invalid workspace validation response')
+  if (!isValidationResponse(value)) throw new Error('' + PRODUCT + ' received an invalid workspace validation response')
   return value.allowed
 }
 

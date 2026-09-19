@@ -2,6 +2,11 @@
 
 import type { IndexInjection } from '@deepseek-ai/dsh-host-webserver'
 import { DESKTOP_RECOVERY_RESTART_PATH } from './desktop-settings-contract.ts'
+import { brandedDisplayName } from './branding.ts'
+
+/** Visible product name spliced into this module's copy. */
+const PRODUCT = brandedDisplayName()
+
 
 /** The bounded same-origin request used to restart into Recovery Mode. */
 export const DESKTOP_RECOVERY_RESTART_REQUEST = Object.freeze({
@@ -82,7 +87,7 @@ export const DESKTOP_BOOT_RECOVERY_SCRIPT = `(() => {
   const endpoint = ${JSON.stringify(DESKTOP_RECOVERY_RESTART_PATH)};
   const request = ${JSON.stringify(DESKTOP_RECOVERY_RESTART_REQUEST)};
   const label = '打开恢复模式 / Open Recovery Mode';
-  const description = '部分插件加载失败，可能与当前 DSH 版本不兼容。你可以进入恢复模式卸载有问题的插件，或新建 Profile 后重新启动。 / Some plugins failed to load and may be incompatible with this DSH version. Open Recovery Mode to uninstall the affected plugins or create a new Profile, then restart DSH Desktop.';
+  const description = '部分插件加载失败，可能与当前 DSH 版本不兼容。你可以进入恢复模式卸载有问题的插件，或新建 Profile 后重新启动。 / Some plugins failed to load and may be incompatible with this DSH version. Open Recovery Mode to uninstall the affected plugins or create a new Profile, then restart ${PRODUCT}.';
   const element = (tag, attributes, content) => {
     const node = document.createElement(tag);
     for (const [name, value] of Object.entries(attributes || {})) {

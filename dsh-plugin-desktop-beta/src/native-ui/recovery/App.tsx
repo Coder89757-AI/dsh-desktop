@@ -20,6 +20,7 @@ import {
   Users,
 } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { injectedProductName } from '../brand.ts'
 import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert.tsx'
 import { Button } from '../components/ui/button.tsx'
 import {
@@ -269,9 +270,9 @@ export function RecoveryApp(): JSX.Element {
     setActiveTab(tab)
   }
   if (state === undefined) {
-    const copy = desktopRecoveryCopy(fallbackLocale())
+    const copy = desktopRecoveryCopy(fallbackLocale(), injectedProductName())
     return <><DesktopFrame /><main className="dshNativeContent flex h-screen items-center justify-center p-6"><Alert variant="destructive"><AlertTriangle /><AlertTitle>{copy.title}</AlertTitle><AlertDescription>{copy.fallbackBody}</AlertDescription></Alert></main></>
   }
-  const copy = desktopRecoveryCopy(state.locale)
+  const copy = desktopRecoveryCopy(state.locale, injectedProductName())
   return <><DesktopFrame />{state.terminalAvailable ? <RecoveryTerminalAction busy={state.busy} copy={copy} search={window.location.search} /> : null}<main className={cn('dshNativeContent h-screen overflow-hidden p-5 sm:p-6', state.busy && 'pointer-events-none opacity-70')}><div className="mx-auto flex h-full w-full max-w-5xl flex-col gap-4"><Reason copy={copy} state={state} /><Tabs value={activeTab} onValueChange={value => setActiveTab(value as DesktopRecoveryTab)}><TabsList className="w-full justify-start overflow-x-auto"><TabsTrigger value="quick"><LifeBuoy />{copy.tabs.quick}</TabsTrigger><TabsTrigger value="plugins"><Plug />{copy.tabs.plugins}</TabsTrigger><TabsTrigger value="rollback"><History />{copy.tabs.rollback}</TabsTrigger><TabsTrigger value="profiles"><Users />{copy.tabs.profiles}</TabsTrigger><TabsTrigger value="data"><HardDrive />{copy.tabs.data}</TabsTrigger><TabsTrigger value="diagnostics"><Stethoscope />{copy.tabs.diagnostics}</TabsTrigger></TabsList><TabsContent value="quick"><QuickRecoveryPanel copy={copy} state={state} onNavigate={navigate} /></TabsContent><TabsContent value="plugins"><PluginsPanel copy={copy} state={state} /></TabsContent><TabsContent value="rollback"><RollbackPanel copy={copy} state={state} /></TabsContent><TabsContent value="profiles"><ProfilesPanel copy={copy} state={state} /></TabsContent><TabsContent value="data"><DataManagementPanel copy={copy} state={state} /></TabsContent><TabsContent value="diagnostics"><DiagnosticsPanel copy={copy} state={state} /></TabsContent></Tabs><RecoveryActionFooter leading={state.busy ? <span className="inline-flex items-center gap-2 text-sm text-muted-foreground"><RefreshCw className="size-4 animate-spin" />{copy.working}</span> : undefined}><Action action="restart" icon={<RotateCcw />} variant={state.restartReady ? 'default' : 'outline'}>{copy.restart}</Action><Action action="quit" icon={<Power />}>{copy.quit}</Action></RecoveryActionFooter></div></main><RecoveryNoticeSurface notice={state.notice} /></>
 }

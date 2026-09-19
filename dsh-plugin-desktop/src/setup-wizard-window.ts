@@ -2,6 +2,7 @@
 
 import type { BrowserWindow } from 'electron'
 import { fileURLToPath } from 'node:url'
+import { brandedDisplayName } from './branding.ts'
 import {
   auxiliaryWindowChromeOptions,
   auxiliaryWindowHasCustomFrame,
@@ -149,7 +150,8 @@ export class DesktopSetupWizardWindow {
       throw new TypeError('dsh-plugin-desktop: invalid Setup Wizard input')
     }
     const { input } = this.options
-    const copy = desktopSetupWizardCopy(this.options.locale)
+    const productName = brandedDisplayName()
+    const copy = desktopSetupWizardCopy(this.options.locale, productName)
     const state = Buffer.from(JSON.stringify(input), 'utf8').toString('base64url')
     const customFrame = auxiliaryWindowHasCustomFrame(input.platform)
     const window = createDesktopLocalWindow({
@@ -209,6 +211,7 @@ export class DesktopSetupWizardWindow {
           state,
           platform: input.platform,
           frame: String(customFrame),
+          brand: productName,
         },
       }).catch((cause: unknown) => {
         if (settled) return

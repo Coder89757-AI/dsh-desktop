@@ -11,6 +11,11 @@ import {
   DESKTOP_PRODUCT_IDENTITY,
 } from './product-identity.ts'
 import { brandedUserDataDirectoryName } from './branding.ts'
+import { brandedDisplayName } from './branding.ts'
+
+/** Visible product name spliced into this module's copy. */
+const PRODUCT = brandedDisplayName()
+
 
 /** Parsed launcher action. */
 export type DesktopCliAction = 'export-diagnostics' | 'help' | 'version' | 'launch'
@@ -18,7 +23,7 @@ export type DesktopCliAction = 'export-diagnostics' | 'help' | 'version' | 'laun
 /** Human-readable launcher help. */
 export const DESKTOP_CLI_HELP = `Usage: dsh-plugin-desktop [options]
 
-Launch 法海问津 with the selected Web-capable profile.
+Launch ${PRODUCT} with the selected Web-capable profile.
 
 Options:
   --export-diagnostics  export logs and crash evidence without launching the app
@@ -60,7 +65,7 @@ export function defaultDesktopUserDataDirectory(
   if (platform === 'win32') {
     const appData = environment.APPDATA
     if (appData === undefined || appData.length === 0) {
-      throw new Error('APPDATA is unavailable; cannot locate 法海问津 diagnostics')
+      throw new Error('APPDATA is unavailable; cannot locate ' + PRODUCT + ' diagnostics')
     }
     return path.join(appData, directoryName)
   }
@@ -91,7 +96,7 @@ async function launchElectron(): Promise<number> {
       + `  npm install -g ${DESKTOP_PACKAGE_NAME}\n`
       + 'Or add electron to the profile before launching:\n'
       + '  dsh plugin --profile <name> add electron\n'
-      + 'Or use the packaged 法海问津 application.\n',
+      + 'Or use the packaged ' + PRODUCT + ' application.\n',
     )
     return 1
   }

@@ -6,6 +6,7 @@ import {
   auxiliaryWindowChromeOptions,
   auxiliaryWindowHasCustomFrame,
 } from './auxiliary-window-options.ts'
+import { brandedDisplayName } from './branding.ts'
 import { revealApplication } from './electron-reveal.ts'
 import { createDesktopLocalWindow } from './local-window-policy.ts'
 import { desktopRecoveryCopy } from './recovery-copy.ts'
@@ -60,7 +61,7 @@ export class DesktopProfileSelectionWindow {
   constructor(private readonly options: DesktopProfileSelectionWindowOptions) {}
 
   async run(): Promise<DesktopProfileSelectionResult> {
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     const result = new Promise<DesktopProfileSelectionResult>((resolve, reject) => {
       this.resolveResult = resolve
       this.rejectResult = reject
@@ -120,7 +121,7 @@ export class DesktopProfileSelectionWindow {
     this.busy = true
     this.notice = undefined
     await this.render()
-    const copy = desktopRecoveryCopy(this.options.locale)
+    const copy = desktopRecoveryCopy(this.options.locale, brandedDisplayName())
     try {
       if (action.action === 'switch' && action.name !== undefined) {
         await this.options.profileActions.switchProfile(action.name, this.options.profileActions.token)
@@ -159,8 +160,9 @@ export class DesktopProfileSelectionWindow {
         locale: this.options.locale,
         platform: process.platform,
         frame: String(auxiliaryWindowHasCustomFrame(process.platform, false)),
-      },
-    })
+        brand: brandedDisplayName(),
+        },
+        })
     if (this.notice === notice) this.notice = undefined
   }
 

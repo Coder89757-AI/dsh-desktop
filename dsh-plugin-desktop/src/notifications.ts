@@ -5,6 +5,11 @@ import type { JobSnapshot } from '@deepseek-ai/dsh-jobs'
 import type { Session, SessionEvent } from '@deepseek-ai/dsh-session'
 import z from '@deepseek-ai/schemastery'
 import type { DesktopLocale, DesktopNotification } from './runtime.ts'
+import { brandedDisplayName } from './branding.ts'
+
+/** Visible product name spliced into this module's copy. */
+const PRODUCT = brandedDisplayName()
+
 
 export const name = 'desktop-notifications'
 export const inject = ['desktopRuntime']
@@ -34,15 +39,15 @@ type NotificationOutcome = 'turn-completed' | 'turn-failed' | 'job-completed' | 
 const NOTIFICATION_COPY: Record<DesktopLocale, Record<NotificationOutcome, DesktopNotification>> = {
   en: {
     'turn-completed': { title: 'User Turn Completed', body: 'A user-initiated turn has finished.' },
-    'turn-failed': { title: 'User Turn Failed', body: 'A user-initiated turn could not finish. Open 法海问津 for details.' },
+    'turn-failed': { title: 'User Turn Failed', body: 'A user-initiated turn could not finish. Open ' + PRODUCT + ' for details.' },
     'job-completed': { title: 'Background Job Completed', body: 'A background job has finished.' },
-    'job-failed': { title: 'Background Job Failed', body: 'A background job could not finish. Open 法海问津 for details.' },
+    'job-failed': { title: 'Background Job Failed', body: 'A background job could not finish. Open ' + PRODUCT + ' for details.' },
   },
   zh: {
     'turn-completed': { title: '用户回合已完成', body: '一个由你发起的回合已完成。' },
-    'turn-failed': { title: '用户回合失败', body: '一个由你发起的回合未能完成，请打开 法海问津 查看详情。' },
+    'turn-failed': { title: '用户回合失败', body: '一个由你发起的回合未能完成，请打开 ' + PRODUCT + ' 查看详情。' },
     'job-completed': { title: '后台任务已完成', body: '有一个后台任务已结束。' },
-    'job-failed': { title: '后台任务失败', body: '一个后台任务未能完成，请打开 法海问津 查看详情。' },
+    'job-failed': { title: '后台任务失败', body: '一个后台任务未能完成，请打开 ' + PRODUCT + ' 查看详情。' },
   },
 }
 

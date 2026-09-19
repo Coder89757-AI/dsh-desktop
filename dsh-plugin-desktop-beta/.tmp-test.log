@@ -1,0 +1,1820 @@
+﻿
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.8 [39m[90mD:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta[39m
+
+corepack : dsh-plugin-desktop: renderer failed to load (-105: NAME_NOT_RESOLVED)
+所在位置 C:\Users\liuwa\AppData\Local\Temp\genie-ps-1789783048462-jpfkom.ps1:813 字符: 60
++ ... esktop/dsh-plugin-desktop-beta; corepack yarn vitest run 2>&1 | Out-F ...
++                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (dsh-plugin-desk...E_NOT_RESOLVED):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+dsh-plugin-desktop: renderer failed to load (-102: CONNECTION_REFUSED)
+dsh-plugin-desktop: renderer boot failed (plugins: Unknown client plugin): renderer main frame failed to load (-102: CO
+NNECTION_REFUSED)
+dsh-plugin-desktop: renderer boot failed (plugins: Unknown client plugin): The Renderer did not report boot health with
+in 30000ms.
+dsh-plugin-desktop: renderer process gone (reason: crashed, exitCode: 9 / 0x00000009)
+dsh-plugin-desktop: renderer boot failed (plugins: Unknown client plugin): renderer process gone (reason: crashed, exit
+Code: 9 / 0x00000009)
+dsh-plugin-desktop: renderer process gone (reason: crashed, exitCode: 9 / 0x00000009)
+dsh-plugin-desktop: renderer boot failed (plugins: dsh-vision-router): keyed slot "tool.call.toolview" already has an e
+ntry for key "vision_crop" at priority 0
+dsh-plugin-desktop: renderer boot failed (plugins: dsh-vision-router): The client Loader did not provide an error messa
+ge.
+dsh-plugin-desktop: renderer boot failed (plugins: dsh-vision-router): The client Loader did not provide an error messa
+ge.
+ [31m❯[39m tests/electron-runtime.spec.ts [2m([22m[2m103 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[33m 10433[2mms[22m[39m
+[31m     [31m×[31m uses the independent macOS compatibility frame, Dock icon, and template tray image[39m[33m 508[2mms[22m[39m
+     [32m✓[39m attaches the renderer capability to same-origin HTTP and WebSocket requests only[32m 143[2mms[22m[39m
+     [32m✓[39m restores, debounces, and flushes main-window bounds across shell generations[32m 149[2mms[22m[39m
+     [32m✓[39m fits stale saved bounds into the current display work area[32m 139[2mms[22m[39m
+     [32m✓[39m fails closed before renderer load when the upstream token exchange is rejected[32m 138[2mms[22m[39m
+     [32m✓[39m fails closed when the authenticated redirect chain does not reach the Web root[32m 140[2mms[22m[39m
+     [32m✓[39m reloads the renderer and toggles Developer Tools only for a mounted generation[32m 151[2mms[22m[39m
+     [32m✓[39m uses the Windows caption, hidden menu bar, removed menu, and fixed blue tray image[32m 139[2mms[22m[39m
+     [32m✓[39m selects the restricted Linux platform adapter once for native capabilities[32m 143[2mms[22m[39m
+     [32m✓[39m opens one parented Windows folder chooser and returns its selected path[32m 147[2mms[22m[39m
+     [32m✓[39m blocks unsupported workspace volumes without returning a risky path[32m 3[2mms[22m[39m
+     [32m✓[39m requires explicit confirmation for a removable NTFS workspace[32m 2[2mms[22m[39m
+     [32m✓[39m logs renderer crashes with the Windows exception code[32m 157[2mms[22m[39m
+     [32m✓[39m turns a pre-health renderer crash into one handled startup failure[32m 149[2mms[22m[39m
+     [32m✓[39m reports only a main-frame load failure while boot health is pending[32m 178[2mms[22m[39m
+     [32m✓[39m enforces the renderer boot deadline in the main process[32m 193[2mms[22m[39m
+     [32m✓[39m rejects healthy Renderer evidence when the process exits before native mount completes[32m 197[2mms[22m[39m
+     [32m✓[39m does not reinterpret a renderer crash after healthy boot as install failure[32m 138[2mms[22m[39m
+       [32m✓[39m silently reloads after oom without restarting the Host or revealing a hidden window[32m 7[2mms[22m[39m
+       [32m✓[39m silently reloads after crashed without restarting the Host or revealing a hidden window[32m 4[2mms[22m[39m
+       [32m✓[39m silently reloads after abnormal-exit without restarting the Host or revealing a hidden window[32m 4[2mms[22m[39m
+       [32m✓[39m recovers a crashed renderer while preserving a minimized window[32m 137[2mms[22m[39m
+       [32m✓[39m recovers an isolated chrome crash and waits for both documents[32m 4[2mms[22m[39m
+       [32m✓[39m automatically recovers a blank live page and validates visible content after reload[32m 139[2mms[22m[39m
+       [32m✓[39m replaces a persistently unresponsive renderer without waiting for it to exit itself[32m 141[2mms[22m[39m
+       [32m✓[39m retries a failed main-frame load but ignores subframe errors and aborted navigation[32m 136[2mms[22m[39m
+       [32m✓[39m only asks for help after repeated automatic failure and permits an explicit retry[32m 7[2mms[22m[39m
+       [32m✓[39m does not recover an intentional clean-exit[32m 4[2mms[22m[39m
+       [32m✓[39m does not recover an intentional killed[32m 5[2mms[22m[39m
+       [32m✓[39m cancels queued automatic recovery after quit[32m 5[2mms[22m[39m
+       [32m✓[39m cancels queued automatic recovery after release[32m 4[2mms[22m[39m
+       [32m✓[39m cancels queued automatic recovery after destroy[32m 3[2mms[22m[39m
+       [32m✓[39m ignores a delayed fallback confirmation after disposal and deduplicates prompts[32m 4[2mms[22m[39m
+       [32m✓[39m logs a fallback dialog failure and permits another attempt from the tray[32m 137[2mms[22m[39m
+     [32m✓[39m starts from the saved locale and rebuilds native tray commands when it changes[32m 139[2mms[22m[39m
+     [32m✓[39m handles desktop zoom shortcuts without relying on the native menu[32m 139[2mms[22m[39m
+     [32m✓[39m does not block a sandboxed iframe from navigating to an external origin[32m 139[2mms[22m[39m
+     [32m✓[39m keeps external window links deny-by-default with a narrow protocol allowlist[32m 134[2mms[22m[39m
+     [32m✓[39m protects the main-frame origin across redirects while leaving iframe redirects alone[32m 134[2mms[22m[39m
+     [32m✓[39m shows and hides one native window through ready, activation, tray, and close events[32m 139[2mms[22m[39m
+     [32m✓[39m reveals the startup surface before ready-to-show and does not re-show a visible window[32m 137[2mms[22m[39m
+     [32m✓[39m does not restore or focus a minimized window when ready-to-show arrives late[32m 135[2mms[22m[39m
+     [32m✓[39m does not re-show a window hidden to the tray before ready-to-show[32m 145[2mms[22m[39m
+     [32m✓[39m shows privacy-safe macOS attention only while unfocused and clears it on notification click[32m 137[2mms[22m[39m
+     [32m✓[39m leaves macOS fullscreen before hiding and restores fullscreen when reopened[32m 144[2mms[22m[39m
+     [32m✓[39m reveals and restores macOS fullscreen when reopened during the exit transition[32m 138[2mms[22m[39m
+     [32m✓[39m flashes the Windows taskbar and clears attention on focus and release[32m 137[2mms[22m[39m
+     [32m✓[39m restores a hidden macOS application before revealing its window without stealing focus when already visible[32m 135[2mms[22m[39m
+     [32m✓[39m releases the window and tray when post-load startup wiring fails[32m 144[2mms[22m[39m
+     [32m✓[39m rejects an unsupported Electron platform before creating a runtime[32m 3[2mms[22m[39m
+     [32m✓[39m does not mount a registration disposed before Host boot settles[32m 4[2mms[22m[39m
+     [32m✓[39m keeps tray commands unavailable until the Web surface loads and startup commits[32m 209[2mms[22m[39m
+       [32m✓[39m lists all modes with compatibility selected (en)[32m 152[2mms[22m[39m
+       [32m✓[39m lists all modes with compatibility selected (zh)[32m 142[2mms[22m[39m
+       [32m✓[39m lists all modes with extended selected (en)[32m 141[2mms[22m[39m
+       [32m✓[39m lists all modes with extended selected (zh)[32m 136[2mms[22m[39m
+       [32m✓[39m lists all modes with advanced selected (en)[32m 137[2mms[22m[39m
+       [32m✓[39m lists all modes with advanced selected (zh)[32m 149[2mms[22m[39m
+       [32m✓[39m lists all modes with compatibility selected (en)[32m 141[2mms[22m[39m
+       [32m✓[39m lists all modes with compatibility selected (zh)[32m 136[2mms[22m[39m
+       [32m✓[39m lists all modes with extended selected (en)[32m 138[2mms[22m[39m
+       [32m✓[39m lists all modes with extended selected (zh)[32m 140[2mms[22m[39m
+       [32m✓[39m lists all modes with advanced selected (en)[32m 137[2mms[22m[39m
+       [32m✓[39m lists all modes with advanced selected (zh)[32m 139[2mms[22m[39m
+       [32m✓[39m lists all modes with compatibility selected (en)[32m 139[2mms[22m[39m
+       [32m✓[39m lists all modes with compatibility selected (zh)[32m 140[2mms[22m[39m
+     [32m✓[39m rebuilds ordered effect-scoped tray contributions without replacing native commands[32m 135[2mms[22m[39m
+     [32m✓[39m renders contributed radio submenus in their own profile section[32m 196[2mms[22m[39m
+     [32m✓[39m opens the active profile through the packaged terminal adapter[32m 6[2mms[22m[39m
+     [32m✓[39m coalesces concurrent diagnostic exports and reveals the completed archive[32m 2[2mms[22m[39m
+     [32m✓[39m does not export diagnostics when the privacy confirmation is cancelled[32m 2[2mms[22m[39m
+     [32m✓[39m localizes the diagnostics privacy confirmation[32m 3[2mms[22m[39m
+     [32m✓[39m shows a native error when diagnostic export fails[32m 4[2mms[22m[39m
+     [32m✓[39m shows native errors for synchronous and asynchronous terminal launch failures[32m 5[2mms[22m[39m
+[31m     [31m×[31m shows native recovery when the renderer Loader reports a failed plugin[39m[32m 5[2mms[22m[39m
+     [32m✓[39m logs the renderer boot failure details for diagnostics[32m 2[2mms[22m[39m
+     [32m✓[39m commits a healthy renderer without showing recovery[32m 138[2mms[22m[39m
+     [32m✓[39m opens the active profile terminal from plugin recovery[32m 62[2mms[22m[39m
+     [32m✓[39m requests an orderly restart from plugin recovery[32m 64[2mms[22m[39m
+[31m     [31m×[31m requires Desktop dialog confirmation before an ordinary restart[39m[32m 2[2mms[22m[39m
+     [32m✓[39m requires a distinct confirmation before restarting into recovery mode[32m 2[2mms[22m[39m
+     [32m✓[39m enters Safe Mode from the localized 'win32' 'tray' menu[32m 226[2mms[22m[39m
+     [32m✓[39m enters Safe Mode from the localized 'darwin' 'tray' menu[32m 188[2mms[22m[39m
+     [32m✓[39m enters Safe Mode from the localized 'darwin' 'application' menu[32m 190[2mms[22m[39m
+     [32m✓[39m exits Safe Mode from the localized macOS tray menu[32m 186[2mms[22m[39m
+     [32m✓[39m exits Safe Mode from the localized macOS application menu[32m 188[2mms[22m[39m
+     [32m✓[39m cancels, coalesces, and suppresses Safe Mode restart requests while quitting[32m 4[2mms[22m[39m
+     [32m✓[39m allows retrying Safe Mode after preparation fails[32m 3[2mms[22m[39m
+[31m     [31m×[31m uses Electron networking and confirmation-gated macOS update handoff[39m[32m 7[2mms[22m[39m
+     [32m✓[39m starts the downloaded Windows installer visibly before requesting orderly exit[32m 60[2mms[22m[39m
+     [32m✓[39m does not exit when the downloaded Windows installer fails to spawn[32m 63[2mms[22m[39m
+     [32m✓[39m keeps a downloaded Windows installer idle when installation is deferred[32m 2[2mms[22m[39m
+     [32m✓[39m continues the update handoff when cleanup tracking cannot be persisted[32m 2[2mms[22m[39m
+     [32m✓[39m does not download when the update destination picker is cancelled[32m 2[2mms[22m[39m
+     [32m✓[39m resolves the post-install artifact choice response=0 remove=true[32m 58[2mms[22m[39m
+     [32m✓[39m resolves the post-install artifact choice response=1 remove=false[32m 62[2mms[22m[39m
+     [32m✓[39m rejects a macOS handoff when the operating system cannot open the DMG[32m 2[2mms[22m[39m
+     [32m✓[39m does not show macOS completion after the update generation is cancelled[32m 60[2mms[22m[39m
+     [32m✓[39m uses advanced macOS material options and offers compatibility mode[32m 133[2mms[22m[39m
+     [32m✓[39m refreshes the Windows Mica backdrop after a live advanced theme change[32m 139[2mms[22m[39m
+     [32m✓[39m keeps an extended Windows 10 window opaque when material is off[32m 141[2mms[22m[39m
+     [32m✓[39m does not install a native backdrop when Windows material is off[32m 137[2mms[22m[39m
+     [32m✓[39m restores the preceding native appearance when advanced loading fails[32m 138[2mms[22m[39m
+ [31m❯[39m tests/updates.spec.ts [2m([22m[2m27 tests[22m[2m | [22m[31m6 failed[39m[2m)[22m[33m 1450[2mms[22m[39m
+     [32m✓[39m checks Beta automatically and installs an older stable release only through the explicit action[32m 35[2mms[22m[39m
+     [32m✓[39m exposes the packaged 60-second and six-hour background policy[32m 2[2mms[22m[39m
+     [32m✓[39m applies the Connection 401 rejection before the interactive update route[32m 3[2mms[22m[39m
+     [32m✓[39m applies the Connection 403 rejection before the interactive update route[32m 2[2mms[22m[39m
+     [32m✓[39m passes an authenticated interactive update request to the existing route handler[32m 5[2mms[22m[39m
+     [32m✓[39m renders the update tray command in the active native locale[32m 1[2mms[22m[39m
+     [32m✓[39m reports a manual up-to-date result while automatic polling is disabled: 0[32m 4[2mms[22m[39m
+     [32m✓[39m reports a manual up-to-date result while automatic polling is disabled: 1[32m 2[2mms[22m[39m
+[31m     [31m×[31m announces a background update once without opening a confirmation dialog[39m[33m 1020[2mms[22m[39m
+[31m     [31m×[31m downloads and opens only after confirmation[39m[32m 61[2mms[22m[39m
+[31m     [31m×[31m treats a manual available-version selection as a fresh confirmation[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m rechecks the version after confirmation and skips a rotated download[39m[32m 1[2mms[22m[39m
+     [32m✓[39m keeps an automatic up-to-date result silent[32m 2[2mms[22m[39m
+     [32m✓[39m keeps an automatic failed result silent[32m 1[2mms[22m[39m
+     [32m✓[39m reports a manual same version result without prompting or downloading[32m 1[2mms[22m[39m
+     [32m✓[39m reports a manual older version result without prompting or downloading[32m 1[2mms[22m[39m
+     [32m✓[39m reports a manual invalid version result without prompting or downloading[32m 1[2mms[22m[39m
+     [32m✓[39m reports a manual service unavailable result without prompting or downloading[32m 1[2mms[22m[39m
+     [32m✓[39m reports a manual network failure result without prompting or downloading[32m 1[2mms[22m[39m
+     [32m✓[39m silently resets invalid legacy state before announcing the available version[32m 53[2mms[22m[39m
+[31m     [31m×[31m migrates v2 prompt history without repeating the same background announcement[39m[32m 63[2mms[22m[39m
+     [32m✓[39m does not prompt on a platform without a fixed download entry[32m 1[2mms[22m[39m
+[31m     [31m×[31m shares one pending download and silently restores availability after failure[39m[32m 59[2mms[22m[39m
+     [32m✓[39m aborts checks and downloads and removes the tray item on effect disposal[32m 64[2mms[22m[39m
+     [32m✓[39m releases one update generation once and does not restart background polling[32m 2[2mms[22m[39m
+     [32m✓[39m does not wait for an open manual result dialog during disposal[32m 61[2mms[22m[39m
+     [32m✓[39m reports a timed-out shared manual request and restores the idle tray label[32m 2[2mms[22m[39m
+ [31m❯[39m tests/desktop-runtime-environment.spec.ts [2m([22m[2m18 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 707[2mms[22m[39m
+     [32m✓[39m creates a pnpm-only public PATH on darwin[32m 27[2mms[22m[39m
+     [32m✓[39m creates a pnpm-only public PATH on linux[32m 8[2mms[22m[39m
+     [32m✓[39m keeps recovered login-shell PATH beneath the Desktop runtime PATH[32m 8[2mms[22m[39m
+     [32m✓[39m publishes the POSIX shim as process.execPath and clears every RunAsNode casing[32m 63[2mms[22m[39m
+     [32m✓[39m scopes Electron ABI settings to the pnpm process tree[32m 91[2mms[22m[39m
+[31m     [31m×[31m keeps process.execPath descendants in Electron Node mode on Windows[39m[32m 243[2mms[22m[39m
+     [32m✓[39m creates Windows batch shims without publishing the private Node directory[32m 17[2mms[22m[39m
+     [32m✓[39m removes only its own PATH component when another owner changes PATH later[32m 7[2mms[22m[39m
+     [32m✓[39m normalizes Windows separators and trailing separators when replacing legacy PATH entries[32m 10[2mms[22m[39m
+     [32m✓[39m reclaims PATH precedence from an inherited Desktop terminal shim[32m 84[2mms[22m[39m
+     [32m✓[39m reuses an exact immutable generation without rewriting it[32m 9[2mms[22m[39m
+     [32m✓[39m rejects symlinked state directories before changing PATH[32m 3[2mms[22m[39m
+[31m     [31m×[31m publishes a clean sibling instead of trusting a contaminated generation[39m[32m 16[2mms[22m[39m
+[31m     [31m×[31m leaves legacy unknown files untouched and excludes their directories from PATH[39m[32m 11[2mms[22m[39m
+     [32m✓[39m does not attempt to delete a published generation that could still be locked[32m 14[2mms[22m[39m
+     [32m✓[39m fails loud for unsupported platforms and unsafe generated values[32m 1[2mms[22m[39m
+     [32m✓[39m content-addresses Windows DSH shims and reuses an exact generation[32m 14[2mms[22m[39m
+     [32m✓[39m makes the active profile available to Host plugin child processes[32m 79[2mms[22m[39m
+ [31m❯[39m tests/recovery-plugin-uninstall.spec.ts [2m([22m[2m5 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 369[2mms[22m[39m
+     [32m✓[39m pins packaged Node and pnpm ahead of a released or hostile system PATH[32m 7[2mms[22m[39m
+     [32m✓[39m normalizes the case-insensitive Windows PATH before projecting recovery commands[32m 4[2mms[22m[39m
+     [32m✓[39m runs the packaged official dsh plugin remove argv for the selected Profile[32m 69[2mms[22m[39m
+[31m     [31m×[31m uses packaged pnpm after runtime PATH release and preserves official bundle reconciliation[39m[32m 199[2mms[22m[39m
+     [32m✓[39m retains bounded command diagnostics when dsh plugin remove fails[32m 89[2mms[22m[39m
+ [31m❯[39m tests/startup-recovery-window.spec.ts [2m([22m[2m39 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[33m 306[2mms[22m[39m
+     [32m✓[39m executes a plugin mutation only after the Desktop dialog accepts its preview[32m 7[2mms[22m[39m
+     [32m✓[39m opens a detailed Desktop window when checkpoint rollback fails[32m 20[2mms[22m[39m
+     [32m✓[39m opens a detailed Desktop window when dsh plugin uninstall fails[32m 2[2mms[22m[39m
+     [32m✓[39m does not open an extra window after a successful checkpoint rollback[32m 3[2mms[22m[39m
+     [32m✓[39m delivers a recovery notice to the renderer exactly once[32m 1[2mms[22m[39m
+     [32m✓[39m refreshes and marks restart ready after the Profile creator selects a new Profile[32m 1[2mms[22m[39m
+     [32m✓[39m prepares Safe Mode only after confirmation and settles for a Safe Mode relaunch[32m 2[2mms[22m[39m
+     [32m✓[39m requires confirmation before revealing the data-directory editor[32m 1[2mms[22m[39m
+     [32m✓[39m uses the Electron directory picker and changes only to an explicitly submitted path[32m 2[2mms[22m[39m
+[31m     [31m×[31m restores the platform-default data directory only after confirmation and then restarts[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m asks to create a new environment when the platform-default directory was deleted[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m factory-resets the exact displayed directory only after destructive confirmation[39m[32m 2[2mms[22m[39m
+     [32m✓[39m shares an in-flight export and reuses the saved result[32m 57[2mms[22m[39m
+     [32m✓[39m clears a failed export task so the next attempt can retry[32m 127[2mms[22m[39m
+     [32m✓[39m cancels the in-flight export when the recovery window generation ends[32m 64[2mms[22m[39m
+     [32m✓[39m uses the 800x760 default on a spacious current display[32m 1[2mms[22m[39m
+     [32m✓[39m subtracts 48px and clamps each dimension to the current work area[32m 0[2mms[22m[39m
+     [32m✓[39m lowers native minimums safely for very small work areas[32m 0[2mms[22m[39m
+     [32m✓[39m falls back to the primary display when the current display cannot be read[32m 0[2mms[22m[39m
+     [32m✓[39m accepts only known actions with the expected id shape[32m 1[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: not a url[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: https://restart[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://unknown[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://home/[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://user:password@home[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://home:1234[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://home#fragment[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://home?id=unexpected[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://home?extra=value[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://preview-uninstall[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://preview-uninstall?id=short[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://preview-uninstall?id=opaque-id_0001&id=opaque-id_0002[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://preview-uninstall?id=opaque-id_0001&extra=value[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://apply-data-directory[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://apply-data-directory?path=[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://restore-default-data-directory?path=%2Ftmp%2Funexpected[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://factory-reset?path=%2Ftmp%2Funexpected[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://preview-uninstall?id=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx[32m 0[2mms[22m[39m
+     [32m✓[39m rejects invalid or over-privileged navigation: dsh-recovery://apply-data-directory?path=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx[32m 1[2mms[22m[39m
+ [31m❯[39m tests/profile-selection-window.spec.ts [2m([22m[2m4 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 198[2mms[22m[39m
+     [32m✓[39m accepts only bounded local Profile actions[32m 3[2mms[22m[39m
+[31m     [31m×[31m switches an existing Profile and waits for an explicit restart[39m[32m 76[2mms[22m[39m
+[31m     [31m×[31m keeps a newly created and selected Profile open until the user restarts[39m[32m 55[2mms[22m[39m
+     [32m✓[39m returns to the Profile selector when new-Profile creation is cancelled[32m 62[2mms[22m[39m
+ [31m❯[39m tests/desktop-terminal.spec.ts [2m([22m[2m9 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 131[2mms[22m[39m
+     [32m✓[39m keeps generated shims isolated by active profile[32m 4[2mms[22m[39m
+[31m     [31m×[31m generates private macOS shims and opens one quoted welcome command[39m[32m 28[2mms[22m[39m
+[31m     [31m×[31m generates Windows batch shims and opens PowerShell through a visible-console broker[39m[32m 20[2mms[22m[39m
+     [32m✓[39m opens a new Windows Terminal window when wt.exe is available[32m 8[2mms[22m[39m
+     [32m✓[39m falls back to a quoted command prompt welcome when PowerShell is unavailable[32m 15[2mms[22m[39m
+     [32m✓[39m prefers pwsh and reports broker errors and unsuccessful exits[32m 19[2mms[22m[39m
+     [32m✓[39m does not trust the Windows Terminal app execution alias without an explicit adapter[32m 10[2mms[22m[39m
+     [32m✓[39m keeps Windows scripts ASCII and passes localized paths through the child environment[32m 9[2mms[22m[39m
+     [32m✓[39m accepts localized macOS profile names and rejects path escapes before writing state[32m 16[2mms[22m[39m
+ [31m❯[39m tests/module-resolution.spec.ts [2m([22m[2m30 tests[22m[2m | [22m[31m13 failed[39m[2m)[22m[32m 42[2mms[22m[39m
+[31m     [31m×[31m passes builtin node:fs through without inspecting the parent filesystem[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m passes builtin fs through without inspecting the parent filesystem[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m passes builtin node:path through without inspecting the parent filesystem[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m passes builtin path through without inspecting the parent filesystem[39m[32m 1[2mms[22m[39m
+     [32m✓[39m uses the overlay-selected side for every Loader package and subpath[32m 5[2mms[22m[39m
+     [32m✓[39m caches one overlay selection per Profile generation and package root[32m 1[2mms[22m[39m
+     [32m✓[39m refreshes overlay selection when a new HMR generation retains the Profile[32m 1[2mms[22m[39m
+     [32m✓[39m also recognizes the Loader native dynamic-import fallback[32m 1[2mms[22m[39m
+[31m     [31m×[31m recognizes the clean-boot Profile directory URL as a Loader boundary[39m[32m 0[2mms[22m[39m
+     [32m✓[39m keeps non-package Loader specifiers on ordinary Node resolution[32m 1[2mms[22m[39m
+     [32m✓[39m keeps repeated Loader selection and the tracked ASAR graph off realpath[32m 1[2mms[22m[39m
+     [32m✓[39m canonicalizes an aliased Profile boundary once and reuses the cached path[32m 1[2mms[22m[39m
+     [32m✓[39m reuses canonical URL identities, preserves query/hash, and invalidates them on HMR[32m 6[2mms[22m[39m
+     [32m✓[39m does not cache a failed canonical lookup before an aliased Profile file appears[32m 1[2mms[22m[39m
+     [32m✓[39m tracks both alias and canonical URLs for a linked module graph[32m 1[2mms[22m[39m
+     [32m✓[39m keeps package-local dependencies and Profile fallback across linked relative modules[32m 1[2mms[22m[39m
+[31m     [31m×[31m allows linked Profile modules to resolve dependencies from shared Profile node_modules[39m[32m 0[2mms[22m[39m
+     [32m✓[39m allows a Desktop-selected package to use a missing dependency from the Profile overlay[32m 1[2mms[22m[39m
+[31m     [31m×[31m falls back to the Desktop installation after CommonJS-style misses[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m bypasses an obsolete shared Profile proxy before using the Desktop package[39m[32m 0[2mms[22m[39m
+     [32m✓[39m does not expose Profile dependencies to unrelated modules[32m 1[2mms[22m[39m
+     [32m✓[39m uses the same hook and overlay for CommonJS package manifests from Profile anchors[32m 2[2mms[22m[39m
+     [32m✓[39m keeps the ESM hook in pass-through mode during explicit CommonJS resolution[32m 1[2mms[22m[39m
+     [32m✓[39m propagates Profile ownership from a config boundary through a relative CommonJS child[32m 1[2mms[22m[39m
+[31m     [31m×[31m migrates a live v1 resolver state in place during HMR[39m[32m 1[2mms[22m[39m
+     [32m✓[39m deregisters hooks only once even if the disposer is reused[32m 0[2mms[22m[39m
+[31m     [31m×[31m multiplexes Profiles through one hook and tolerates out-of-order release[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m reference-counts duplicate Profile registrations[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m restores the correct newest Profile after an A-B-A retain is released[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m requires a plain package.json file URL anchor[39m[32m 3[2mms[22m[39m
+ [31m❯[39m tests/compatibility-shell.spec.ts [2m([22m[2m14 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 42[2mms[22m[39m
+     [32m✓[39m preserves the content material boundary for darwin extended transparent[32m 7[2mms[22m[39m
+     [32m✓[39m preserves the content material boundary for win32 extended mica[32m 1[2mms[22m[39m
+     [32m✓[39m preserves the content material boundary for darwin extended off[32m 1[2mms[22m[39m
+     [32m✓[39m preserves the content material boundary for darwin compatibility transparent[32m 1[2mms[22m[39m
+[31m     [31m×[31m isolates compatibility chrome with native bounds outside the content document[39m[32m 13[2mms[22m[39m
+[31m     [31m×[31m isolates extended chrome with native bounds outside the content document[39m[32m 2[2mms[22m[39m
+     [32m✓[39m rejects other renderers, child frames, navigated chrome, and arbitrary commands[32m 3[2mms[22m[39m
+     [32m✓[39m preserves the Windows content surface through minimize, blur, and restore without reloading[32m 2[2mms[22m[39m
+     [32m✓[39m does not resize the page when chrome popups expand, collapse, or lose focus[32m 1[2mms[22m[39m
+     [32m✓[39m routes fixed actions without replacing the HTML menus with native menus[32m 2[2mms[22m[39m
+     [32m✓[39m returns persistence and update failures to the original inline error UI[32m 2[2mms[22m[39m
+     [32m✓[39m expands transparent chrome above content only while HTML popups need it[32m 1[2mms[22m[39m
+     [32m✓[39m blocks chrome navigation and disposes the child renderer and IPC exactly once[32m 2[2mms[22m[39m
+   [32m✓[39m exposes the remote-control offer only to trusted chrome and clears the dot on click[32m 3[2mms[22m[39m
+ [31m❯[39m tests/verify-electron-fuses.spec.ts [2m([22m[2m21 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 35[2mms[22m[39m
+     [32m✓[39m maps only requested platform and architecture keys to complete runtime contexts[32m 15[2mms[22m[39m
+     [32m✓[39m propagates global directory packaging to final mac fuse checks[32m 0[2mms[22m[39m
+     [32m✓[39m propagates global directory packaging to final win fuse checks[32m 0[2mms[22m[39m
+     [32m✓[39m propagates global directory packaging to final linux fuse checks[32m 0[2mms[22m[39m
+     [32m✓[39m honors Linux executableName and recovers a configured suffixless architecture[32m 0[2mms[22m[39m
+     [32m✓[39m maps mac to its platform, architecture, and appOutDir[32m 0[2mms[22m[39m
+     [32m✓[39m maps mac-arm64 to its platform, architecture, and appOutDir[32m 0[2mms[22m[39m
+     [32m✓[39m maps mac-universal to its platform, architecture, and appOutDir[32m 0[2mms[22m[39m
+     [32m✓[39m maps win-ia32-unpacked to its platform, architecture, and appOutDir[32m 0[2mms[22m[39m
+     [32m✓[39m maps linux-armv7l-unpacked to its platform, architecture, and appOutDir[32m 0[2mms[22m[39m
+     [32m✓[39m rejects an unsupported configured default architecture[32m 1[2mms[22m[39m
+     [32m✓[39m ignores a stale sibling architecture from an earlier build[32m 3[2mms[22m[39m
+[31m     [31m×[31m fails when one requested architecture is missing even if a sibling exists[39m[32m 7[2mms[22m[39m
+     [32m✓[39m resolves a real target-name map through the target archs retained by NSIS[32m 0[2mms[22m[39m
+     [32m✓[39m resolves mac universal from the target packager request and ignores component outputs[32m 0[2mms[22m[39m
+     [32m✓[39m checks every requested final executable after all artifact builds[32m 2[2mms[22m[39m
+     [32m✓[39m fails loud when required fuse 0 is not enabled[32m 1[2mms[22m[39m
+     [32m✓[39m fails loud when required fuse 4 is not enabled[32m 0[2mms[22m[39m
+     [32m✓[39m fails loud when required fuse 5 is not enabled[32m 0[2mms[22m[39m
+     [32m✓[39m requires both ASAR fuses disabled for directory packages[32m 0[2mms[22m[39m
+     [32m✓[39m wraps an unreadable final executable with its resolved path[32m 0[2mms[22m[39m
+ [31m❯[39m tests/notifications.spec.ts [2m([22m[2m8 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 33[2mms[22m[39m
+     [32m✓[39m registers live notification settings with the global switch enabled by default[32m 7[2mms[22m[39m
+[31m     [31m×[31m notifies for completed and failed jobs without exposing job details[39m[32m 13[2mms[22m[39m
+[31m     [31m×[31m applies live settings independently to successful and failed outcomes[39m[32m 3[2mms[22m[39m
+     [32m✓[39m keeps fine-grained choices while the live global switch is disabled[32m 1[2mms[22m[39m
+     [32m✓[39m notifies only matching direct-user turn endings[32m 1[2mms[22m[39m
+[31m     [31m×[31m treats max-tokens as a failure and keeps non-failure endings silent[39m[32m 4[2mms[22m[39m
+     [32m✓[39m drops open turn state when sessions detach and disposes optional observers[32m 1[2mms[22m[39m
+     [32m✓[39m drops an unfinished turn when its session is disposed[32m 1[2mms[22m[39m
+ [31m❯[39m tests/package-dir.spec.ts [2m([22m[2m3 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 20[2mms[22m[39m
+     [32m✓[39m removes release secrets while preserving ordinary build inputs[32m 2[2mms[22m[39m
+[31m     [31m×[31m passes explicit unsigned and no-notarization overrides to Electron Builder[39m[32m 10[2mms[22m[39m
+     [32m✓[39m propagates spawn failures and non-zero exits[32m 5[2mms[22m[39m
+ [31m❯[39m tests/desktop-copy.spec.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 18[2mms[22m[39m
+     [32m✓[39m reuses the Safe Mode confirmation in en native menus[32m 4[2mms[22m[39m
+     [32m✓[39m reuses the Safe Mode confirmation in zh native menus[32m 1[2mms[22m[39m
+     [32m✓[39m uses Profile consistently for product-level configuration sets[32m 1[2mms[22m[39m
+     [32m✓[39m separates Recovery Mode from checkpoint rollback[32m 2[2mms[22m[39m
+[31m     [31m×[31m ships localized native update and failure dialogs[39m[32m 7[2mms[22m[39m
+     [32m✓[39m explains cross-channel Profile risk and routes users to Profile selection[32m 1[2mms[22m[39m
+ [31m❯[39m tests/lifecycle-events.spec.ts [2m([22m[2m13 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 20166[2mms[22m[39m
+     [32m✓[39m rejects an invalid schema version[32m 3[2mms[22m[39m
+     [32m✓[39m rejects an invalid event name[32m 0[2mms[22m[39m
+     [32m✓[39m rejects an invalid stage id[32m 0[2mms[22m[39m
+     [32m✓[39m rejects an invalid detail key[32m 0[2mms[22m[39m
+     [32m✓[39m rejects an invalid duration[32m 0[2mms[22m[39m
+     [32m✓[39m rejects an invalid run id[32m 0[2mms[22m[39m
+     [32m✓[39m rejects an invalid operation id[32m 0[2mms[22m[39m
+     [32m✓[39m uses injected clocks and ids for one correlated startup run[32m 17[2mms[22m[39m
+     [32m✓[39m keeps a newer recorder generation isolated from a delayed older recorder[32m 37[2mms[22m[39m
+     [32m✓[39m records renderer start separately from terminal healthy, failed, and timeout outcomes[32m 102[2mms[22m[39m
+[31m     [31m×[31m replaces stale run evidence and keeps current evidence within byte caps[39m[33m 19988[2mms[22m[39m
+     [32m✓[39m treats linked or unsafe evidence targets as best-effort logger-only failures[32m 14[2mms[22m[39m
+     [32m✓[39m summarizes only one correlated run while counting malformed and mismatched lines[32m 1[2mms[22m[39m
+[0919/095751.135:ERROR:third_party\crashpad\crashpad\util\win\registration_protocol_win.cc:108] CreateFile: 系统找不到指定的文件。
+ (0x2)
+ [32m✓[39m tests/package.spec.ts [2m([22m[2m47 tests[22m[2m)[22m[33m 6043[2mms[22m[39m
+     [33m[2m✓[22m[39m launches the browser opener helper through Electron Node mode [33m 5433[2mms[22m[39m
+     [33m[2m✓[22m[39m skips product packaging only for documentation-only changes [33m 349[2mms[22m[39m
+ [31m❯[39m tests/host-process-integration.spec.ts [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 10471[2mms[22m[39m
+   [33m[2m✓[22m[39m boots a separate Web Host with client plugins (AA enabled: false) [33m 7432[2mms[22m[39m
+[31m   [31m×[31m boots a separate Web Host with client plugins (AA enabled: true)[39m[33m 3037[2mms[22m[39m
+ [32m✓[39m tests/pnpm.spec.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 2922[2mms[22m[39m
+     [33m[2m✓[22m[39m disables release-age checks for zero and invalid policy values [33m 2827[2mms[22m[39m
+ [32m✓[39m tests/profile-checkpoint.spec.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 1083[2mms[22m[39m
+ [31m❯[39m tests/diagnostic-export.spec.ts [2m([22m[2m17 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 2599[2mms[22m[39m
+     [32m✓[39m terminates a diagnostic Worker that does not respond before its deadline[32m 91[2mms[22m[39m
+     [32m✓[39m terminates a diagnostic Worker when its owning operation is cancelled[32m 11[2mms[22m[39m
+     [32m✓[39m produces a zip containing the log files and system info[32m 184[2mms[22m[39m
+     [32m✓[39m exports recovery evidence even when the application never created a log directory[32m 171[2mms[22m[39m
+     [32m✓[39m includes lifecycle JSONL and a correlated summary in the diagnostic archive[32m 228[2mms[22m[39m
+     [32m✓[39m shares one byte cap across lifecycle evidence, lifecycle summary, and logs[32m 179[2mms[22m[39m
+     [32m✓[39m skips a linked lifecycle evidence file without failing the diagnostic export[32m 178[2mms[22m[39m
+     [32m✓[39m skips lifecycle evidence reached through a linked parent directory[32m 186[2mms[22m[39m
+     [32m✓[39m allows evidence when user data is reached through a linked ancestor[32m 194[2mms[22m[39m
+     [32m✓[39m includes local Crashpad minidumps but excludes unrelated crash files[32m 185[2mms[22m[39m
+     [32m✓[39m applies one archive byte limit across crash dumps and logs[32m 162[2mms[22m[39m
+     [32m✓[39m rejects a linked crash dump directory[32m 157[2mms[22m[39m
+     [32m✓[39m archives only owned regular log files[32m 169[2mms[22m[39m
+     [32m✓[39m rejects a linked diagnostics output directory[32m 154[2mms[22m[39m
+     [32m✓[39m rejects a linked log directory[32m 151[2mms[22m[39m
+[31m     [31m×[31m retains only the three newest diagnostics archives[39m[32m 11[2mms[22m[39m
+     [32m✓[39m includes only the newest logs that fit within the archive byte limit[32m 184[2mms[22m[39m
+ [32m✓[39m tests/profile.spec.ts [2m([22m[2m50 tests[22m[2m)[22m[33m 967[2mms[22m[39m
+ [31m❯[39m tests/market-pnpm-integration.spec.ts [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 672[2mms[22m[39m
+[31m     [31m×[31m executes a market uninstall route through the managed desktop pnpm boundary[39m[33m 670[2mms[22m[39m
+[low_level_alloc.cc : 554] RAW: Check new_pages != nullptr failed: VirtualAlloc failed
+ [31m❯[39m tests/preset-resolution.spec.ts [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 117[2mms[22m[39m
+[31m   [31m×[31m checks preset dependencies through the real Desktop resolver without importing plugins[39m[32m 116[2mms[22m[39m
+ [32m✓[39m tests/profile-channel-admission.spec.ts [2m([22m[2m13 tests[22m[2m)[22m[33m 671[2mms[22m[39m
+ [32m✓[39m tests/safe-mode.spec.ts [2m([22m[2m16 tests[22m[2m)[22m[33m 334[2mms[22m[39m
+ [32m✓[39m tests/dshmarket-compat.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 300[2mms[22m[39m
+ [32m✓[39m tests/desktop-plugins.spec.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 244[2mms[22m[39m
+ [32m✓[39m tests/lan-https-ingress.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 285[2mms[22m[39m
+ [32m✓[39m tests/profile-manager.spec.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 251[2mms[22m[39m
+ [32m✓[39m tests/setup-wizard-settings.spec.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 165[2mms[22m[39m
+ [32m✓[39m tests/desktop-factory-reset.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 189[2mms[22m[39m
+ [32m✓[39m tests/update-download.spec.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 172[2mms[22m[39m
+ [32m✓[39m tests/request-inventory-resolution.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 189[2mms[22m[39m
+ [32m✓[39m tests/verify-mac-smoke.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 136[2mms[22m[39m
+ [32m✓[39m tests/dsh-settings-legacy-compat.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 143[2mms[22m[39m
+ [32m✓[39m tests/verify-packaged-runtime.spec.ts [2m([22m[2m77 tests[22m[2m)[22m[32m 153[2mms[22m[39m
+ [32m✓[39m tests/setup-wizard-state.spec.ts [2m([22m[2m12 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[32m 164[2mms[22m[39m
+ [32m✓[39m tests/module-resolution.integration.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 146[2mms[22m[39m
+ [32m✓[39m tests/lan-https-runtime.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 197[2mms[22m[39m
+ [32m✓[39m tests/bin.spec.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 158[2mms[22m[39m
+ [32m✓[39m tests/desktop-data-directory.spec.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 121[2mms[22m[39m
+ [32m✓[39m tests/profile-preferences.spec.ts [2m([22m[2m9 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[32m 124[2mms[22m[39m
+ [32m✓[39m tests/upstream-session-migration.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 115[2mms[22m[39m
+ [32m✓[39m tests/client-aa-settings.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 99[2mms[22m[39m
+ [32m✓[39m tests/webserver.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 99[2mms[22m[39m
+ [32m✓[39m tests/profile-service.spec.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 96[2mms[22m[39m
+ [32m✓[39m tests/package-overlay.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 99[2mms[22m[39m
+ [32m✓[39m tests/desktop-installation-id.spec.ts [2m([22m[2m13 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[32m 89[2mms[22m[39m
+ [32m✓[39m tests/packaged-filesystem-smoke.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 86[2mms[22m[39m
+ [32m✓[39m tests/remote-control-offer.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 86[2mms[22m[39m
+ [32m✓[39m tests/setup-wizard-native-ui.spec.ts [2m([22m[2m31 tests[22m[2m)[22m[32m 79[2mms[22m[39m
+ [32m✓[39m tests/client-desktop-settings.spec.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 67[2mms[22m[39m
+ [32m✓[39m tests/profile-create-window.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 70[2mms[22m[39m
+ [32m✓[39m tests/plugin.spec.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+ [32m✓[39m tests/remote-control-pill.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 63[2mms[22m[39m
+ [32m✓[39m tests/prepare-fs-ext.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 59[2mms[22m[39m
+ [32m✓[39m tests/desktop-market.spec.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 53[2mms[22m[39m
+ [32m✓[39m tests/host-directory-picker-browse.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 277[2mms[22m[39m
+ [32m✓[39m tests/crash-evidence.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 50[2mms[22m[39m
+ [32m✓[39m tests/log-files.spec.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+[object Object]
+Error: crash here
+    at D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/tests/desktop-logger.spec.ts:67:23
+    at file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/chunk-artifact.j
+s:302:11
+    at file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/chunk-artifact.j
+s:1903:26
+    at file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/chunk-artifact.j
+s:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/c
+hunk-artifact.js:2323:10)
+    at file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/chunk-artifact.j
+s:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/
+chunk-artifact.js:2272:10)
+    at file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/chunk-artifact.j
+s:2955:64
+ [32m✓[39m tests/desktop-logger.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [32m✓[39m tests/startup-recovery-controller.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m✓[39m tests/desktop-settings-api.spec.ts [2m([22m[2m38 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [32m✓[39m tests/verify-win-portable.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m tests/client-environment.spec.ts [2m([22m[2m33 tests[22m[2m)[22m[32m 39[2mms[22m[39m
+ [32m✓[39m tests/update-checker.spec.ts [2m([22m[2m34 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32m✓[39m tests/windows-pwsh-sandbox.spec.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+ [32m✓[39m tests/host-rpc.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m tests/desktop-cli.spec.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+Error: crash in main
+    at D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/tests/logging-integration.spec.ts:46:23
+    at file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/chunk-artifact.j
+s:302:11
+    at file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/chunk-artifact.j
+s:1903:26
+    at file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/chunk-artifact.j
+s:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/c
+hunk-artifact.js:2323:10)
+    at file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/chunk-artifact.j
+s:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/
+chunk-artifact.js:2272:10)
+    at file:///D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/node_modules/@vitest/runner/dist/chunk-artifact.j
+s:2955:64
+ [32m✓[39m tests/logging-integration.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m tests/client-directory-picker.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m tests/host-runtime-bridge.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 35[2mms[22m[39m
+ [32m✓[39m tests/client-boot-health.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m tests/desktop-python-runtime.spec.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/renderer-surface-watchdog.spec.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m tests/verify-win-installer.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/recovery-native-ui.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m tests/setup-wizard-window.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/shell-environment.spec.ts [2m([22m[2m26 tests[22m[2m | [22m[33m9 skipped[39m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/dsh-product-version.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/renderer-recovery.spec.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/desktop-dialog-window.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/profile-materializer.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m tests/lan-addresses.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m tests/windows-volume-diagnostics.spec.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m tests/desktop-actions.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/startup-generation.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/renderer-health.spec.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/client-layout-service.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/file-exporter.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/workspace-admission.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/shutdown.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/release-preflight.spec.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/directory-picker-route.spec.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/client-sidebar-footer-layout.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/main-window-state.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m tests/theme-presenter.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/native-menu.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/installer-messages.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/package-win.spec.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/mask-secrets.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/desktop-dialog-native-ui.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/session-projcache-recovery.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/host-process.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/window-options.spec.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/release-mac.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/verify-mac-release.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/setup-wizard-copy.spec.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/desktop-boot-recovery.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/profiles.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/local-window-policy.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/electron-platform.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/desktop-browser-access.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/package-mac.spec.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/tray-icons.spec.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/client-modules-startup.spec.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/compatibility-chrome-ui.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/terminal.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/mac-universal.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/window-material.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/renderer-boot.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/diagnostics.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/desktop-network.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/desktop-installer-quit.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/native-ui-frame.spec.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/relaunch-arguments.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/installer-nsh.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/auxiliary-window-options.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/host-launch-environment.spec.ts [2m([22m[2m1 test[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/electron-builder-environment.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/log-level.spec.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/client-directory-picker-browse-patch.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/startup-failure-routing.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 47 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/compatibility-shell.spec.ts[2m > [22misolated compatibility shell[2m > [22misolates
+ compatibility chrome with native bounds outside the content document
+[41m[1m FAIL [22m[49m tests/compatibility-shell.spec.ts[2m > [22misolated compatibility shell[2m > [22misolates
+ extended chrome with native bounds outside the content document
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ StringMatching{…} ][90m
+
+Received:
+
+[1m  1st vi.fn() call:
+
+[22m[2m  [[22m
+[32m-   StringMatching /native-ui\/compatibility-chrome\.html$/,[90m
+[31m+   "D:\\workspace\\agent\\dsh-desktop\\dsh-plugin-desktop-beta\\src\\native-ui\\compatibility-chrome.html",[90m
+[2m  ][22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2m❯[22m tests/compatibility-shell.spec.ts:[2m84:34[22m[39m
+    [90m 82|[39m     [35mawait[39m shell[33m.[39m[34mload[39m()
+    [90m 83|[39m     [34mexpect[39m([34mhandler[39m([34mevent[39m()[33m,[39m [32m'state'[39m))[33m.[39m[
+34mtoMatchObject[39m({ mode })
+    [90m 84|[39m     expect(webContents.loadFile).toHaveBeenCalledWith(expect.stringMat…
+    [90m   |[39m                                  [31m^[39m
+    [90m 85|[39m     expect(window.contentView.addChildView).toHaveBeenCalledWith(shell…
+    [90m 86|[39m     [34mexpect[39m(shell[33m.[39mcontent)[33m.[39m[34mtoMatchObject[39m({ options[33m:[39m
+ { webPreferences[33m:[39m {
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/desktop-copy.spec.ts[2m > [22mDesktop product copy[2m > [22mships localized native 
+update and failure dialogs
+[31m[1mAssertionError[22m: expected 'DSH Desktop Beta 2.1.0 已可用。' to be 'DSH Desktop 2.1.0 已可用。' // Object.is equali
+ty[39m
+
+Expected: [32m"DSH Desktop 2.1.0 已可用。"[39m
+Received: [31m"DSH Desktop [7mBeta [27m2.1.0 已可用。"[39m
+
+[36m [2m❯[22m tests/desktop-copy.spec.ts:[2m66:50[22m[39m
+    [90m 64|[39m     [34mexpect[39m(copy[33m.[39mterminalErrorTitle)[33m.[39m[34mtoBe[39m([32m'无法打开 DSH 终端'
+[39m)
+    [90m 65|[39m     [34mexpect[39m(copy[33m.[39mdiagnosticsErrorTitle)[33m.[39m[34mtoBe[39m([32m'无法导出诊断信息'
+[39m)
+    [90m 66|[39m     expect(copy.updateAvailableMessage('2.1.0')).toBe('DSH Desktop 2.1…
+    [90m   |[39m                                                  [31m^[39m
+    [90m 67|[39m   })
+    [90m 68|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/desktop-runtime-environment.spec.ts[2m > [22mdesktop Host pnpm runtime[2m > [22mkee
+ps process.execPath descendants in Electron Node mode on Windows
+[31m[1mAssertionError[22m: expected { status: 23, …(2) } to deeply equal { status: 23, …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[2m    "status": 23,[22m
+[32m-   "stderr": "child-stderr",[39m
+[31m+   "stderr": "[0919/095743.299:ERROR:third_party\\crashpad\\crashpad\\util\\win\\registration_protocol_win.cc:108
+] CreateFile: 系统找不到指定的文件。 (0x2)
+[39m
+[31m+ child-stderr",[39m
+[2m    "stdout": "child-stdout",[22m
+[2m  }[22m
+
+[36m [2m❯[22m tests/desktop-runtime-environment.spec.ts:[2m275:29[22m[39m
+    [90m273|[39m       expect(resolve(String(capture.execPath))).toBe(resolve(electronE…
+    [90m274|[39m       [34mexpect[39m(capture[33m.[39mrunAsNode)[33m.[39m[34mtoEqual[39m([[32m'ELECTRON_RUN_
+AS_NODE'[39m])
+    [90m275|[39m       [34mexpect[39m(capture[33m.[39mchild)[33m.[39m[34mtoEqual[39m({
+    [90m   |[39m                             [31m^[39m
+    [90m276|[39m         status[33m:[39m [34m23[39m[33m,[39m
+    [90m277|[39m         stdout[33m:[39m [32m'child-stdout'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/desktop-runtime-environment.spec.ts[2m > [22mdesktop Host pnpm runtime[2m > [22mpub
+lishes a clean sibling instead of trusting a contaminated generation
+[31m[1mAssertionError[22m: expected 'C:\Users\liuwa\AppData\Local\Temp\dsh…' to be 'C:\Users\liuwa\AppData\Local\Tem
+p\dsh…' // Object.is equality[39m
+
+Expected: [32m"C:\Users\liuwa\AppData\Local\Temp\dsh-desktop-pnpm-runtime-AnxWQM\runtime\generations\2bf590ac20df56571
+d1441e465ca32667e9ea5ab0ee2b5a231cdd89499adfe02-660dcc32-7beb-4eb0-b906-190bf322ecea\bin:/usr/bin"[39m
+Received: [31m"C:\Users\liuwa\AppData\Local\Temp\dsh-desktop-pnpm-runtime-AnxWQM\runtime\generations\2bf590ac20df56571
+d1441e465ca32667e9ea5ab0ee2b5a231cdd89499adfe02-660dcc32-7beb-4eb0-b906-190bf322ecea\bin:[7mC:\Users\liuwa\AppData\Loc
+al\Temp\dsh-desktop-pnpm-runtime-AnxWQM\runtime\generations\2bf590ac20df56571d1441e465ca32667e9ea5ab0ee2b5a231cdd89499a
+dfe02-1c334713-611c-4769-856f-c5708277e60a\bin:[27m/usr/bin"[39m
+
+[36m [2m❯[22m tests/desktop-runtime-environment.spec.ts:[2m462:30[22m[39m
+    [90m460|[39m     [34mexpect[39m(second[33m.[39mpathDir)[33m.[39mnot[33m.[39m[34mtoBe[39m(first[33m.[3
+9mpathDir)
+    [90m461|[39m     [34mexpect[39m([34mreaddirSync[39m(second[33m.[39mpathDir))[33m.[39m[34mtoEqual[39m([
+[32m'pnpm'[39m])
+    [90m462|[39m     [34mexpect[39m(environment[33m.[39m[33mPATH[39m)[33m.[39m[34mtoBe[39m([32m`[39m[36m
+${[39msecond[33m.[39mpathDir[36m}[39m[32m:/usr/bin`[39m)
+    [90m   |[39m                              [31m^[39m
+    [90m463|[39m     expect(readFileSync(unknownExecutable, 'utf8')).toBe('locked or fo…
+    [90m464|[39m     [34mexpect[39m([34mreadFileSync[39m(target[33m,[39m [32m'utf8'[39m))[33m.[39m[34mtoBe
+[39m([32m'outside'[39m)
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/desktop-runtime-environment.spec.ts[2m > [22mdesktop Host pnpm runtime[2m > [22mlea
+ves legacy unknown files untouched and excludes their directories from PATH
+[31m[1mAssertionError[22m: expected 'C:\Users\liuwa\AppData\Local\Temp\dsh…' to be 'C:\Users\liuwa\AppData\Local\Tem
+p\dsh…' // Object.is equality[39m
+
+Expected: [32m"C:\Users\liuwa\AppData\Local\Temp\dsh-desktop-pnpm-runtime-QtlX7K\runtime\generations\2bf590ac20df56571
+d1441e465ca32667e9ea5ab0ee2b5a231cdd89499adfe02-fd3b72b8-fe40-43e3-b22d-97d233982e81\bin:/usr/bin"[39m
+Received: [31m"C:\Users\liuwa\AppData\Local\Temp\dsh-desktop-pnpm-runtime-QtlX7K\runtime\generations\2bf590ac20df56571
+d1441e465ca32667e9ea5ab0ee2b5a231cdd89499adfe02-fd3b72b8-fe40-43e3-b22d-97d233982e81\bin:[7mC:\Users\liuwa\AppData\Loc
+al\Temp\dsh-desktop-pnpm-runtime-QtlX7K\runtime\bin:C:\Users\liuwa\AppData\Local\Temp\dsh-desktop-pnpm-runtime-QtlX7K\r
+untime\private\node-bin:[27m/usr/bin"[39m
+
+[36m [2m❯[22m tests/desktop-runtime-environment.spec.ts:[2m486:30[22m[39m
+    [90m484|[39m
+    [90m485|[39m     [34mexpect[39m(installation[33m.[39mpathDir)[33m.[39mnot[33m.[39m[34mtoBe[39m(legacyPa
+thDir)
+    [90m486|[39m     [34mexpect[39m(environment[33m.[39m[33mPATH[39m)[33m.[39m[34mtoBe[39m([32m`[39m[36m
+${[39minstallation[33m.[39mpathDir[36m}[39m[32m:/usr/bin`[39m)
+    [90m   |[39m                              [31m^[39m
+    [90m487|[39m     expect(readFileSync(publicUnknown, 'utf8')).toBe('locked public co…
+    [90m488|[39m     expect(readFileSync(privateUnknown, 'utf8')).toBe('locked private …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/desktop-terminal.spec.ts[2m > [22mdesktop terminal environment[2m > [22mgenerates p
+rivate macOS shims and opens one quoted welcome command
+[31m[1mAssertionError[22m: expected '#!/bin/sh\nunset ELECTRON_RUN_AS_NODE…' to contain 'DSH Desktop 2.0.0 terminal'
+[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- DSH Desktop 2.0.0 terminal[39m
+[31m+ #!/bin/sh[39m
+[31m+ unset ELECTRON_RUN_AS_NODE[39m
+[31m+ export DSH_HOME='/Users/example/Library/Application Support/DSH O'"'"'Brien'[39m
+[31m+ export PATH='C:\Users\liuwa\AppData\Local\Temp\dsh-desktop-terminal-VOn5RC\terminal state\bin':"${PATH:-}"[39m
+[31m+ cd '/Users/example/Library/Application Support/DSH O'"'"'Brien/profiles/desktop'[39m
+[31m+ printf '\033[2J\033[3J\033[H'[39m
+[31m+ printf '%s\n' 'DSH Desktop Beta 2.0.0 terminal'[39m
+[31m+ printf '%s\n' 'Profile: desktop'[39m
+[31m+ printf '%s\n' 'Profile directory: /Users/example/Library/Application Support/DSH O'"'"'Brien/profiles/desktop'[
+39m
+[31m+ printf '%s\n' 'Harness home: /Users/example/Library/Application Support/DSH O'"'"'Brien'[39m
+[31m+ printf '%s\n' 'Plugin commands without --profile modify the desktop profile.'[39m
+[31m+ printf '%s\n' 'Commands:'[39m
+[31m+ printf '  %s\n' 'dsh --dump-config'[39m
+[31m+ printf '  %s\n' 'dsh plugin add <third-party-plugin>'[39m
+[31m+ printf '  %s\n' 'dsh plugin remove <third-party-plugin>'[39m
+[31m+ printf '  %s\n' 'dsh plugin update'[39m
+[31m+ printf '%s\n' 'Restart DSH Desktop Beta after plugin changes.'[39m
+[31m+ case "${SHELL:-/bin/zsh}" in[39m
+[31m+   */bash)[39m
+[31m+     export DSH_DESKTOP_USER_BASHRC="${HOME:-}/.bashrc"[39m
+[31m+     exec "${SHELL}" --noprofile --rcfile 'C:\Users\liuwa\AppData\Local\Temp\dsh-desktop-terminal-VOn5RC\terminal
+ state\bashrc' -i[39m
+[31m+     ;;[39m
+[31m+   */zsh)[39m
+[31m+     export DSH_DESKTOP_USER_ZDOTDIR="${ZDOTDIR:-${HOME:-}}"[39m
+[31m+     export ZDOTDIR='C:\Users\liuwa\AppData\Local\Temp\dsh-desktop-terminal-VOn5RC\terminal state'[39m
+[31m+     exec "${SHELL}" -i[39m
+[31m+     ;;[39m
+[31m+   *)[39m
+[31m+     export DSH_DESKTOP_USER_ZDOTDIR="${ZDOTDIR:-${HOME:-}}"[39m
+[31m+     export ZDOTDIR='C:\Users\liuwa\AppData\Local\Temp\dsh-desktop-terminal-VOn5RC\terminal state'[39m
+[31m+     exec /bin/zsh -i[39m
+[31m+     ;;[39m
+[31m+ esac[39m
+[31m+[39m
+
+[36m [2m❯[22m tests/desktop-terminal.spec.ts:[2m164:21[22m[39m
+    [90m162|[39m     [34mexpect[39m(welcome)[33m.[39mnot[33m.[39m[34mtoContain[39m([32m'ELECTRON_RUN_AS_NODE
+=1'[39m)
+    [90m163|[39m     [34mexpect[39m(welcome)[33m.[39m[34mtoContain[39m([32m"printf '\\033[2J\\033[3J\\033[H'"
+[39m)
+    [90m164|[39m     [34mexpect[39m(welcome)[33m.[39m[34mtoContain[39m([32m'DSH Desktop 2.0.0 terminal'[39m)
+    [90m   |[39m                     [31m^[39m
+    [90m165|[39m     [34mexpect[39m(welcome)[33m.[39m[34mtoContain[39m([32m'Profile: desktop'[39m)
+    [90m166|[39m     expect(welcome).toContain('Plugin commands without --profile modif…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/desktop-terminal.spec.ts[2m > [22mdesktop terminal environment[2m > [22mgenerates W
+indows batch shims and opens PowerShell through a visible-console broker
+[31m[1mAssertionError[22m: expected 'Remove-Item Env:ELECTRON_RUN_AS_NODE …' to contain '"DSH Desktop {0} terminal" 
+-f $env:DS…'[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- "DSH Desktop {0} terminal" -f $env:DSH_DESKTOP_PRODUCT_VERSION[39m
+[31m+ Remove-Item Env:ELECTRON_RUN_AS_NODE -ErrorAction SilentlyContinue
+[39m
+[31m+ $dshDesktopShimDir = $env:DSH_DESKTOP_SHIM_DIRECTORY
+[39m
+[31m+ $dshDesktopPath = @($env:PATH -split ';' | Where-Object { -not [string]::Equals($_, $dshDesktopShimDir, [StringC
+omparison]::OrdinalIgnoreCase) })
+[39m
+[31m+ $env:PATH = (@($dshDesktopShimDir) + $dshDesktopPath) -join ';'
+[39m
+[31m+ Set-Location -LiteralPath $env:DSH_DESKTOP_PROFILE_DIRECTORY
+[39m
+[31m+ [7mWrite-Host ([27m"DSH Desktop [7mBeta [27m{0} terminal" -f $env:DSH_DESKTOP_PRODUCT_VERSION[7m)
+[27m[39m
+[31m+ Write-Host ("Profile: {0}" -f $env:DSH_DESKTOP_DEFAULT_PROFILE)
+[39m
+[31m+ Write-Host ("Profile directory: {0}" -f $env:DSH_DESKTOP_PROFILE_DIRECTORY)
+[39m
+[31m+ Write-Host ("Harness home: {0}" -f $env:DSH_HOME)
+[39m
+[31m+ Write-Host ("Plugin commands without --profile modify the {0} profile." -f $env:DSH_DESKTOP_DEFAULT_PROFILE)
+[39m
+[31m+ Write-Host 'Commands:'
+[39m
+[31m+ Write-Host '  dsh --dump-config'
+[39m
+[31m+ Write-Host '  dsh plugin add <third-party-plugin>'
+[39m
+[31m+ Write-Host '  dsh plugin remove <third-party-plugin>'
+[39m
+[31m+ Write-Host '  dsh plugin update'
+[39m
+[31m+ Write-Host 'Restart DSH Desktop Beta after plugin changes.'
+[39m
+[31m+[39m
+
+[36m [2m❯[22m tests/desktop-terminal.spec.ts:[2m246:21[22m[39m
+    [90m244|[39m     expect(welcome).toContain('Remove-Item Env:ELECTRON_RUN_AS_NODE -E…
+    [90m245|[39m     expect(welcome).toContain('Set-Location -LiteralPath $env:DSH_DESK…
+    [90m246|[39m     expect(welcome).toContain('"DSH Desktop {0} terminal" -f $env:DSH_…
+    [90m   |[39m                     [31m^[39m
+    [90m247|[39m     expect(welcome).toContain('"Plugin commands without --profile modi…
+    [90m248|[39m     [34mexpect[39m(welcome)[33m.[39m[34mtoContain[39m([32m'dsh --dump-config'[39m)
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/diagnostic-export.spec.ts[2m > [22mexportDiagnosticsZip[2m > [22mretains only the t
+hree newest diagnostics archives
+[31m[1mError[22m: EINVAL[39m
+[36m [2m❯[22m exportDiagnosticsZip src/diagnostic-export.ts:[2m106:18[22m[39m
+    [90m104|[39m   }
+    [90m105|[39m
+    [90m106|[39m   [35mconst[39m worker [33m=[39m [35mnew[39m [33mWorker[39m([34mworkerEntryUrl[39m()[33m,
+[39m {
+    [90m   |[39m                  [31m^[39m
+    [90m107|[39m     name[33m:[39m [32m'dsh-diagnostic-export'[39m[33m,[39m
+    [90m108|[39m     workerData[33m:[39m {
+[90m [2m❯[22m tests/diagnostic-export.spec.ts:[2m348:11[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/electron-runtime.spec.ts[2m > [22mElectron desktop runtime[2m > [22muses the indepe
+ndent macOS compatibility frame, Dock icon, and template tray image
+[31m[1mAssertionError[22m: expected { webPreferences: { …(6) } } to deeply equal { webPreferences: { …(6) } }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[2m    "webPreferences": {[22m
+[2m      "contextIsolation": true,[22m
+[2m      "nodeIntegration": false,[22m
+[2m      "partition": "persist:dsh-desktop-renderer",[22m
+[32m-     "preload": StringMatching /\/preload\.cjs$/,[39m
+[31m+     "preload": "D:\\workspace\\agent\\dsh-desktop\\dsh-plugin-desktop-beta\\src\\preload.cjs",[39m
+[2m      "sandbox": true,[22m
+[2m      "webSecurity": true,[22m
+[2m    },[22m
+[2m  }[22m
+
+[36m [2m❯[22m tests/electron-runtime.spec.ts:[2m428:47[22m[39m
+    [90m426|[39m     expect(options).not.toHaveProperty('titleBarOverlay')
+    [90m427|[39m     expect(electron.contentViews).toHaveLength(2)
+    [90m428|[39m     expect(electron.contentViews[1]?.options).toEqual({ webPreferences…
+    [90m   |[39m                                               [31m^[39m
+    [90m429|[39m       preload: expect.stringMatching(/\/preload\.cjs$/),
+    [90m430|[39m       contextIsolation: true,
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/electron-runtime.spec.ts[2m > [22mElectron desktop runtime[2m > [22mshows native re
+covery when the renderer Loader reports a failed plugin
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ ObjectContaining{…} ][90m
+
+Received:
+
+[1m  1st vi.fn() call:
+
+[22m[2m  [[22m
+[32m-   ObjectContaining {[90m
+[31m+   {[90m
+[2m      "buttons": [[22m
+[2m        "Open DSH Terminal",[22m
+[32m-       "Restart DSH Desktop",[90m
+[31m+       "Restart DSH Desktop Beta",[90m
+[2m        "Dismiss",[22m
+[2m      ],[22m
+[32m-     "detail": StringContaining "dsh-vision-router",[90m
+[31m+     "cancelId": 2,[90m
+[31m+     "defaultId": 0,[90m
+[31m+     "detail": "Plugins that failed to load:[90m
+[31m+ - dsh-vision-router[90m
+[31m+[90m
+[31m+ keyed slot \"tool.call.toolview\" already has an entry for key \"vision_crop\" at priority 0[90m
+[31m+[90m
+[31m+ Update or uninstall the failed third-party plugins in DSH Terminal, then restart the app.",[90m
+[2m      "message": "Some plugins could not be loaded.",[22m
+[31m+     "noLink": true,[90m
+[2m      "title": "Plugin Load Failed",[22m
+[2m      "type": "error",[22m
+[2m    },[22m
+[2m  ][22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2m❯[22m tests/electron-runtime.spec.ts:[2m2088:44[22m[39m
+    [90m2086|[39m     expect(onRendererBoot).toHaveBeenCalledOnce()
+    [90m2087|[39m     expect(electron.dialog.showMessageBox).toHaveBeenCalledOnce()
+    [90m2088|[39m     expect(electron.dialog.showMessageBox).toHaveBeenCalledWith(expect…
+    [90m   |[39m                                            [31m^[39m
+    [90m2089|[39m       type: 'error',
+    [90m2090|[39m       title: 'Plugin Load Failed',
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/electron-runtime.spec.ts[2m > [22mElectron desktop runtime[2m > [22mrequires Deskto
+p dialog confirmation before an ordinary restart
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ ObjectContaining{…} ][90m
+
+Received:
+
+[1m  1st vi.fn() call:
+
+[22m[2m  [[22m
+[32m-   ObjectContaining {[90m
+[31m+   {[90m
+[2m      "buttons": [[22m
+[2m        "Restart",[22m
+[2m        "Cancel",[22m
+[2m      ],[22m
+[2m      "cancelId": 1,[22m
+[2m      "defaultId": 1,[22m
+[32m-     "title": "Restart DSH Desktop",[90m
+[31m+     "detail": "Running operations may be interrupted, and unsent content may be lost. Saved settings will be kep
+t.",[90m
+[31m+     "message": "Restart DSH Desktop Beta now?",[90m
+[31m+     "noLink": true,[90m
+[31m+     "title": "Restart DSH Desktop Beta",[90m
+[2m      "type": "question",[22m
+[2m    },[22m
+[2m  ][22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2m❯[22m tests/electron-runtime.spec.ts:[2m2188:44[22m[39m
+    [90m2186|[39m
+    [90m2187|[39m     expect(restart).not.toHaveBeenCalled()
+    [90m2188|[39m     expect(electron.dialog.showMessageBox).toHaveBeenCalledWith(expect…
+    [90m   |[39m                                            [31m^[39m
+    [90m2189|[39m       type: 'question', title: 'Restart DSH Desktop', buttons: ['Resta…
+    [90m2190|[39m     }))
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/electron-runtime.spec.ts[2m > [22mElectron desktop runtime[2m > [22muses Electron n
+etworking and confirmation-gated macOS update handoff
+[31m[1mAssertionError[22m: expected last "vi.fn()" call to have been called with [ BrowserWindow{ …(24) }, …(1) ][3
+9m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -43,9 +43,13 @@[39m
+[2m    },[22m
+[2m    {[22m
+[2m      "buttons": [[22m
+[2m        "OK",[22m
+[2m      ],[22m
+[31m+     "defaultId": 0,[39m
+[2m      "detail": "Installed version: 2.0.0",[22m
+[32m-     "title": "DSH Desktop Is Up to Date",[39m
+[31m+     "message": "You are using the latest version.",[39m
+[31m+     "noLink": true,[39m
+[31m+     "title": "DSH Desktop Beta Is Up to Date",[39m
+[31m+     "type": "info",[39m
+[2m    },[22m
+[2m  ][22m
+
+[36m [2m❯[22m tests/electron-runtime.spec.ts:[2m2360:44[22m[39m
+    [90m2358|[39m       latestVersion: '2.0.0',
+    [90m2359|[39m     })
+    [90m2360|[39m     expect(electron.dialog.showMessageBox).toHaveBeenLastCalledWith(
+    [90m   |[39m                                            [31m^[39m
+    [90m2361|[39m       activeWindow,
+    [90m2362|[39m       expect.objectContaining({
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/host-process-integration.spec.ts[2m > [22mboots a separate Web Host with client plugi
+ns (AA enabled: true)
+[31m[1mError[22m: Error: 
+<--- Last few GCs --->
+
+[18752:0000020E34577000]     2792 ms: Scavenge (interleaved) 75.0 (107.7) -> 53.8 (112.5) MB, pooled: 0 MB, 3.62 / 0.01
+ ms  (average mu = 0.996, current mu = 0.996) allocation failure; 
+[18752:0000020E34577000]     2877 ms: Scavenge (interleaved) 75.8 (128.2) -> 70.2 (134.2) MB, pooled: 4 MB, 3.71 / 0.00
+ ms  (average mu = 0.996, current mu = 0.996) allocation failure; 
+
+FATAL ERROR: Committing semi space failed. Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 00007FF65B5FAE1F node::OnFatalError+1343
+ 2: 00007FF65C2437B7 v8::Function::NewInstance+423
+ 3: 00007FF65C043E77 v8::base::AddressSpaceReservation::AddressSpaceReservation+322071
+ 4: 00007FF65BFDC89B v8::Platform::SystemClockTimeMillis+491051
+ 5: 00007FF65C004C0A v8::base::AddressSpaceReservation::AddressSpaceReservation+63402
+ 6: 00007FF65C046256 v8::base::AddressSpaceReservation::AddressSpaceReservation+331254
+ 7: 00007FF65C0458A6 v8::base::AddressSpaceReservation::AddressSpaceReservation+328774
+ 8: 00007FF65C056832 v8::internal::StrongRootAllocatorBase::deallocate_impl+15858
+ 9: 00007FF65C05635B v8::internal::StrongRootAllocatorBase::deallocate_impl+14619
+10: 00007FF65D4BEBED v8::base::UnsignedDivisionByConstant<unsigned __int64>+2791309
+11: 00007FF65C041940 v8::base::AddressSpaceReservation::AddressSpaceReservation+312544
+12: 00007FF65C05C29E X509_STORE_set_cleanup+5310
+13: 00007FF65C068666 uv_timer_set_repeat+20694
+14: 00007FF65BC3B6C7 v8::String::Utf8Value::~Utf8Value+143495
+15: 0000020E6CBF733A 
+
+    at HostRpc.close (D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/src/host-rpc.ts:50:77)
+    at ChildProcess.<anonymous> (D:/workspace/agent/dsh-desktop/dsh-plugin-desktop-beta/tests/host-process-integration.
+spec.ts:50:33)
+    at ChildProcess.emit (node:events:508:28)
+    at Process.ChildProcess._handle.onexit (node:internal/child_process:294:12)
+
+<--- Last few GCs --->
+
+[18752:0000020E34577000]     2792 ms: Scavenge (interleaved) 75.0 (107.7) -> 53.8 (112.5) MB, pooled: 0 MB, 3.62 / 0.01
+ ms  (average mu = 0.996, current mu = 0.996) allocation failure; 
+[18752:0000020E34577000]     2877 ms: Scavenge (interleaved) 75.8 (128.2) -> 70.2 (134.2) MB, pooled: 4 MB, 3.71 / 0.00
+ ms  (average mu = 0.996, current mu = 0.996) allocation failure; 
+
+FATAL ERROR: Committing semi space failed. Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 00007FF65B5FAE1F node::OnFatalError+1343
+ 2: 00007FF65C2437B7 v8::Function::NewInstance+423
+ 3: 00007FF65C043E77 v8::base::AddressSpaceReservation::AddressSpaceReservation+322071
+ 4: 00007FF65BFDC89B v8::Platform::SystemClockTimeMillis+491051
+ 5: 00007FF65C004C0A v8::base::AddressSpaceReservation::AddressSpaceReservation+63402
+ 6: 00007FF65C046256 v8::base::AddressSpaceReservation::AddressSpaceReservation+331254
+ 7: 00007FF65C0458A6 v8::base::AddressSpaceReservation::AddressSpaceReservation+328774
+ 8: 00007FF65C056832 v8::internal::StrongRootAllocatorBase::deallocate_impl+15858
+ 9: 00007FF65C05635B v8::internal::StrongRootAllocatorBase::deallocate_impl+14619
+10: 00007FF65D4BEBED v8::base::UnsignedDivisionByConstant<unsigned __int64>+2791309
+11: 00007FF65C041940 v8::base::AddressSpaceReservation::AddressSpaceReservation+312544
+12: 00007FF65C05C29E X509_STORE_set_cleanup+5310
+13: 00007FF65C068666 uv_timer_set_repeat+20694
+14: 00007FF65BC3B6C7 v8::String::Utf8Value::~Utf8Value+143495
+15: 0000020E6CBF733A 
+[39m
+[36m [2m❯[22m HostRpc.close src/host-rpc.ts:[2m50:77[22m[39m
+    [90m 48|[39m     [35mthis[39m[33m.[39mclosed [33m=[39m [35mtrue[39m
+    [90m 49|[39m     [35mthis[39m[33m.[39m[34munlisten[39m()
+    [90m 50|[39m     for (const item of this.pending.values()) { item.cleanup(); item.r…
+    [90m   |[39m                                                                             [31m^[39m
+    [90m 51|[39m     [35mthis[39m[33m.[39mpending[33m.[39m[34mclear[39m()
+    [90m 52|[39m     [35mfor[39m ([35mconst[39m controller [35mof[39m [35mthis[39m[33m.[39mactive[33m.[39
+m[34mvalues[39m()) controller[33m.[39m[34mabort[39m()
+[90m [2m❯[22m ChildProcess.<anonymous> tests/host-process-integration.spec.ts:[2m50:33[22m[39m
+[90m [2m❯[22m tests/host-process-integration.spec.ts:[2m104:11[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/lifecycle-events.spec.ts[2m > [22mdesktop lifecycle events[2m > [22mreplaces stale 
+run evidence and keeps current evidence within byte caps
+[31m[1mError[22m: Test timed out in 10000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+[39m
+[36m [2m❯[22m tests/lifecycle-events.spec.ts:[2m286:3[22m[39m
+    [90m284|[39m   })
+    [90m285|[39m
+    [90m286|[39m   it('replaces stale run evidence and keeps current evidence within by…
+    [90m   |[39m   [31m^[39m
+    [90m287|[39m     [35mconst[39m userDataDir [33m=[39m [34mtempUserData[39m([32m'dsh-lifecycle-cap-'[39m)
+    [90m288|[39m     [35mconst[39m evidencePath [33m=[39m [34mdesktopLifecycleEvidencePath[39m(userDataDir)
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/market-pnpm-integration.spec.ts[2m > [22mdesktop pnpm and community market integratio
+n[2m > [22mexecutes a market uninstall route through the managed desktop pnpm boundary
+[31m[1mError[22m: Could not load the "sharp" module using the win32-x64 runtime
+ERR_DLOPEN_FAILED: The paging file is too small for this operation to complete.
+\\?\D:\workspace\agent\dsh-desktop\dsh-community-market\node_modules\@img\sharp-win32-x64\lib\sharp-win32-x64-0.35.3.no
+de
+Possible solutions:
+- Ensure optional dependencies can be installed:
+    npm install --include=optional sharp
+- Ensure your package manager supports multi-platform installation:
+    See https://sharp.pixelplumbing.com/install#cross-platform
+- Add platform-specific dependencies:
+    npm install --os=win32 --cpu=x64 sharp
+- Consult the installation documentation:
+    See https://sharp.pixelplumbing.com/install[39m
+[90m [2m❯[22m ../dsh-community-market/node_modules/sharp/dist/sharp.mjs:[2m171:9[22m[39m
+[36m [2m❯[22m ../dsh-community-market/src/media/normalize-image.ts:[2m1:1[22m[39m
+    [90m  1|[39m [35mimport[39m sharp [35mfrom[39m [32m'sharp'[39m
+    [90m   |[39m [31m^[39m
+    [90m  2|[39m import { MarketMediaError, type RawMarketImage } from './restricted-im…
+    [90m  3|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mpasses bu
+iltin node:fs through without inspecting the parent filesystem
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mpasses bu
+iltin fs through without inspecting the parent filesystem
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mpasses bu
+iltin node:path through without inspecting the parent filesystem
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mpasses bu
+iltin path through without inspecting the parent filesystem
+[31m[1mTypeError[22m: File URL path must be absolute[39m
+[36m [2m❯[22m installProfilePackageResolver src/module-resolution.ts:[2m705:31[22m[39m
+    [90m703|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+    [90m704|[39m   }
+    [90m705|[39m   [35mconst[39m profileManifestPath [33m=[39m [34mfileURLToPath[39m(parsed)
+    [90m   |[39m                               [31m^[39m
+    [90m706|[39m   [35mif[39m ([34mbasename[39m(profileManifestPath) [33m!==[39m [32m'package.json'[39m) {
+    [90m707|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+[90m [2m❯[22m installProfilePackageResolver tests/module-resolution.spec.ts:[2m84:19[22m[39m
+[90m [2m❯[22m tests/module-resolution.spec.ts:[2m115:5[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mrecognize
+s the clean-boot Profile directory URL as a Loader boundary
+[31m[1mTypeError[22m: File URL path must be absolute[39m
+[36m [2m❯[22m installProfilePackageResolver src/module-resolution.ts:[2m705:31[22m[39m
+    [90m703|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+    [90m704|[39m   }
+    [90m705|[39m   [35mconst[39m profileManifestPath [33m=[39m [34mfileURLToPath[39m(parsed)
+    [90m   |[39m                               [31m^[39m
+    [90m706|[39m   [35mif[39m ([34mbasename[39m(profileManifestPath) [33m!==[39m [32m'package.json'[39m) {
+    [90m707|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+[90m [2m❯[22m installProfilePackageResolver tests/module-resolution.spec.ts:[2m84:19[22m[39m
+[90m [2m❯[22m tests/module-resolution.spec.ts:[2m210:5[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mallows li
+nked Profile modules to resolve dependencies from shared Profile node_modules
+[31m[1mTypeError[22m: File URL path must be absolute[39m
+[36m [2m❯[22m installProfilePackageResolver src/module-resolution.ts:[2m705:31[22m[39m
+    [90m703|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+    [90m704|[39m   }
+    [90m705|[39m   [35mconst[39m profileManifestPath [33m=[39m [34mfileURLToPath[39m(parsed)
+    [90m   |[39m                               [31m^[39m
+    [90m706|[39m   [35mif[39m ([34mbasename[39m(profileManifestPath) [33m!==[39m [32m'package.json'[39m) {
+    [90m707|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+[90m [2m❯[22m installProfilePackageResolver tests/module-resolution.spec.ts:[2m84:19[22m[39m
+[90m [2m❯[22m tests/module-resolution.spec.ts:[2m407:5[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mfalls bac
+k to the Desktop installation after CommonJS-style misses
+[31m[1mTypeError[22m: File URL path must be absolute[39m
+[36m [2m❯[22m installProfilePackageResolver src/module-resolution.ts:[2m705:31[22m[39m
+    [90m703|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+    [90m704|[39m   }
+    [90m705|[39m   [35mconst[39m profileManifestPath [33m=[39m [34mfileURLToPath[39m(parsed)
+    [90m   |[39m                               [31m^[39m
+    [90m706|[39m   [35mif[39m ([34mbasename[39m(profileManifestPath) [33m!==[39m [32m'package.json'[39m) {
+    [90m707|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+[90m [2m❯[22m installProfilePackageResolver tests/module-resolution.spec.ts:[2m84:19[22m[39m
+[90m [2m❯[22m tests/module-resolution.spec.ts:[2m448:5[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mbypasses 
+an obsolete shared Profile proxy before using the Desktop package
+[31m[1mTypeError[22m: File URL path must be absolute[39m
+[36m [2m❯[22m installProfilePackageResolver src/module-resolution.ts:[2m705:31[22m[39m
+    [90m703|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+    [90m704|[39m   }
+    [90m705|[39m   [35mconst[39m profileManifestPath [33m=[39m [34mfileURLToPath[39m(parsed)
+    [90m   |[39m                               [31m^[39m
+    [90m706|[39m   [35mif[39m ([34mbasename[39m(profileManifestPath) [33m!==[39m [32m'package.json'[39m) {
+    [90m707|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+[90m [2m❯[22m installProfilePackageResolver tests/module-resolution.spec.ts:[2m84:19[22m[39m
+[90m [2m❯[22m tests/module-resolution.spec.ts:[2m467:5[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mmigrates 
+a live v1 resolver state in place during HMR
+[31m[1mTypeError[22m: File URL path must be absolute[39m
+[36m [2m❯[22m installProfilePackageResolver src/module-resolution.ts:[2m705:31[22m[39m
+    [90m703|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+    [90m704|[39m   }
+    [90m705|[39m   [35mconst[39m profileManifestPath [33m=[39m [34mfileURLToPath[39m(parsed)
+    [90m   |[39m                               [31m^[39m
+    [90m706|[39m   [35mif[39m ([34mbasename[39m(profileManifestPath) [33m!==[39m [32m'package.json'[39m) {
+    [90m707|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+[90m [2m❯[22m installProfilePackageResolver tests/module-resolution.spec.ts:[2m84:19[22m[39m
+[90m [2m❯[22m tests/module-resolution.spec.ts:[2m577:5[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mmultiplex
+es Profiles through one hook and tolerates out-of-order release
+[31m[1mTypeError[22m: File URL path must be absolute[39m
+[36m [2m❯[22m installProfilePackageResolver src/module-resolution.ts:[2m705:31[22m[39m
+    [90m703|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+    [90m704|[39m   }
+    [90m705|[39m   [35mconst[39m profileManifestPath [33m=[39m [34mfileURLToPath[39m(parsed)
+    [90m   |[39m                               [31m^[39m
+    [90m706|[39m   [35mif[39m ([34mbasename[39m(profileManifestPath) [33m!==[39m [32m'package.json'[39m) {
+    [90m707|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+[90m [2m❯[22m installProfilePackageResolver tests/module-resolution.spec.ts:[2m84:19[22m[39m
+[90m [2m❯[22m tests/module-resolution.spec.ts:[2m608:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mreference
+-counts duplicate Profile registrations
+[31m[1mTypeError[22m: File URL path must be absolute[39m
+[36m [2m❯[22m installProfilePackageResolver src/module-resolution.ts:[2m705:31[22m[39m
+    [90m703|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+    [90m704|[39m   }
+    [90m705|[39m   [35mconst[39m profileManifestPath [33m=[39m [34mfileURLToPath[39m(parsed)
+    [90m   |[39m                               [31m^[39m
+    [90m706|[39m   [35mif[39m ([34mbasename[39m(profileManifestPath) [33m!==[39m [32m'package.json'[39m) {
+    [90m707|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+[90m [2m❯[22m installProfilePackageResolver tests/module-resolution.spec.ts:[2m84:19[22m[39m
+[90m [2m❯[22m tests/module-resolution.spec.ts:[2m630:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mrestores 
+the correct newest Profile after an A-B-A retain is released
+[31m[1mTypeError[22m: File URL path must be absolute[39m
+[36m [2m❯[22m installProfilePackageResolver src/module-resolution.ts:[2m705:31[22m[39m
+    [90m703|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+    [90m704|[39m   }
+    [90m705|[39m   [35mconst[39m profileManifestPath [33m=[39m [34mfileURLToPath[39m(parsed)
+    [90m   |[39m                               [31m^[39m
+    [90m706|[39m   [35mif[39m ([34mbasename[39m(profileManifestPath) [33m!==[39m [32m'package.json'[39m) {
+    [90m707|[39m     throw new Error('dsh-plugin-desktop: Profile package resolver requ…
+[90m [2m❯[22m installProfilePackageResolver tests/module-resolution.spec.ts:[2m84:19[22m[39m
+[90m [2m❯[22m tests/module-resolution.spec.ts:[2m642:19[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/module-resolution.spec.ts[2m > [22minstallProfilePackageResolver[2m > [22mrequires 
+a plain package.json file URL anchor
+[31m[1mAssertionError[22m: expected [Function] to throw error including 'package.json anchor' but got 'File URL path
+ must be absolute'[39m
+
+Expected: [32m"package.json anchor"[39m
+Received: [31m"File URL path must be absolute"[39m
+
+[36m [2m❯[22m tests/module-resolution.spec.ts:[2m666:8[22m[39m
+    [90m664|[39m       [33m.[39m[34mtoThrow[39m([32m'plain file URL'[39m)
+    [90m665|[39m     expect(() => installProfilePackageResolver('file:///tmp/profile/co…
+    [90m666|[39m       [33m.[39m[34mtoThrow[39m([32m'package.json anchor'[39m)
+    [90m   |[39m        [31m^[39m
+    [90m667|[39m     expect(() => installProfilePackageResolver('file:///tmp/profile/pa…
+    [90m668|[39m       [33m.[39m[34mtoThrow[39m([32m'plain file URL'[39m)
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/notifications.spec.ts[2m > [22mdesktop notifications Host plugin[2m > [22mnotifies 
+for completed and failed jobs without exposing job details
+[31m[1mAssertionError[22m: expected [ [ { …(2) } ], [ { …(2) } ] ] to deeply equal [ [ { …(2) } ], [ { …(2) } ] ][3
+9m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[33m@@ -5,10 +5,10 @@[39m
+[2m        "title": "Background Job Completed",[22m
+[2m      },[22m
+[2m    ],[22m
+[2m    [[22m
+[2m      {[22m
+[32m-       "body": "A background job could not finish. Open DSH Desktop for details.",[39m
+[31m+       "body": "A background job could not finish. Open DSH Desktop Beta for details.",[39m
+[2m        "title": "Background Job Failed",[22m
+[2m      },[22m
+[2m    ],[22m
+[2m  ][22m
+
+[36m [2m❯[22m tests/notifications.spec.ts:[2m206:48[22m[39m
+    [90m204|[39m     [35mawait[39m harness[33m.[39m[34mjobDone[39m({ [33m...[39msnapshot[33m,[39m status[3
+3m:[39m [32m'killed'[39m })
+    [90m205|[39m
+    [90m206|[39m     [34mexpect[39m(harness[33m.[39mnotifyAttention[33m.[39mmock[33m.[39mcalls)[33m.[39m[3
+4mtoEqual[39m([
+    [90m   |[39m                                                [31m^[39m
+    [90m207|[39m       [{ title: 'Background Job Completed', body: 'A background job ha…
+    [90m208|[39m       [{ title: 'Background Job Failed', body: 'A background job could…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/notifications.spec.ts[2m > [22mdesktop notifications Host plugin[2m > [22mapplies l
+ive settings independently to successful and failed outcomes
+[31m[1mAssertionError[22m: expected [ [ { …(2) } ], [ { …(2) } ] ] to deeply equal [ [ { …(2) } ], [ { …(2) } ] ][3
+9m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[2m    [[22m
+[2m      {[22m
+[32m-       "body": "A background job could not finish. Open DSH Desktop for details.",[39m
+[31m+       "body": "A background job could not finish. Open DSH Desktop Beta for details.",[39m
+[2m        "title": "Background Job Failed",[22m
+[2m      },[22m
+[2m    ],[22m
+[2m    [[22m
+[2m      {[22m
+[32m-       "body": "A user-initiated turn could not finish. Open DSH Desktop for details.",[39m
+[31m+       "body": "A user-initiated turn could not finish. Open DSH Desktop Beta for details.",[39m
+[2m        "title": "User Turn Failed",[22m
+[2m      },[22m
+[2m    ],[22m
+[2m  ][22m
+
+[36m [2m❯[22m tests/notifications.spec.ts:[2m246:48[22m[39m
+    [90m244|[39m     }[33m,[39m [34m6[39m))
+    [90m245|[39m
+    [90m246|[39m     [34mexpect[39m(harness[33m.[39mnotifyAttention[33m.[39mmock[33m.[39mcalls)[33m.[39m[3
+4mtoEqual[39m([
+    [90m   |[39m                                                [31m^[39m
+    [90m247|[39m       [{ title: 'Background Job Failed', body: 'A background job could…
+    [90m248|[39m       [{ title: 'User Turn Failed', body: 'A user-initiated turn could…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/notifications.spec.ts[2m > [22mdesktop notifications Host plugin[2m > [22mtreats ma
+x-tokens as a failure and keeps non-failure endings silent
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ { title: 'User Turn Failed', …(1) } ][
+90m
+
+Received:
+
+[1m  1st vi.fn() call:
+
+[22m[2m  [[22m
+[2m    {[22m
+[32m-     "body": "A user-initiated turn could not finish. Open DSH Desktop for details.",[90m
+[31m+     "body": "A user-initiated turn could not finish. Open DSH Desktop Beta for details.",[90m
+[2m      "title": "User Turn Failed",[22m
+[2m    },[22m
+[2m  ][22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2m❯[22m tests/notifications.spec.ts:[2m325:37[22m[39m
+    [90m323|[39m
+    [90m324|[39m     [34mexpect[39m(harness[33m.[39mnotifyAttention)[33m.[39m[34mtoHaveBeenCalledOnce[39m()
+    [90m325|[39m     [34mexpect[39m(harness[33m.[39mnotifyAttention)[33m.[39m[34mtoHaveBeenCalledWith[39m({
+    [90m   |[39m                                     [31m^[39m
+    [90m326|[39m       title[33m:[39m [32m'User Turn Failed'[39m[33m,[39m
+    [90m327|[39m       body: 'A user-initiated turn could not finish. Open DSH Desktop …
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/package-dir.spec.ts[2m > [22munsigned directory packaging[2m > [22mpasses explicit 
+unsigned and no-notarization overrides to Electron Builder
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ '/runtime/node', [ …(9) ], { …(3) } ][
+90m
+
+Received:
+
+[1m  1st vi.fn() call:
+
+[22m[33m@@ -7,10 +7,14 @@[90m
+[2m      "never",[22m
+[2m      "--config.forceCodeSigning=false",[22m
+[2m      "--config.mac.identity=null",[22m
+[2m      "--config.mac.notarize=false",[22m
+[2m      "--config.win.signExecutable=false",[22m
+[31m+     "--config.productName=LexFord",[90m
+[31m+     "--config.nsis.shortcutName=LexFord",[90m
+[31m+     "--config.nsis.artifactName=LexFord-${version}-${arch}-Setup.${ext}",[90m
+[31m+     "--config.win.artifactName=LexFord-${version}-${arch}-Portable.${ext}",[90m
+[2m      "--config.electronDist=/workspace/electron/dist",[22m
+[2m    ],[22m
+[2m    {[22m
+[2m      "cwd": "/workspace/desktop",[22m
+[2m      "env": {[22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2m❯[22m tests/package-dir.spec.ts:[2m48:17[22m[39m
+    [90m 46|[39m     ])
+    [90m 47|[39m     [34mexpect[39m(run)[33m.[39m[34mtoHaveBeenCalledOnce[39m()
+    [90m 48|[39m     [34mexpect[39m(run)[33m.[39m[34mtoHaveBeenCalledWith[39m(
+    [90m   |[39m                 [31m^[39m
+    [90m 49|[39m       [32m'/runtime/node'[39m[33m,[39m
+    [90m 50|[39m       [
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/preset-resolution.spec.ts[2m > [22mchecks preset dependencies through the real Deskto
+p resolver without importing plugins
+[31m[1mError[22m: Command failed: C:\nvm4w\nodejs\node.exe --input-type=module -e 
+    import assert from 'node:assert/strict';
+    import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+    import { tmpdir } from 'node:os';
+    import { dirname, join } from 'node:path';
+    import { pathToFileURL } from 'node:url';
+    const { scanRoot } = await import(pathToFileURL(process.argv[1]).href);
+    const { installProfilePackageResolver } = await import(pathToFileURL(process.argv[2]).href);
+    const root = mkdtempSync(join(tmpdir(), 'desktop-preset-resolution-'));
+    let release;
+    try {
+      const profile = join(root, 'profile');
+      const presets = join(root, 'presets');
+      mkdirSync(profile);
+      writeFileSync(join(profile, 'package.json'), '{"type":"module"}');
+      const define = (id, name) => {
+        mkdirSync(join(presets, id), { recursive: true });
+        writeFileSync(join(presets, id, 'agent.cordis.yml'), JSON.stringify([{ id: 'check', name }]));
+      };
+      define('installed', '@deepseek-ai/dsh-persona');
+      define('subpath', '@deepseek-ai/dsh-tool-subagent-control/list-agents');
+      define('missing', '@desktop-regression/nonexistent');
+      define('bad-export', '@deepseek-ai/dsh-persona/nonexistent-export');
+      const base = pathToFileURL(profile + '/').href;
+      const scan = () => scanRoot({ path: presets, trust: 'system' }, base);
+      assert.ok((await scan()).find(p => p.id === 'installed').broken);
+      release = installProfilePackageResolver(pathToFileURL(join(profile, 'package.json')).href);
+      const rows = await scan();
+      assert.equal(rows.find(p => p.id === 'installed').broken, undefined);
+      assert.equal(rows.find(p => p.id === 'subpath').broken, undefined);
+      assert.ok(rows.find(p => p.id === 'missing').broken);
+      assert.ok(rows.find(p => p.id === 'bad-export').broken);
+      const shipped = await scanRoot({ path: join(dirname(process.argv[1]), '../presets'), trust: 'system' }, base);
+      const standard = shipped.find(p => p.id === 'standard');
+      assert.ok(standard);
+      assert.equal(standard.broken, undefined);
+      // Profile plugins are visible, but discovery must not evaluate their code.
+      const override = join(profile, 'node_modules', '@desktop-regression', 'probe');
+      mkdirSync(override, { recursive: true });
+      writeFileSync(join(override, 'package.json'), '{"name":"@desktop-regression/probe","type":"module","exports":"./i
+ndex.js"}');
+      writeFileSync(join(override, 'index.js'), 'throw new Error("discovery evaluated plugin")');
+      define('probe', '@desktop-regression/probe');
+      assert.equal((await scan()).find(p => p.id === 'probe').broken, undefined);
+      release();
+      release = undefined;
+      assert.ok((await scan()).find(p => p.id === 'installed').broken);
+      console.log('preset resolution passed');
+    } finally {
+      release?.();
+      rmSync(root, { recursive: true, force: true });
+    }
+   D:\workspace\agent\dsh-desktop\dsh-plugin-desktop-beta\node_modules\@deepseek-ai\dsh-agent-presets\lib\index.js D:\w
+orkspace\agent\dsh-desktop\dsh-plugin-desktop-beta\src\module-resolution.ts
+[low_level_alloc.cc : 554] RAW: Check new_pages != nullptr failed: VirtualAlloc failed
+[39m
+[36m [2m❯[22m tests/preset-resolution.spec.ts:[2m60:18[22m[39m
+    [90m 58|[39m     }
+    [90m 59|[39m   `[39m
+    [90m 60|[39m   [35mconst[39m output [33m=[39m [34mexecFileSync[39m(process[33m.[39mexecPath[33m,[39m [
+    [90m   |[39m                  [31m^[39m
+    [90m 61|[39m     [32m'--input-type=module'[39m[33m,[39m [32m'-e'[39m[33m,[39m script[33m,[39m
+    [90m 62|[39m     require[33m.[39m[34mresolve[39m([32m'@deepseek-ai/dsh-agent-presets'[39m)[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/profile-selection-window.spec.ts[2m > [22mDesktop Profile selection window[2m > [22
+mswitches an existing Profile and waits for an explicit restart
+[31m[1mAssertionError[22m: expected { Object (tone, title, ...) } to deeply equal { Object (tone, title, ...) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "body": "已设为当前 Profile。请重启 DSH Desktop 以使用该 Profile。",[39m
+[31m+   "body": "已设为当前 Profile。请重启 DSH Desktop Beta 以使用该 Profile。",[39m
+[2m    "title": "work",[22m
+[2m    "tone": "success",[22m
+[2m  }[22m
+
+[36m [2m❯[22m tests/profile-selection-window.spec.ts:[2m86:35[22m[39m
+    [90m 84|[39m     [34mexpect[39m(selectionState[33m.[39mrestartReady)[33m.[39m[34mtoBe[39m([35mtrue[39m)
+    [90m 85|[39m     expect(selectionState.profiles.find(profile => profile.name === 'w…
+    [90m 86|[39m     [34mexpect[39m(selectionState[33m.[39mnotice)[33m.[39m[34mtoEqual[39m({
+    [90m   |[39m                                   [31m^[39m
+    [90m 87|[39m       tone[33m:[39m [32m'success'[39m[33m,[39m
+    [90m 88|[39m       title[33m:[39m [32m'work'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/profile-selection-window.spec.ts[2m > [22mDesktop Profile selection window[2m > [22
+mkeeps a newly created and selected Profile open until the user restarts
+[31m[1mAssertionError[22m: expected { tone: 'success', …(2) } to deeply equal { tone: 'success', …(2) }[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  {[22m
+[32m-   "body": "已设为当前 Profile。请重启 DSH Desktop 以使用该 Profile。",[39m
+[31m+   "body": "已设为当前 Profile。请重启 DSH Desktop Beta 以使用该 Profile。",[39m
+[2m    "title": "fresh",[22m
+[2m    "tone": "success",[22m
+[2m  }[22m
+
+[36m [2m❯[22m tests/profile-selection-window.spec.ts:[2m123:35[22m[39m
+    [90m121|[39m     [34mexpect[39m(selectionState[33m.[39mrestartReady)[33m.[39m[34mtoBe[39m([35mtrue[39m)
+    [90m122|[39m     expect(selectionState.profiles.find(profile => profile.name === 'f…
+    [90m123|[39m     [34mexpect[39m(selectionState[33m.[39mnotice)[33m.[39m[34mtoEqual[39m({
+    [90m   |[39m                                   [31m^[39m
+    [90m124|[39m       tone[33m:[39m [32m'success'[39m[33m,[39m
+    [90m125|[39m       title[33m:[39m [32m'fresh'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/recovery-plugin-uninstall.spec.ts[2m > [22mpre-Host recovery plugin uninstall command
+[2m > [22muses packaged pnpm after runtime PATH release and preserves official bundle reconciliation
+[31m[1mAssertionError[22m: promise rejected "RecoveryPluginUninstallError: dsh plugin … { result: { …(6) } }" instea
+d of resolving[39m
+[36m [2m❯[22m tests/recovery-plugin-uninstall.spec.ts:[2m157:8[22m[39m
+    [90m155|[39m         [33mPNPM_SELECTION_MARKER[39m[33m:[39m selectedMarker[33m,[39m
+    [90m156|[39m       }[33m,[39m
+    [90m157|[39m     }))[33m.[39mresolves[33m.[39m[34mtoMatchObject[39m({ exitCode[33m:[39m [34m0[39m })
+    [90m   |[39m        [31m^[39m
+    [90m158|[39m
+    [90m159|[39m     expect(readFileSync(selectedMarker, 'utf8')).toBe('packaged-11.8.0…
+
+[31m[1mCaused by: RecoveryPluginUninstallError[22m: dsh plugin remove exited unsuccessfully (code=127, signal=null)
+[39m
+[36m [2m❯[22m src/recovery-plugin-uninstall.ts:[2m178:14[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22m[39m
+[31m[1mSerialized Error:[22m[39m [90m{ result: { packageName: 'third-party-plugin', profileName: 'desktop', exitCo
+de: 127, signal: null, stdout: '', stderr: 'dsh: pnpm not found on PATH — install pnpm to manage profile plugins\n' } }
+[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/startup-recovery-window.spec.ts[2m > [22mDesktop startup recovery confirmations[2m >
+ [22mrestores the platform-default data directory only after confirmation and then restarts
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ ObjectContaining{…}, { …(2) } ][90m
+
+Received:
+
+[1m  1st vi.fn() call:
+
+[22m[33m@@ -1,15 +1,16 @@[90m
+[2m  [[22m
+[32m-   ObjectContaining {[90m
+[31m+   {[90m
+[2m      "buttons": [[22m
+[2m        "恢复默认并重启",[22m
+[2m        "取消",[22m
+[2m      ],[22m
+[2m      "cancelId": 1,[22m
+[2m      "defaultId": 1,[22m
+[32m-     "detail": "DSH Desktop 将改为使用当前系统的默认数据目录。当前数据目录不会被删除。",[90m
+[31m+     "detail": "DSH Desktop Beta 将改为使用当前系统的默认数据目录。当前数据目录不会被删除。",[90m
+[2m      "message": "切换到系统默认数据目录并重启？",[22m
+[31m+     "noLink": true,[90m
+[2m      "title": "恢复默认数据目录？",[22m
+[2m      "type": "question",[22m
+[2m    },[22m
+[2m    {[22m
+[2m      "isDestroyed": [Function isDestroyed],[22m
+
+[1m  2nd vi.fn() call:
+
+[22m[33m@@ -1,15 +1,16 @@[90m
+[2m  [[22m
+[32m-   ObjectContaining {[90m
+[31m+   {[90m
+[2m      "buttons": [[22m
+[2m        "恢复默认并重启",[22m
+[2m        "取消",[22m
+[2m      ],[22m
+[2m      "cancelId": 1,[22m
+[2m      "defaultId": 1,[22m
+[32m-     "detail": "DSH Desktop 将改为使用当前系统的默认数据目录。当前数据目录不会被删除。",[90m
+[31m+     "detail": "DSH Desktop Beta 将改为使用当前系统的默认数据目录。当前数据目录不会被删除。",[90m
+[2m      "message": "切换到系统默认数据目录并重启？",[22m
+[31m+     "noLink": true,[90m
+[2m      "title": "恢复默认数据目录？",[22m
+[2m      "type": "question",[22m
+[2m    },[22m
+[2m    {[22m
+[2m      "isDestroyed": [Function isDestroyed],[22m
+[31m[90m
+
+Number of calls: [1m2[22m
+[31m[39m
+[36m [2m❯[22m tests/startup-recovery-window.spec.ts:[2m448:32[22m[39m
+    [90m446|[39m     await privateRecovery.handleAction({ action: 'restore-default-data…
+    [90m447|[39m
+    [90m448|[39m     expect(desktopDialog.show).toHaveBeenCalledWith(expect.objectConta…
+    [90m   |[39m                                [31m^[39m
+    [90m449|[39m       type[33m:[39m [32m'question'[39m[33m,[39m
+    [90m450|[39m       title[33m:[39m [32m'恢复默认数据目录？'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/startup-recovery-window.spec.ts[2m > [22mDesktop startup recovery confirmations[2m >
+ [22masks to create a new environment when the platform-default directory was deleted
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ ObjectContaining{…}, { …(2) } ][90m
+
+Received:
+
+[1m  1st vi.fn() call:
+
+[22m[33m@@ -1,15 +1,16 @@[90m
+[2m  [[22m
+[32m-   ObjectContaining {[90m
+[31m+   {[90m
+[2m      "buttons": [[22m
+[2m        "新建并重启",[22m
+[2m        "取消",[22m
+[2m      ],[22m
+[2m      "cancelId": 1,[22m
+[2m      "defaultId": 1,[22m
+[32m-     "detail": "DSH Desktop 将在默认路径创建一个全新的环境并重启。当前数据目录不会被删除。",[90m
+[31m+     "detail": "DSH Desktop Beta 将在默认路径创建一个全新的环境并重启。当前数据目录不会被删除。",[90m
+[2m      "message": "默认数据目录不存在，是否新建？",[22m
+[31m+     "noLink": true,[90m
+[2m      "title": "新建默认数据目录？",[22m
+[2m      "type": "question",[22m
+[2m    },[22m
+[2m    {[22m
+[2m      "isDestroyed": [Function isDestroyed],[22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2m❯[22m tests/startup-recovery-window.spec.ts:[2m497:32[22m[39m
+    [90m495|[39m
+    [90m496|[39m     [34mexpect[39m(defaultDirectoryMissing)[33m.[39m[34mtoHaveBeenCalledOnce[39m()
+    [90m497|[39m     expect(desktopDialog.show).toHaveBeenCalledWith(expect.objectConta…
+    [90m   |[39m                                [31m^[39m
+    [90m498|[39m       type[33m:[39m [32m'question'[39m[33m,[39m
+    [90m499|[39m       title[33m:[39m [32m'新建默认数据目录？'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/startup-recovery-window.spec.ts[2m > [22mDesktop startup recovery confirmations[2m >
+ [22mfactory-resets the exact displayed directory only after destructive confirmation
+[31m[1mAssertionError[22m: expected "vi.fn()" to be called with arguments: [ ObjectContaining{…}, { …(2) } ][90m
+
+Received:
+
+[1m  1st vi.fn() call:
+
+[22m[33m@@ -1,15 +1,21 @@[90m
+[2m  [[22m
+[32m-   ObjectContaining {[90m
+[31m+   {[90m
+[2m      "buttons": [[22m
+[2m        "Reset data and restart",[22m
+[2m        "Cancel",[22m
+[2m      ],[22m
+[2m      "cancelId": 1,[22m
+[2m      "defaultId": 1,[22m
+[32m-     "detail": StringContaining "C:\\Users\\Example\\.dsh",[90m
+[32m-     "title": "Factory reset DSH Desktop?",[90m
+[31m+     "detail": "The following directory will be moved to the operating-system Trash or Recycle Bin:[90m
+[31m+[90m
+[31m+ C:\\Users\\Example\\.dsh[90m
+[31m+[90m
+[31m+ Profiles, plugins, settings, credentials, sessions, attachments, and workspace records stored there will be remo
+ved from DSH Desktop Beta. Project files outside this directory are not deleted. DSH Desktop Beta will restart and crea
+te a clean default Profile.",[90m
+[31m+     "message": "Remove current DSH data and initialize a new environment?",[90m
+[31m+     "noLink": true,[90m
+[31m+     "title": "Factory reset DSH Desktop Beta?",[90m
+[2m      "type": "warning",[22m
+[2m    },[22m
+[2m    {[22m
+[2m      "isDestroyed": [Function isDestroyed],[22m
+[2m      "loadFile": [Function Mock],[22m
+[31m[90m
+
+Number of calls: [1m1[22m
+[31m[39m
+[36m [2m❯[22m tests/startup-recovery-window.spec.ts:[2m538:32[22m[39m
+    [90m536|[39m     [35mawait[39m privateRecovery[33m.[39m[34mhandleAction[39m({ action[33m:[39m [32m'facto
+ry-reset'[39m })
+    [90m537|[39m
+    [90m538|[39m     expect(desktopDialog.show).toHaveBeenCalledWith(expect.objectConta…
+    [90m   |[39m                                [31m^[39m
+    [90m539|[39m       type[33m:[39m [32m'warning'[39m[33m,[39m
+    [90m540|[39m       title[33m:[39m [32m'Factory reset DSH Desktop?'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/updates.spec.ts[2m > [22mdesktop update Host plugin[2m > [22mannounces a background
+ update once without opening a confirmation dialog
+[31m[1mAssertionError[22m: expected [ { …(2) } ] to deeply equal [ { …(2) } ][39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[2m  [[22m
+[2m    {[22m
+[32m-     "body": "Version 2.1.0 is ready to download. Open DSH Desktop to continue.",[39m
+[32m-     "title": "DSH Desktop Update Available",[39m
+[31m+     "body": "Version 2.1.0 is ready to download. Open DSH Desktop Beta to continue.",[39m
+[31m+     "title": "DSH Desktop Beta Update Available",[39m
+[2m    },[22m
+[2m  ][22m
+
+[36m [2m❯[22m tests/updates.spec.ts:[2m293:37[22m[39m
+    [90m291|[39m     [35mawait[39m vi[33m.[39m[34madvanceTimersByTimeAsync[39m(testConfig[33m.[39minitialDela
+yMs)
+    [90m292|[39m     [35mawait[39m vi[33m.[39m[34mwaitFor[39m(() [33m=>[39m {
+    [90m293|[39m       [34mexpect[39m(harness[33m.[39mnotifications)[33m.[39m[34mtoEqual[39m([{
+    [90m   |[39m                                     [31m^[39m
+    [90m294|[39m         title[33m:[39m [32m'DSH Desktop Update Available'[39m[33m,[39m
+    [90m295|[39m         body: 'Version 2.1.0 is ready to download. Open DSH Desktop to…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/updates.spec.ts[2m > [22mdesktop update Host plugin[2m > [22mdownloads and opens on
+ly after confirmation
+[31m[1mAssertionError[22m: expected 'Downloading DSH Desktop Beta 2.1.0…' to be 'Downloading DSH Desktop 2.1.0…' // 
+Object.is equality[39m
+
+Expected: [32m"Downloading DSH Desktop 2.1.0…"[39m
+Received: [31m"Downloading DSH Desktop [7mBeta [27m2.1.0…"[39m
+
+[36m [2m❯[22m tests/updates.spec.ts:[2m335:34[22m[39m
+    [90m333|[39m     [34mexpect[39m(signal)[33m.[39m[34mtoBeInstanceOf[39m([33mAbortSignal[39m)
+    [90m334|[39m     [34mexpect[39m(signal[33m.[39maborted)[33m.[39m[34mtoBe[39m([35mfalse[39m)
+    [90m335|[39m     [34mexpect[39m(harness[33m.[39mtray[33m.[39m[34mlabel[39m())[33m.[39m[34mtoBe[39m([
+32m'Downloading DSH Desktop 2.1.0…'[39m)
+    [90m   |[39m                                  [31m^[39m
+    [90m336|[39m     [34mexpect[39m(harness[33m.[39mnotifications)[33m.[39m[34mtoEqual[39m([])
+    [90m337|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/updates.spec.ts[2m > [22mdesktop update Host plugin[2m > [22mtreats a manual availa
+ble-version selection as a fresh confirmation
+[31m[1mAssertionError[22m: expected 'DSH Desktop Beta 2.1.0 Available' to be 'DSH Desktop 2.1.0 Available' // Object
+.is equality[39m
+
+Expected: [32m"DSH Desktop 2.1.0 Available"[39m
+Received: [31m"DSH Desktop [7mBeta [27m2.1.0 Available"[39m
+
+[36m [2m❯[22m tests/updates.spec.ts:[2m358:34[22m[39m
+    [90m356|[39m     [34mexpect[39m(confirmDownload)[33m.[39m[34mtoHaveBeenCalledOnce[39m()
+    [90m357|[39m     [34mexpect[39m(harness[33m.[39mdownloadAndOpen)[33m.[39mnot[33m.[39m[34mtoHaveBeenCalle
+d[39m()
+    [90m358|[39m     [34mexpect[39m(harness[33m.[39mtray[33m.[39m[34mlabel[39m())[33m.[39m[34mtoBe[39m([
+32m'DSH Desktop 2.1.0 Available'[39m)
+    [90m   |[39m                                  [31m^[39m
+    [90m359|[39m
+    [90m360|[39m     [35mawait[39m harness[33m.[39mtray[33m.[39m[34minvoke[39m()
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/updates.spec.ts[2m > [22mdesktop update Host plugin[2m > [22mrechecks the version a
+fter confirmation and skips a rotated download
+[31m[1mAssertionError[22m: expected 'DSH Desktop Beta 2.2.0 Available' to be 'DSH Desktop 2.2.0 Available' // Object
+.is equality[39m
+
+Expected: [32m"DSH Desktop 2.2.0 Available"[39m
+Received: [31m"DSH Desktop [7mBeta [27m2.2.0 Available"[39m
+
+[36m [2m❯[22m tests/updates.spec.ts:[2m382:34[22m[39m
+    [90m380|[39m     [34mexpect[39m(harness[33m.[39mdownloadAndOpen)[33m.[39mnot[33m.[39m[34mtoHaveBeenCalle
+d[39m()
+    [90m381|[39m     [34mexpect[39m(harness[33m.[39mshowManualCheckResult)[33m.[39mnot[33m.[39m[34mtoHaveBee
+nCalled[39m()
+    [90m382|[39m     [34mexpect[39m(harness[33m.[39mtray[33m.[39m[34mlabel[39m())[33m.[39m[34mtoBe[39m([
+32m'DSH Desktop 2.2.0 Available'[39m)
+    [90m   |[39m                                  [31m^[39m
+    [90m383|[39m   })
+    [90m384|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/updates.spec.ts[2m > [22mdesktop update Host plugin[2m > [22mmigrates v2 prompt his
+tory without repeating the same background announcement
+[31m[1mAssertionError[22m: expected 'DSH Desktop Beta 2.1.0 Available' to be 'DSH Desktop 2.1.0 Available' // Object
+.is equality[39m
+
+Expected: [32m"DSH Desktop 2.1.0 Available"[39m
+Received: [31m"DSH Desktop [7mBeta [27m2.1.0 Available"[39m
+
+[36m [2m❯[22m tests/updates.spec.ts:[2m471:34[22m[39m
+    [90m469|[39m     [34mexpect[39m(harness[33m.[39mnotifications)[33m.[39m[34mtoEqual[39m([])
+    [90m470|[39m     [34mexpect[39m(harness[33m.[39mconfirmDownload)[33m.[39mnot[33m.[39m[34mtoHaveBeenCalle
+d[39m()
+    [90m471|[39m     [34mexpect[39m(harness[33m.[39mtray[33m.[39m[34mlabel[39m())[33m.[39m[34mtoBe[39m([
+32m'DSH Desktop 2.1.0 Available'[39m)
+    [90m   |[39m                                  [31m^[39m
+    [90m472|[39m   })
+    [90m473|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/updates.spec.ts[2m > [22mdesktop update Host plugin[2m > [22mshares one pending dow
+nload and silently restores availability after failure
+[31m[1mAssertionError[22m: expected 'DSH Desktop Beta 2.1.0 Available' to be 'DSH Desktop 2.1.0 Available' // Object
+.is equality[39m
+
+Expected: [32m"DSH Desktop 2.1.0 Available"[39m
+Received: [31m"DSH Desktop [7mBeta [27m2.1.0 Available"[39m
+
+[36m [2m❯[22m tests/updates.spec.ts:[2m514:34[22m[39m
+    [90m512|[39m     [34mexpect[39m(harness[33m.[39mnotifications)[33m.[39m[34mtoEqual[39m([])
+    [90m513|[39m     [34mexpect[39m(harness[33m.[39mwarnings)[33m.[39m[34mtoEqual[39m([])
+    [90m514|[39m     [34mexpect[39m(harness[33m.[39mtray[33m.[39m[34mlabel[39m())[33m.[39m[34mtoBe[39m([
+32m'DSH Desktop 2.1.0 Available'[39m)
+    [90m   |[39m                                  [31m^[39m
+    [90m515|[39m   })
+    [90m516|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[42/47]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/verify-electron-fuses.spec.ts[2m > [22mfinal Electron fuse verification[2m > [22mfa
+ils when one requested architecture is missing even if a sibling exists
+[31m[1mAssertionError[22m: expected [Function] to throw error including 'win/arm64 at /build/win-arm64-unpacke…' but
+ got 'dsh-plugin-desktop: cannot locate fin…'[39m
+
+Expected: [32m"win/arm64 at [7m/[27mbuild[7m/[27mwin-arm64-unpacked[7m/[27mDSH Desktop Beta.exe"[39m
+Received: [31m"[7mdsh-plugin-desktop: cannot locate final Electron executable(s) for [27mwin/arm64 at [7m\[27mbuil
+d[7m\[27mwin-arm64-unpacked[7m\[27mDSH Desktop Beta.exe"[39m
+
+[36m [2m❯[22m tests/verify-electron-fuses.spec.ts:[2m181:51[22m[39m
+    [90m179|[39m     [35mconst[39m built [33m=[39m {
+    [90m180|[39m       outDir[33m:[39m [32m'/build'[39m[33m,[39m
+    [90m181|[39m       configuration[33m:[39m { productName[33m:[39m [32m'DSH Desktop Beta'[39m }[33m,[39m
+    [90m   |[39m                                                   [31m^[39m
+    [90m182|[39m       platformToTargets[33m:[39m [35mnew[39m [33mMap[39m([[platform[33m,[39m [35mnew[39m 
+[33mMap[39m([
+    [90m183|[39m         [[32m'nsis'[39m[33m,[39m { archs[33m:[39m [35mnew[39m [33mMap[39m([
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[43/47]⎯[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Errors [49m[22m[31m⎯⎯⎯⎯⎯⎯[39m
+[31m[1m
+Vitest caught 2 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Error [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mError[22m: [vitest-pool]: Worker forks emitted error.[39m
+
+[2m Test Files [22m [1m[31m18 failed[39m[22m[2m | [22m[1m[32m114 passed[39m[22m[90m (133)[39m
+[90m [2m❯[22m EventEmitter.<anonymous> node_modules/vitest/dist/chunks/cli-api.BfdDOPPI.js:[2m3446:22[22m[39m
+[90m [2m❯[22m EventEmitter.emit node:events:[2m508:28[22m[39m
+[90m [2m❯[22m ChildProcess.emitUnexpectedExit node_modules/vitest/dist/chunks/cli-api.BfdDOPPI.js:[2m3013:22[22m[
+39m
+[90m [2m❯[22m ChildProcess.emit node:events:[2m508:28[22m[39m
+[90m [2m❯[22m Process.ChildProcess._handle.onexit node:internal/child_process:[2m294:12[22m[39m
+
+[31m[1mCaused by: Error[22m: Worker exited unexpectedly[39m
+[90m [2m❯[22m ChildProcess.emitUnexpectedExit node_modules/vitest/dist/chunks/cli-api.BfdDOPPI.js:[2m3012:33[22m[
+39m
+[90m [2m❯[22m ChildProcess.emit node:events:[2m508:28[22m[39m
+[90m [2m❯[22m Process.ChildProcess._handle.onexit node:internal/child_process:[2m294:12[22m[39m
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Unhandled Error [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+[31m[1mError[22m: [vitest-pool]: Worker forks emitted error.[39m
+[90m [2m❯[22m EventEmitter.<anonymous> node_modules/vitest/dist/chunks/cli-api.BfdDOPPI.js:[2m3446:22[22m[39m
+[90m [2m❯[22m EventEmitter.emit node:events:[2m508:28[22m[39m
+[90m [2m❯[22m ChildProcess.emitUnexpectedExit node_modules/vitest/dist/chunks/cli-api.BfdDOPPI.js:[2m3013:22[22m[
+39m
+[90m [2m❯[22m ChildProcess.emit node:events:[2m508:28[22m[39m
+[90m [2m❯[22m Process.ChildProcess._handle.onexit node:internal/child_process:[2m294:12[22m[39m
+
+[31m[1mCaused by: Error[22m: Worker exited unexpectedly[39m
+[90m [2m❯[22m ChildProcess.emitUnexpectedExit node_modules/vitest/dist/chunks/cli-api.BfdDOPPI.js:[2m3012:33[22m[
+39m
+[90m [2m❯[22m ChildProcess.emit node:events:[2m508:28[22m[39m
+[90m [2m❯[22m Process.ChildProcess._handle.onexit node:internal/child_process:[2m294:12[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39m
+
+[2m      Tests [22m [1m[31m47 failed[39m[22m[2m | [22m[1m[32m1294 passed[39m[22m[2m | [22m[33m12 skipped[39m[90m (1358)[39m
+[2m     Errors [22m [1m[31m2 errors[39m[22m
+[2m   Start at [22m 09:57:29
+[2m   Duration [22m 71.80s[2m (transform 2.83s, setup 0ms, import 12.44s, tests 65.61s, environment 2.36s)[22m
+

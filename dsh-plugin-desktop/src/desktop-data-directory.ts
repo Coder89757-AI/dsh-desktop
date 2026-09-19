@@ -16,6 +16,11 @@ import { dirname, isAbsolute, join, parse, relative, resolve, sep } from 'node:p
 import { writeFileAtomic } from '@deepseek-ai/dsh-atomic-write'
 import { listDesktopProfiles } from './profile-manager.ts'
 import { DESKTOP_PACKAGE_NAME } from './product-identity.ts'
+import { brandedDisplayName } from './branding.ts'
+
+/** Visible product name spliced into this module's copy. */
+const PRODUCT = brandedDisplayName()
+
 
 const STATE_VERSION = 1
 const STATE_ROOT_DIRECTORY = 'data-directory'
@@ -385,7 +390,7 @@ export function assertDesktopDataDirectoryCommandGeneration(
   }
   throw new DesktopDataDirectoryError(
     'busy',
-    'this managed terminal belongs to an older DSH data directory; reopen it from 法海问津',
+    'this managed terminal belongs to an older DSH data directory; reopen it from ' + PRODUCT + '',
   )
 }
 

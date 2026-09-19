@@ -1,6 +1,11 @@
 import { dirname, parse, resolve } from 'node:path'
 import { existsSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { brandedDisplayName } from './branding.ts'
+
+/** Visible product name spliced into this module's copy. */
+const PRODUCT = brandedDisplayName()
+
 
 const REMOVABLE_DRIVE = 2
 const FIXED_DRIVE = 3
@@ -101,7 +106,7 @@ function concernForPath(
     return {
       ...entry,
       ...info,
-      reason: `${info.fileSystem} does not provide the NTFS-style ACL and junction behavior DSH Desktop relies on`,
+      reason: `${info.fileSystem} does not provide the NTFS-style ACL and junction behavior ${PRODUCT} relies on`,
     }
   }
   if (info.driveType === REMOVABLE_DRIVE) {

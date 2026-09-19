@@ -1,5 +1,7 @@
 /** Localized copy for Desktop-owned native dialogs and notifications. */
 
+import { brandedDisplayName } from './branding.ts'
+import { copyWithProductName } from './copy-product-name.ts'
 import type { DesktopLocale } from './runtime.ts'
 
 export interface DesktopNativeCopy {
@@ -79,32 +81,32 @@ const COPY: Record<DesktopLocale, DesktopNativeCopy> = {
     failedPlugins: 'Plugins that failed to load:',
     pluginRecoveryInstructions: 'Update or uninstall the failed third-party plugins in DSH Terminal, then restart the app.',
     openTerminal: 'Open DSH Terminal',
-    restart: 'Restart DSH Desktop',
+    restart: 'Restart {product}',
     dismiss: 'Dismiss',
-    updateAvailableTitle: 'DSH Desktop Update Available',
-    updateAvailableMessage: version => `DSH Desktop ${version} is available.`,
+    updateAvailableTitle: '{product} Update Available',
+    updateAvailableMessage: version => `{product} ${version} is available.`,
     downloadUpdate: 'Download this update now?',
-    installStableAlongsideBeta: 'Install the stable edition alongside DSH Desktop Beta? The Beta app will remain installed.',
+    installStableAlongsideBeta: 'Install the stable edition alongside {product} Beta? The Beta app will remain installed.',
     download: 'Download',
     later: 'Later',
     updateCheckFailedTitle: 'Unable to Check for Updates',
     updateCheckFailedMessage: 'Could not retrieve update information.',
     tryAgainLater: 'Please try again later.',
-    upToDateTitle: 'DSH Desktop Is Up to Date',
+    upToDateTitle: '{product} Is Up to Date',
     upToDateMessage: 'You are using the latest version.',
     installedVersion: version => `Installed version: ${version}`,
     installerUnavailable: 'This version cannot download installers from within the app.',
-    updateDownloadedTitle: 'DSH Desktop Update Downloaded',
-    updateReady: version => `DSH Desktop ${version} is ready to install.`,
-    macInstallInstructions: 'The disk image has opened. Replace DSH Desktop in Applications, then reopen it.',
-    windowsInstallQuestion: 'Restart DSH Desktop and run the installer now?',
+    updateDownloadedTitle: '{product} Update Downloaded',
+    updateReady: version => `{product} ${version} is ready to install.`,
+    macInstallInstructions: 'The disk image has opened. Replace {product} in Applications, then reopen it.',
+    windowsInstallQuestion: 'Restart {product} and run the installer now?',
     restartAndInstall: 'Restart and Install',
     saveInstallerTitle: 'Save Update Installer',
     saveAndDownload: 'Save and Download',
     diskImage: 'Disk Image',
     windowsInstaller: 'Windows Installer',
     removeInstallerTitle: 'Remove Update Installer',
-    updateInstalled: version => `DSH Desktop ${version} has been installed.`,
+    updateInstalled: version => `{product} ${version} has been installed.`,
     removeInstallerQuestion: path => `Delete the downloaded installer to free disk space?\n\n${path}`,
     deleteInstaller: 'Delete Installer',
     keepInstaller: 'Keep Installer',
@@ -140,32 +142,32 @@ const COPY: Record<DesktopLocale, DesktopNativeCopy> = {
     failedPlugins: '加载失败的插件：',
     pluginRecoveryInstructions: '请在 DSH 终端中更新或卸载加载失败的第三方插件，然后重启应用。',
     openTerminal: '打开 DSH 终端',
-    restart: '重启 DSH Desktop',
+    restart: '重启 {product}',
     dismiss: '关闭',
-    updateAvailableTitle: 'DSH Desktop 有可用更新',
-    updateAvailableMessage: version => `DSH Desktop ${version} 已可用。`,
+    updateAvailableTitle: '{product} 有可用更新',
+    updateAvailableMessage: version => `{product} ${version} 已可用。`,
     downloadUpdate: '现在下载此更新？',
-    installStableAlongsideBeta: '是否同时安装稳定版？DSH Desktop Beta 将继续保留。',
+    installStableAlongsideBeta: '是否同时安装稳定版？{product} Beta 将继续保留。',
     download: '下载',
     later: '稍后',
     updateCheckFailedTitle: '无法检查更新',
     updateCheckFailedMessage: '未能获取更新信息。',
     tryAgainLater: '请稍后重试。',
-    upToDateTitle: 'DSH Desktop 已是最新版本',
+    upToDateTitle: '{product} 已是最新版本',
     upToDateMessage: '当前已是最新版本。',
     installedVersion: version => `当前版本：${version}`,
     installerUnavailable: '当前版本不支持在应用内下载安装包。',
-    updateDownloadedTitle: 'DSH Desktop 更新已下载',
-    updateReady: version => `DSH Desktop ${version} 已可安装。`,
-    macInstallInstructions: '磁盘映像已打开。请替换“应用程序”中的 DSH Desktop，然后重新打开。',
-    windowsInstallQuestion: '现在重启 DSH Desktop 并运行安装程序？',
+    updateDownloadedTitle: '{product} 更新已下载',
+    updateReady: version => `{product} ${version} 已可安装。`,
+    macInstallInstructions: '磁盘映像已打开。请替换“应用程序”中的 {product}，然后重新打开。',
+    windowsInstallQuestion: '现在重启 {product} 并运行安装程序？',
     restartAndInstall: '重启并安装',
     saveInstallerTitle: '保存更新安装包',
     saveAndDownload: '保存并下载',
     diskImage: '磁盘映像',
     windowsInstaller: 'Windows 安装程序',
     removeInstallerTitle: '删除更新安装包',
-    updateInstalled: version => `DSH Desktop ${version} 已安装。`,
+    updateInstalled: version => `{product} ${version} 已安装。`,
     removeInstallerQuestion: path => `是否删除下载的安装包以释放磁盘空间？\n\n${path}`,
     deleteInstaller: '删除安装包',
     keepInstaller: '保留安装包',
@@ -194,6 +196,13 @@ const COPY: Record<DesktopLocale, DesktopNativeCopy> = {
   },
 }
 
-export function desktopNativeCopy(locale: DesktopLocale): DesktopNativeCopy {
-  return COPY[locale]
+/**
+ * Native dialog copy for one locale with the visible product name substituted
+ * in; see `copy-product-name.ts`.
+ */
+export function desktopNativeCopy(
+  locale: DesktopLocale,
+  productName: string = brandedDisplayName(),
+): DesktopNativeCopy {
+  return copyWithProductName(COPY[locale], productName)
 }

@@ -1,5 +1,7 @@
 /** Shared copy for the isolated Profile creator and its native owner. */
 
+import { copyWithProductName } from './copy-product-name.ts'
+import { DESKTOP_PRODUCT_NAME } from './product-identity.ts'
 import type { DesktopLocale } from './runtime.ts'
 
 export interface DesktopProfileCreateCopy {
@@ -39,6 +41,14 @@ const COPY: Record<DesktopLocale, DesktopProfileCreateCopy> = {
   },
 }
 
-export function desktopProfileCreateCopy(locale: DesktopLocale): DesktopProfileCreateCopy {
-  return COPY[locale]
+/**
+ * Profile creator copy for one locale with the visible product name substituted
+ * in. The name is a parameter because this module loads on both sides of the
+ * process boundary; see `copy-product-name.ts`.
+ */
+export function desktopProfileCreateCopy(
+  locale: DesktopLocale,
+  productName: string = DESKTOP_PRODUCT_NAME,
+): DesktopProfileCreateCopy {
+  return copyWithProductName(COPY[locale], productName)
 }

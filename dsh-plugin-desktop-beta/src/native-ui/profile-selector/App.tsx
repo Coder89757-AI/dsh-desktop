@@ -1,4 +1,5 @@
 import { AlertTriangle, ArrowLeft, RotateCcw } from 'lucide-react'
+import { injectedProductName } from '../brand.ts'
 import { Alert, AlertDescription } from '../components/ui/alert.tsx'
 import { ScrollArea } from '../components/ui/scroll-area.tsx'
 import { cn } from '../lib/utils.ts'
@@ -46,7 +47,7 @@ function href(action: 'cancel' | 'create' | 'restart' | 'switch', name?: string)
 export function ProfileSelectorApp(): JSX.Element {
   const state = decodeState()
   const locale = state?.locale ?? (new URLSearchParams(window.location.search).get('locale') === 'zh' ? 'zh' : 'en')
-  const copy = desktopRecoveryCopy(locale)
+  const copy = desktopRecoveryCopy(locale, injectedProductName())
   if (state === undefined) return <><DesktopFrame /><main className="dshNativeContent flex h-screen items-center justify-center p-6"><Alert variant="destructive"><AlertTriangle /><AlertDescription>{copy.profilesUnavailable}</AlertDescription></Alert></main></>
 
   return <><DesktopFrame /><main className={cn('dshNativeContent h-screen overflow-hidden p-5 sm:p-6', state.busy && 'pointer-events-none opacity-70')}>

@@ -1,5 +1,12 @@
-/** Bilingual copy for the pre-Host native Setup Wizard. */
+/** Bilingual copy for the pre-Host native Setup Wizard.
+ *
+ * Dictionaries stay brand-free: `{product}` marks where the visible product
+ * name belongs and the caller substitutes it. See `copy-product-name.ts` for
+ * why the name is injected instead of read here.
+ */
 
+import { copyWithProductName } from './copy-product-name.ts'
+import { DESKTOP_PRODUCT_NAME } from './product-identity.ts'
 import type { DesktopLocale } from './runtime.ts'
 
 export interface DesktopSetupWizardCopy {
@@ -95,9 +102,9 @@ const COPY: Record<DesktopLocale, DesktopSetupWizardCopy> = {
     aaNextDesktop: 'If the Agents-Anywhere desktop app is installed on this computer, manage the connection directly in that app.',
 
     beta: 'Beta',
-    title: 'Set up 法海问津',
+    title: 'Set up {product}',
     profile: 'Profile',
-    welcomeTitle: 'Welcome to 法海问津',
+    welcomeTitle: 'Welcome to {product}',
     welcomeBody: 'Set up window appearance, phone connection, and notifications for the current Profile.',
     firstProfileSetup: 'Complete Desktop setup before using this configuration environment (Profile) for the first time.',
     startSetup: 'Start setup',
@@ -141,7 +148,7 @@ const COPY: Record<DesktopLocale, DesktopSetupWizardCopy> = {
     marketDisabled: 'Turn off plugin market',
     marketDisabledBody: 'Do not load a plugin market interface.',
     communityMarket: 'dsh-community-market',
-    communityMarketBody: 'The open market built into 法海问津, including custom data sources.',
+    communityMarketBody: 'The open market built into {product}, including custom data sources.',
     dshMarket: 'dsh-market',
     dshMarketBody: 'The popular community market powered by awesome-dsh-plugin data.',
     notificationsTitle: 'Set up Desktop notifications',
@@ -160,7 +167,7 @@ const COPY: Record<DesktopLocale, DesktopSetupWizardCopy> = {
     confirmSkip: 'Skip setup',
     successTitle: 'Setup complete',
     successBody: 'Desktop settings have been saved for the current Profile.',
-    startUsing: 'Start using 法海问津',
+    startUsing: 'Start using {product}',
     invalidState: 'Setup information could not be loaded. Close this window and try again.',
   },
   zh: {
@@ -175,9 +182,9 @@ const COPY: Record<DesktopLocale, DesktopSetupWizardCopy> = {
     aaNextDesktop: '如果本机已安装 Agents-Anywhere 桌面端，直接在桌面端管理连接即可。',
 
     beta: 'Beta',
-    title: '设置 法海问津',
+    title: '设置 {product}',
     profile: 'Profile',
-    welcomeTitle: '欢迎使用 法海问津',
+    welcomeTitle: '欢迎使用 {product}',
     welcomeBody: '为当前 Profile 设置窗口外观、手机连接和桌面通知。',
     firstProfileSetup: '首次使用此配置环境（Profile），请先完成桌面设置。',
     startSetup: '开始设置',
@@ -221,7 +228,7 @@ const COPY: Record<DesktopLocale, DesktopSetupWizardCopy> = {
     marketDisabled: '关闭插件市场',
     marketDisabledBody: '不加载插件市场界面。',
     communityMarket: 'dsh-community-market',
-    communityMarketBody: '法海问津 内置的开放市场，并支持自定义数据源。',
+    communityMarketBody: '{product} 内置的开放市场，并支持自定义数据源。',
     dshMarket: 'dsh-market',
     dshMarketBody: '使用 awesome-dsh-plugin 数据的热门社区市场。',
     notificationsTitle: '设置桌面通知',
@@ -245,6 +252,17 @@ const COPY: Record<DesktopLocale, DesktopSetupWizardCopy> = {
   },
 }
 
-export function desktopSetupWizardCopy(locale: DesktopLocale): DesktopSetupWizardCopy {
-  return COPY[locale]
+/**
+ * Copy for one locale with the visible product name substituted in.
+ *
+ * The name is a parameter because this module loads on both sides of the
+ * process boundary: the Host resolves it from the packaged branding projection,
+ * the native-ui renderer receives it through its document URL. Both fall back
+ * to the shipped edition name.
+ */
+export function desktopSetupWizardCopy(
+  locale: DesktopLocale,
+  productName: string = DESKTOP_PRODUCT_NAME,
+): DesktopSetupWizardCopy {
+  return copyWithProductName(COPY[locale], productName)
 }

@@ -16,6 +16,11 @@ import {
   type DesktopReleaseChannel,
   type UpdateCheckResult,
 } from './update-checker.ts'
+import { brandedDisplayName } from './branding.ts'
+
+/** Visible product name spliced into this module's copy. */
+const PRODUCT = brandedDisplayName()
+
 
 const MAX_STATE_BYTES = 4 * 1024
 
@@ -355,8 +360,8 @@ function parseState(text: string): ParsedUpdateState {
 
 function updateAvailableNotification(locale: DesktopLocale, version: string): DesktopNotification {
   return locale === 'zh'
-    ? { title: 'DSH Desktop 有可用更新', body: `版本 ${version} 已可下载。打开 DSH Desktop 即可继续。` }
-    : { title: 'DSH Desktop Update Available', body: `Version ${version} is ready to download. Open DSH Desktop to continue.` }
+    ? { title: '' + PRODUCT + ' 有可用更新', body: `版本 ${version} 已可下载。打开 ${PRODUCT} 即可继续。` }
+    : { title: '' + PRODUCT + ' Update Available', body: `Version ${version} is ready to download. Open ${PRODUCT} to continue.` }
 }
 
 async function readState(filename: string): Promise<string> {

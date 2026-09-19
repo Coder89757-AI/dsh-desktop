@@ -12,6 +12,11 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '../native-ui/components/ui/hover-card.tsx'
+import { injectedProductName } from '../native-ui/brand.ts'
+
+/** Visible product name spliced into this module's copy. */
+const PRODUCT = injectedProductName()
+
 
 export interface DesktopFrameTitlebarInjected {
   readonly environment: DesktopClientEnvironment
@@ -175,7 +180,7 @@ export function DesktopFrameTitlebarView({ api, environment, setMode, t, remoteC
       data-material={environment.material}
     >
       <div className="dshDesktopFrameIdentity">
-        <span className="dshDesktopFrameProduct">DSH Desktop</span>
+        <span className="dshDesktopFrameProduct">{PRODUCT}</span>
         <DesktopVersionControl version={environment.version} checkForUpdates={api.checkForUpdates} t={t} />
         <DesktopModeControl
           mode={environment.mode}

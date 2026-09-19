@@ -449,8 +449,9 @@ describe('Setup Wizard native UI boundaries', () => {
   it('decodes only the exact bounded state tuple emitted by the owner window', () => {
     vi.stubGlobal('window', { atob: globalThis.atob })
     const state = Buffer.from(JSON.stringify(input), 'utf8').toString('base64url')
-    const valid = `?locale=zh&state=${state}&platform=darwin&frame=true`
+    const valid = `?locale=zh&state=${state}&platform=darwin&frame=true&brand=LexFord`
     expect(decodeDesktopSetupWizardInput(valid)).toEqual(input)
+    expect(decodeDesktopSetupWizardInput(valid.replace('&brand=LexFord', ''))).toBeUndefined()
     expect(decodeDesktopSetupWizardInput(`${valid}&unexpected=true`)).toBeUndefined()
     expect(decodeDesktopSetupWizardInput(valid.replace('platform=darwin', 'platform=win32'))).toBeUndefined()
     expect(decodeDesktopSetupWizardInput(valid.replace('locale=zh', 'locale=fr'))).toBeUndefined()

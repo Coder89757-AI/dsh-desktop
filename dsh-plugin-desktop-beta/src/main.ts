@@ -206,7 +206,7 @@ import {
   DESKTOP_PRODUCT_NAME,
   DESKTOP_RELEASE_CHANNEL,
 } from './product-identity.ts'
-import { brandedUserDataDirectoryName } from './branding.ts'
+import { brandedDisplayName, brandedUserDataDirectoryName } from './branding.ts'
 import { desktopRecoveryCopy } from './recovery-copy.ts'
 
 const BIN_NAME = DESKTOP_PACKAGE_NAME
@@ -336,7 +336,7 @@ function notifyDesktopSafeModeActive(
   runtime: ElectronDesktopRuntime,
   logger: DesktopLogger,
 ): void {
-  const copy = desktopRecoveryCopy(runtime.locale)
+  const copy = desktopRecoveryCopy(runtime.locale, brandedDisplayName())
   try {
     runtime.updates.notify({
       title: copy.safeModeNotificationTitle,

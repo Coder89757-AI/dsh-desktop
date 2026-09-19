@@ -14,6 +14,11 @@ import { createHash, randomUUID } from 'node:crypto'
 import { basename, dirname, join, win32 } from 'node:path'
 import { assertDesktopProfileName } from './profile-manager.ts'
 import { PNPM_IGNORE_MINIMUM_RELEASE_AGE } from './pnpm-policy.ts'
+import { brandedDisplayName } from './branding.ts'
+
+/** Visible product name spliced into this module's copy. */
+const PRODUCT = brandedDisplayName()
+
 
 const RUN_AS_NODE = 'ELECTRON_RUN_AS_NODE'
 const DEFAULT_PROFILE = 'DSH_DESKTOP_DEFAULT_PROFILE'
@@ -340,7 +345,7 @@ function macWelcome(
     `export PATH=${quoteSh(shimDir)}:"\${PATH:-}"`,
     `cd ${quoteSh(options.profileDir)}`,
     "printf '\\033[2J\\033[3J\\033[H'",
-    `printf '%s\\n' ${quoteSh(`DSH Desktop ${options.productVersion} terminal`)}`,
+    `printf '%s\\n' ${quoteSh(`${PRODUCT} ${options.productVersion} terminal`)}`,
     `printf '%s\\n' ${quoteSh(`Profile: ${options.profileName}`)}`,
     `printf '%s\\n' ${quoteSh(`Profile directory: ${options.profileDir}`)}`,
     `printf '%s\\n' ${quoteSh(`Harness home: ${options.homeDir}`)}`,
@@ -350,7 +355,7 @@ function macWelcome(
     `printf '  %s\\n' ${quoteSh(pluginAdd)}`,
     `printf '  %s\\n' ${quoteSh(pluginRemove)}`,
     `printf '  %s\\n' ${quoteSh(pluginUpdate)}`,
-    `printf '%s\\n' ${quoteSh('Restart DSH Desktop after plugin changes.')}`,
+    `printf '%s\\n' ${quoteSh('Restart ' + PRODUCT + ' after plugin changes.')}`,
     'case "${SHELL:-/bin/zsh}" in',
     '  */bash)',
     '    export DSH_DESKTOP_USER_BASHRC="${HOME:-}/.bashrc"',
@@ -383,7 +388,7 @@ function windowsWelcome(): string {
     `$dshDesktopPath = @($env:${PATH} -split ';' | Where-Object { -not [string]::Equals($_, $dshDesktopShimDir, [StringComparison]::OrdinalIgnoreCase) })`,
     `$env:${PATH} = (@($dshDesktopShimDir) + $dshDesktopPath) -join ';'`,
     `Set-Location -LiteralPath $env:${WINDOWS_PROFILE_DIRECTORY}`,
-    `Write-Host ("DSH Desktop {0} terminal" -f $env:${WINDOWS_PRODUCT_VERSION})`,
+    `Write-Host ("${PRODUCT} {0} terminal" -f $env:${WINDOWS_PRODUCT_VERSION})`,
     `Write-Host ("Profile: {0}" -f $env:${DEFAULT_PROFILE})`,
     `Write-Host ("Profile directory: {0}" -f $env:${WINDOWS_PROFILE_DIRECTORY})`,
     `Write-Host ("Harness home: {0}" -f $env:${DSH_HOME})`,
@@ -393,7 +398,7 @@ function windowsWelcome(): string {
     `Write-Host '  ${pluginAdd}'`,
     `Write-Host '  ${pluginRemove}'`,
     `Write-Host '  ${pluginUpdate}'`,
-    `Write-Host 'Restart DSH Desktop after plugin changes.'`,
+    `Write-Host 'Restart ${PRODUCT} after plugin changes.'`,
     '',
   ].join('\r\n')
 }
@@ -409,7 +414,7 @@ function windowsCmdWelcome(): string {
     'setlocal EnableDelayedExpansion',
     `set "${RUN_AS_NODE}="`,
     `cd /d "!${WINDOWS_PROFILE_DIRECTORY}!"`,
-    `echo(DSH Desktop !${WINDOWS_PRODUCT_VERSION}! terminal`,
+    `echo(${PRODUCT} !${WINDOWS_PRODUCT_VERSION}! terminal`,
     `echo(Profile: !${DEFAULT_PROFILE}!`,
     `echo(Profile directory: !${WINDOWS_PROFILE_DIRECTORY}!`,
     `echo(Harness home: !${DSH_HOME}!`,
@@ -419,7 +424,7 @@ function windowsCmdWelcome(): string {
     `echo(  ${escapeBatchText(pluginAdd)}`,
     `echo(  ${escapeBatchText(pluginRemove)}`,
     `echo(  ${escapeBatchText(pluginUpdate)}`,
-    `echo(${escapeBatchText('Restart DSH Desktop after plugin changes.')}`,
+    `echo(${escapeBatchText('Restart ' + PRODUCT + ' after plugin changes.')}`,
     'endlocal & set "ELECTRON_RUN_AS_NODE="',
     '',
   ].join('\r\n')
@@ -636,7 +641,7 @@ function windowsLaunchBroker(
   return [
     '@echo off',
     'setlocal EnableDelayedExpansion',
-    `start "DSH Desktop Beta" /D "!${WINDOWS_PROFILE_DIRECTORY}!" ${target}`,
+    `start "${PRODUCT}" /D "!${WINDOWS_PROFILE_DIRECTORY}!" ${target}`,
     'exit /b %errorlevel%',
     '',
   ].join('\r\n')

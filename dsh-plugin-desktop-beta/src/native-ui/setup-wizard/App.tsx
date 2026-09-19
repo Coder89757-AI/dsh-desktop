@@ -19,6 +19,7 @@ import {
   type DesktopSetupWizardWindowsMaterial,
 } from '../../setup-wizard-contract.ts'
 import { desktopSetupWizardCopy, type DesktopSetupWizardCopy } from '../../setup-wizard-copy.ts'
+import { injectedProductName } from '../brand.ts'
 import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert.tsx'
 import { Badge } from '../components/ui/badge.tsx'
 import { Button } from '../components/ui/button.tsx'
@@ -102,7 +103,7 @@ function decodeBase64Url(value: string): string | undefined {
 /** Decode only the exact state/query tuple emitted by DesktopSetupWizardWindow. */
 export function decodeDesktopSetupWizardInput(search: string): DesktopSetupWizardInput | undefined {
   const query = new URLSearchParams(search)
-  const expected = ['locale', 'state', 'platform', 'frame']
+  const expected = ['locale', 'state', 'platform', 'frame', 'brand']
   const keys = [...query.keys()]
   if (keys.length !== expected.length
     || keys.some(key => !expected.includes(key))
@@ -664,7 +665,7 @@ export function desktopSetupWizardSkipRequiresLanAcknowledgement(
 
 export function SetupWizardApp(): JSX.Element {
   const locale = localLocale(window.location.search)
-  const copy = desktopSetupWizardCopy(locale)
+  const copy = desktopSetupWizardCopy(locale, injectedProductName())
   const input = decodeDesktopSetupWizardInput(window.location.search)
   const [selection, setSelection] = useState<DesktopSetupWizardSelection | undefined>(() => input === undefined ? undefined : normalizedSelection(input))
   const [step, setStep] = useState<DesktopSetupWizardStep>('welcome')
