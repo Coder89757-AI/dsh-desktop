@@ -13,4 +13,10 @@ dsh-plugin-desktop/dist/
 dsh-plugin-desktop/lib/
 dsh-community-market/lib/
 
+# Agent workspace state (session memory, probe artifacts, local backups)
+.workbuddy/
+
+# Local Electron probe harnesses
+.dsh-probe/
+
 .env.yarn
