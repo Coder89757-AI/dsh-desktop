@@ -16,7 +16,6 @@ const betaOnlyPaths = new Set(['desktop-python-runtime.ts', 'profile-context.ts'
 const allowedDifferences = new Map([
   ['product-identity.ts', 'the edition identity itself'],
   ['main.ts', 'the beta edition installs its offline Python runtime during startup'],
-  ['electron-runtime.ts', 'the beta edition keeps the full tray menu; the stable edition ships Quit and the native renderer reload escape hatch only'],
   // Beta rides dsh 0.1.6-alpha.2, whose runArgv fuses confinement preparation into the
   // execution deadline and returns { result, spawnRequested }; stable stays on
   // 0.1.5-rc.2, whose override takes an argv array and returns ShellRunResult.
