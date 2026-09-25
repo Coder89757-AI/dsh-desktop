@@ -16,7 +16,6 @@ import {
   type DesktopSetupWizardNetworkExposure,
   type DesktopSetupWizardNotifications,
   type DesktopSetupWizardSelection,
-  type DesktopSetupWizardWindowsMaterial,
 } from '../../setup-wizard-contract.ts'
 import { desktopSetupWizardCopy, type DesktopSetupWizardCopy } from '../../setup-wizard-copy.ts'
 import { injectedProductName } from '../brand.ts'
@@ -127,9 +126,7 @@ function normalizedSelection(input: DesktopSetupWizardInput): DesktopSetupWizard
   return {
     mode,
     macosMaterial: input.macosMaterial,
-    windowsMaterial: input.platform === 'win32' && input.windowsMaterial === 'mica' && !input.micaSupported
-      ? 'off'
-      : input.windowsMaterial,
+    windowsMaterial: input.windowsMaterial,
     openBrowser: browserAccess,
     networkExposure: browserAccess ? input.networkExposure : 'loopback',
     market: input.market,
@@ -281,7 +278,7 @@ function ModeOptions({
 }
 
 type MaterialOption = {
-  readonly value: DesktopSetupWizardMacosMaterial | DesktopSetupWizardWindowsMaterial
+  readonly value: DesktopSetupWizardMacosMaterial
   readonly title: string
   readonly body: string
 }
@@ -300,32 +297,25 @@ function MaterialOptions({
   const options: readonly MaterialOption[] = input.platform === 'darwin' ? [
     { value: 'off', title: copy.materialOff, body: copy.materialOffBody },
     { value: 'transparent', title: copy.materialTransparent, body: copy.materialTransparentBody },
-  ] : input.platform === 'win32' ? [
-    { value: 'off', title: copy.materialOff, body: copy.materialOffBody },
-    ...(input.micaSupported ? [{ value: 'mica' as const, title: copy.materialMica, body: copy.materialMicaBody }] : []),
   ] : [
-    { value: 'off', title: copy.materialOff, body: copy.unavailableOnLinux },
+    { value: 'off', title: copy.materialOff, body: copy.materialOffBody },
   ]
-  const selected = input.platform === 'darwin' ? selection.macosMaterial
-    : input.platform === 'win32' ? selection.windowsMaterial : 'off'
+  // Windows and Linux offer only the opaque window, so their step shows the
+  // single solid option and never changes a stored material.
+  const selected = input.platform === 'darwin' ? selection.macosMaterial : 'off'
   const choose = (value: MaterialOption['value']): void => {
-    if (input.platform === 'darwin' && (value === 'off' || value === 'transparent')) {
-      update({ ...selection, macosMaterial: value })
-    } else if (input.platform === 'win32' && (value === 'off' || value === 'mica')) {
-      update({ ...selection, windowsMaterial: value })
-    }
+    if (input.platform === 'darwin') update({ ...selection, macosMaterial: value })
   }
   return <RadioGroup
     aria-label={copy.windowMaterial}
     aria-orientation="vertical"
     name="setup-window-material"
     onValueChange={value => {
-      if (value === 'off' || value === 'transparent' || value === 'mica') choose(value)
+      if (value === 'off' || value === 'transparent') choose(value)
     }}
     value={selected}
   >{options.map(option => <Choice
     body={option.body}
-    disabled={input.platform === 'linux'}
     id={`setup-window-material-${option.value}`}
     key={option.value}
     selected={selected === option.value}

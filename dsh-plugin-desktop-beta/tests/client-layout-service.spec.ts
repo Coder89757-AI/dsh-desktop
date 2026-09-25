@@ -128,7 +128,7 @@ describe('installDesktopLayout', () => {
 })
 
 function environmentFor(mode: 'advanced' | 'extended') {
-  return { mode, platform: 'win32', material: 'off', micaSupported: false, version: '2.0.2' }
+  return { mode, platform: 'win32', material: 'off', version: '2.0.2' }
 }
 
 describe('applyAdvancedShell presentation ownership', () => {

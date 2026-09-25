@@ -17,7 +17,7 @@ it.each(['zh', undefined] as const)('synchronizes tray language at boot and on c
   const disposeTray = vi.fn()
   let nativeLocale: DesktopLocale = 'en'
   const native = {
-    platform: 'win32', windowsBuild: 22631, get locale() { return nativeLocale },
+    platform: 'win32', get locale() { return nativeLocale },
     setLocalePreference: (preference: DesktopLocale | undefined) => { nativeLocale = preference ?? 'zh' },
     updates: { isPackaged: true, canDownload: true, currentVersion: '2.0.7-beta.1', statePath: '/tmp/update',
       request: vi.fn(async () => new Response('{"version":"2.0.8-beta.1"}', { headers: { 'x-test': 'yes' } })),

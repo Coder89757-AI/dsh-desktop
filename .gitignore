@@ -26,3 +26,7 @@ dsh-plugin-desktop/build/python-runtime/
 dsh-plugin-desktop-beta/build/python-runtime/
 
 .env.yarn
+
+dsh-desktop-next/lib/
+dsh-desktop-next/dist/
+dsh-desktop-next/.desktop-next/
