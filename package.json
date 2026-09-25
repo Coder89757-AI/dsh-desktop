@@ -19,7 +19,7 @@
     "dsh-community-market"
   ],
   "resolutions": {
-    "@agents-anywhere/dsh-bridge-next": "patch:@agents-anywhere/dsh-bridge-next@file%3Avendor/agents-anywhere/agents-anywhere-dsh-bridge-next-0.1.0-dev.0.desktop.c21e88cc8b14b.r7b32a9b2.tgz#./patches/agents-anywhere-connector-httpx.patch",
+    "@agents-anywhere/dsh-bridge-next": "patch:@agents-anywhere/dsh-bridge-next@file%3Avendor/agents-anywhere/agents-anywhere-dsh-bridge-next-0.1.0-dev.0.desktop.ceba59602e4c1.r7b32a9b2.tgz#./patches/agents-anywhere-connector-httpx.patch",
     "app-builder-lib@npm:26.15.7": "patch:app-builder-lib@npm%3A26.15.7#./patches/app-builder-lib@26.15.7.patch",
     "open@npm:11.0.1": "patch:open@npm%3A11.0.1#./patches/open@11.0.1.patch",
     "open@npm:^11.0.0": "patch:open@npm%3A11.0.1#./patches/open@11.0.1.patch",

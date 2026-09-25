@@ -34,7 +34,7 @@
     "check:win-package": "yarn check"
   },
   "dependencies": {
-    "@agents-anywhere/dsh-bridge-next": "file:../vendor/agents-anywhere/agents-anywhere-dsh-bridge-next-0.1.0-dev.0.desktop.c21e88cc8b14b.r7b32a9b2.tgz",
+    "@agents-anywhere/dsh-bridge-next": "file:../vendor/agents-anywhere/agents-anywhere-dsh-bridge-next-0.1.0-dev.0.desktop.ceba59602e4c1.r7b32a9b2.tgz",
     "@deepseek-ai/cordis": "4.0.4",
     "@deepseek-ai/cordis-plugin-group": "1.0.4",
     "@deepseek-ai/cordis-plugin-include": "1.0.9",
