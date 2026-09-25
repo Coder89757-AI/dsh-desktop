@@ -30,3 +30,10 @@ dsh-plugin-desktop-beta/build/python-runtime/
 dsh-desktop-next/lib/
 dsh-desktop-next/dist/
 dsh-desktop-next/.desktop-next/
+
+# Local agent workspace: memory, plans, probe scratch, logs, backups (never committed)
+.workbuddy/
+
+# Electron probe scratch inside package variants
+dsh-plugin-desktop/.dsh-probe/
+dsh-plugin-desktop-beta/.dsh-probe/
