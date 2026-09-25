@@ -310,7 +310,7 @@
     "dsh-plugin-legal-kb": "0.1.0-dev.0",
     "dsh-plugin-offline-plugins": "0.1.0-dev.0",
     "dsh-plugin-skill-manager": "0.1.0-dev.0",
-    "dshmarket": "1.65.0",
+    "dshmarket": "1.65.1",
     "fs-ext": "2.1.1",
     "koffi": "3.1.5",
     "node-addon-require-builtin": "^0.1.6",
