@@ -41,7 +41,16 @@ function invocation(name, args) {
 
 function run(name, args, cwd) {
   const [binary, argv] = invocation(name, args)
-  const result = spawnSync(binary, argv, { cwd, env: { ...process.env, GIT_TERMINAL_PROMPT: '0', ...(name === 'corepack' && args[1] === 'install' ? { YARN_ENABLE_IMMUTABLE_INSTALLS: 'false' } : {}) }, stdio: 'inherit', timeout: 600_000 })
+  // The staged AA project does not inherit the root .yarnrc.yml, so Yarn's
+  // default supply-chain age gate (1d in 4.18) would quarantine same-day DSH
+  // rcs referenced by AA main. Match the root policy of consuming them immediately.
+  const env = {
+    ...process.env,
+    GIT_TERMINAL_PROMPT: '0',
+    ...(name === 'corepack' ? { YARN_NPM_MINIMAL_AGE_GATE: '0' } : {}),
+    ...(name === 'corepack' && args[1] === 'install' ? { YARN_ENABLE_IMMUTABLE_INSTALLS: 'false' } : {}),
+  }
+  const result = spawnSync(binary, argv, { cwd, env, stdio: 'inherit', timeout: 600_000 })
   if (result.error !== undefined) throw result.error
   if (result.status !== 0) throw new Error(`${name} exited with ${String(result.status)}`)
 }
